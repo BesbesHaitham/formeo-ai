@@ -1,0 +1,12 @@
+{
+  "request": {
+    "method": "DELETE",
+    "urlPathPattern": "/api/forms/[^/]+"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 204
+  }
+}

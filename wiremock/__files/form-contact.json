@@ -1,0 +1,49 @@
+{
+  "id": "contact",
+  "title": "Contact us",
+  "description": "Simple way to hear from people",
+  "status": "published",
+  "sections": [],
+  "fields": [
+    {
+      "id": "703e9f90-b974-44a2-bd28-4fb6fac7118f",
+      "type": "text",
+      "label": "Full name",
+      "placeholder": "Type your answer...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "c02bd617-dccb-484f-b1e2-3239d8bd4ce5",
+      "type": "email",
+      "label": "Email address",
+      "placeholder": "you@example.com",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "85352ae3-9995-4866-8b3c-0bf42aca4490",
+      "type": "textarea",
+      "label": "How can we help?",
+      "placeholder": "Tell us more...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    }
+  ],
+  "appearance": {
+    "color": "#5b43e7"
+  },
+  "createdAt": "2026-11-20T18:49:51.153Z",
+  "updatedAt": "2026-11-20T18:49:51.153Z",
+  "icon": "Mail",
+  "category": "Business"
+}

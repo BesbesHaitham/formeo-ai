@@ -1,0 +1,49 @@
+{
+  "id": "survey",
+  "title": "New survey",
+  "description": "Understand your audience",
+  "status": "draft",
+  "sections": [],
+  "fields": [
+    {
+      "id": "0dceaf02-b027-4b40-87d0-8fd6683b1859",
+      "type": "rating",
+      "label": "How likely are you to recommend us?",
+      "placeholder": "",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": ["1", "2", "3", "4", "5"],
+      "validation": {}
+    },
+    {
+      "id": "73b7f373-4e32-4e7b-b0e4-2674ac31645a",
+      "type": "radio",
+      "label": "How often do you use our product?",
+      "placeholder": "",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": ["Daily", "Weekly", "Monthly"],
+      "validation": {}
+    },
+    {
+      "id": "e82bd78b-9aa5-4c73-93da-cb10996827c1",
+      "type": "textarea",
+      "label": "Anything else?",
+      "placeholder": "Tell us more...",
+      "required": false,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    }
+  ],
+  "appearance": {
+    "color": "#5b43e7"
+  },
+  "createdAt": "2026-11-20T18:49:51.153Z",
+  "updatedAt": "2026-11-20T18:49:51.153Z",
+  "icon": "ChartNoAxesColumn",
+  "category": "Feedback"
+}

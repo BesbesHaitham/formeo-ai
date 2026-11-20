@@ -1,0 +1,98 @@
+import {
+  AlignLeft,
+  ArrowLeft,
+  ArrowUp,
+  ArrowDown,
+  ArrowRight,
+  Calendar,
+  ChartNoAxesColumn,
+  CheckCircle,
+  ChevronDown,
+  CircleCheck,
+  CircleHelp,
+  Clock,
+  Copy,
+  Download,
+  Eye,
+  EyeOff,
+  FileText,
+  GripVertical,
+  Hash,
+  Lock,
+  Mail,
+  MessageSquare,
+  Monitor,
+  MoreHorizontal,
+  Phone,
+  Plus,
+  Redo2,
+  Search,
+  Send,
+  Settings,
+  Sparkles,
+  SquareCheck,
+  Star,
+  Table2,
+  Text,
+  Trash2,
+  Undo2,
+  Upload,
+  Users,
+  X,
+} from 'lucide-react';
+import classNames from 'classnames';
+import styles from './Primitives.module.css';
+const icons = {
+  AlignLeft,
+  ArrowLeft,
+  ArrowUp,
+  ArrowDown,
+  ArrowRight,
+  Calendar,
+  ChartNoAxesColumn,
+  CheckCircle,
+  ChevronDown,
+  CircleCheck,
+  CircleHelp,
+  Clock,
+  Copy,
+  Download,
+  Eye,
+  EyeOff,
+  FileText,
+  GripVertical,
+  Hash,
+  Lock,
+  Mail,
+  MessageSquare,
+  Monitor,
+  MoreHorizontal,
+  Phone,
+  Plus,
+  Redo2,
+  Search,
+  Send,
+  Settings,
+  Sparkles,
+  SquareCheck,
+  Star,
+  Table2,
+  Text,
+  Trash2,
+  Undo2,
+  Upload,
+  Users,
+  X,
+};
+export default function Icon({ name = 'FileText', size = 19, className, ...rest }) {
+  const Component = icons[name] || FileText;
+  return (
+    <Component
+      size={size}
+      strokeWidth={1.7}
+      className={classNames(styles.icon, className)}
+      aria-hidden="true"
+      {...rest}
+    />
+  );
+}

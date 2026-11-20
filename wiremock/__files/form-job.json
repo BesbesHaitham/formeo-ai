@@ -1,0 +1,71 @@
+{
+  "id": "job",
+  "title": "Job application",
+  "description": "Find the right people for your team",
+  "status": "draft",
+  "sections": [],
+  "fields": [
+    {
+      "id": "c133b410-c585-431e-81d0-dc406e4d033c",
+      "type": "text",
+      "label": "Full name",
+      "placeholder": "Type your answer...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "7893d337-f286-4a38-b97d-b73817d6ea3a",
+      "type": "email",
+      "label": "Email address",
+      "placeholder": "you@example.com",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "9fa328a9-1198-4c04-b4c1-608614714f63",
+      "type": "tel",
+      "label": "Phone number",
+      "placeholder": "+234...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "51bdbd6c-a7bd-4408-9ce9-778f32b60db0",
+      "type": "file",
+      "label": "Your CV",
+      "placeholder": "",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "0c5f7145-d212-4ef3-998a-8b6105ff692a",
+      "type": "textarea",
+      "label": "Tell us about yourself",
+      "placeholder": "Tell us more...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    }
+  ],
+  "appearance": {
+    "color": "#5b43e7"
+  },
+  "createdAt": "2026-11-20T18:49:51.153Z",
+  "updatedAt": "2026-11-20T18:49:51.153Z",
+  "icon": "Users",
+  "category": "Business"
+}

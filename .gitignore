@@ -1,0 +1,39 @@
+﻿# Dependencies and generated builds
+/node_modules/
+/dist/
+/storybook-static/
+
+# Local tool outputs, caches and temporary files
+/.cache/
+/.vite/
+/.npm/
+/.npm-cache/
+/logs/
+/test-results/
+/playwright-report/
+*.log
+*.tmp
+*.temp
+.eslintcache
+
+# Local environment files and credentials
+.env
+.env.*
+!.env.example
+*.local
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Keep source, fixtures, package-lock.json and .env.example tracked.
+
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.sw?

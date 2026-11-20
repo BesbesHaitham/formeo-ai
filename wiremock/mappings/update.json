@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "PUT",
+    "urlPathPattern": "/api/forms/[^/]+"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "jsonBody": {
+      "acknowledged": true
+    }
+  }
+}

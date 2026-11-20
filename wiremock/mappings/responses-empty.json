@@ -1,0 +1,17 @@
+{
+  "priority": 10,
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/api/forms/[^/]+/responses"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "jsonBody": {
+      "responses": [],
+      "visits": []
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "id": "course",
+  "title": "Course evaluation",
+  "description": "Understand the learning experience",
+  "status": "published",
+  "sections": [],
+  "fields": [
+    {
+      "id": "8f9a082c-d153-40a8-b03a-be1bb26f3863",
+      "type": "text",
+      "label": "Course name",
+      "placeholder": "Type your answer...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "d6905019-1cfd-461e-8b23-17b5df28c77d",
+      "type": "rating",
+      "label": "Overall course rating",
+      "placeholder": "",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": ["1", "2", "3", "4", "5"],
+      "validation": {}
+    },
+    {
+      "id": "50fa2844-2c27-44b4-ae75-e0eecb21b621",
+      "type": "textarea",
+      "label": "What did you enjoy most?",
+      "placeholder": "Tell us more...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "9ef6d3ab-4ba4-47ef-9da9-31cd9683c402",
+      "type": "textarea",
+      "label": "Suggestions for improvement",
+      "placeholder": "Tell us more...",
+      "required": false,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    }
+  ],
+  "appearance": {
+    "color": "#5b43e7"
+  },
+  "createdAt": "2026-11-20T18:49:51.153Z",
+  "updatedAt": "2026-11-20T18:49:51.153Z",
+  "icon": "Star",
+  "category": "Feedback"
+}

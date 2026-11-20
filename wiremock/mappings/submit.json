@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "POST",
+    "urlPathPattern": "/api/forms/[^/]+/responses"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 201,
+    "jsonBody": {
+      "acknowledged": true,
+      "persistence": "localStorage"
+    }
+  }
+}

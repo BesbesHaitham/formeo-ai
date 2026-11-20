@@ -1,0 +1,49 @@
+{
+  "id": "feedback",
+  "title": "Customer feedback",
+  "description": "Hear what your customers think",
+  "status": "published",
+  "sections": [],
+  "fields": [
+    {
+      "id": "ed993a36-885f-48cc-bfa7-587b1277f6e8",
+      "type": "email",
+      "label": "Email address",
+      "placeholder": "you@example.com",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "f8daebe8-42e3-405d-b995-054842de7d54",
+      "type": "rating",
+      "label": "How was your experience?",
+      "placeholder": "",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": ["1", "2", "3", "4", "5"],
+      "validation": {}
+    },
+    {
+      "id": "5d8abefd-b0fc-4ce4-84f2-f6303d8b2630",
+      "type": "textarea",
+      "label": "What could we improve?",
+      "placeholder": "Tell us more...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    }
+  ],
+  "appearance": {
+    "color": "#5b43e7"
+  },
+  "createdAt": "2026-11-20T18:49:51.153Z",
+  "updatedAt": "2026-11-20T18:49:51.153Z",
+  "icon": "MessageSquare",
+  "category": "Feedback"
+}

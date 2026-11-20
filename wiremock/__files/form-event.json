@@ -1,0 +1,60 @@
+{
+  "id": "event",
+  "title": "Event registration",
+  "description": "Collect registrations for your next event",
+  "status": "published",
+  "sections": [],
+  "fields": [
+    {
+      "id": "name",
+      "type": "text",
+      "label": "Full name",
+      "placeholder": "Type your answer...",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "label": "Email address",
+      "placeholder": "you@example.com",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    },
+    {
+      "id": "11be8b54-d079-4c57-8a16-8c04c151245f",
+      "type": "select",
+      "label": "Ticket type",
+      "placeholder": "",
+      "required": true,
+      "helpText": "",
+      "section": "",
+      "options": ["General admission", "VIP", "Student"],
+      "validation": {}
+    },
+    {
+      "id": "31a5635e-f907-4f07-955d-6454190ad09d",
+      "type": "textarea",
+      "label": "Dietary requirements",
+      "placeholder": "Tell us more...",
+      "required": false,
+      "helpText": "",
+      "section": "",
+      "options": [],
+      "validation": {}
+    }
+  ],
+  "appearance": {
+    "color": "#5b43e7"
+  },
+  "createdAt": "2026-11-20T18:49:51.153Z",
+  "updatedAt": "2026-11-20T18:49:51.153Z",
+  "icon": "Calendar",
+  "category": "Registration"
+}

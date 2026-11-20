@@ -1,0 +1,152 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-weight: 650;
+  white-space: nowrap;
+  transition:
+    background var(--transition),
+    box-shadow var(--transition);
+}
+.primary {
+  background: var(--primary);
+  color: white;
+}
+.primary:hover {
+  background: var(--primary-hover);
+}
+.secondary {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+.secondary:hover,
+.ghost:hover {
+  background: var(--soft);
+}
+.ghost {
+  background: transparent;
+  color: var(--muted);
+}
+.danger {
+  color: var(--danger);
+  background: var(--surface);
+  border-color: var(--border);
+}
+.link {
+  background: transparent;
+  color: var(--primary);
+  padding: 0;
+  min-height: 28px;
+}
+.sm {
+  min-height: 36px;
+  font-size: var(--font-sm);
+  padding: 7px 14px;
+}
+.lg {
+  min-height: 46px;
+  padding: 10px 22px;
+}
+.input,
+.textarea,
+.select {
+  width: 100%;
+  min-height: var(--control);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  background: var(--surface);
+  outline: none;
+}
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px #6c50ed12;
+}
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+.textarea {
+  resize: vertical;
+  min-height: 95px;
+}
+.label {
+  display: block;
+  font-size: var(--font-base);
+  font-weight: 650;
+}
+.text {
+  color: inherit;
+}
+.muted {
+  color: var(--muted);
+}
+.small {
+  font-size: var(--font-sm);
+}
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+.checkbox,
+.radio {
+  accent-color: var(--primary);
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
+}
+.switch {
+  appearance: none;
+  width: 49px;
+  height: 28px;
+  border-radius: 20px;
+  background: var(--border);
+  position: relative;
+  cursor: pointer;
+}
+.switch::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  top: 4px;
+  left: 4px;
+  background: white;
+}
+.switch:checked {
+  background: var(--primary);
+}
+.switch:checked::after {
+  left: 25px;
+}
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.7s linear infinite;
+}
+.divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 8px 0;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
