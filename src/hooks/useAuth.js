@@ -1,64 +1,111 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { createForm, copyForm } from '../utils/formSchema';
 import { login, signup, rememberUser } from '../services/authService';
 import { useWorkspace } from './useWorkspace';
+import { appConfig } from '../config/appConfig';
+import { googleUser, mockGoogleUser, prepareGoogleSignIn } from '../services/googleAuth';
+import { checkPassword, passwordMinimum } from '../utils/password';
 export function useAuth(signingUp) {
   const navigate = useNavigate();
-  const { setUser } = useWorkspace();
+  const { user, setUser, send } = useWorkspace();
+  const { state } = useLocation();
+  const returnTo = state?.returnTo;
+  const [destination, setDestination] = useState(() =>
+    typeof returnTo === 'string' &&
+    returnTo.startsWith('/') &&
+    !returnTo.startsWith('//') &&
+    !/^\/(login|signup)([/?#]|$)/.test(returnTo)
+      ? returnTo
+      : '/',
+  );
   const [values, setValues] = useState({
     name: '',
     email: '',
     password: '',
-    confirm: '',
     agree: false,
     remember: false,
   });
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [pending, setPending] = useState('');
+  const [preparingGoogle, setPreparingGoogle] = useState(!appConfig.useMock);
+  const busy = useRef(false);
+  const active = useRef(true);
+  useEffect(() => {
+    active.current = true;
+    if (!appConfig.useMock) {
+      prepareGoogleSignIn()
+        .catch(() => {})
+        .finally(() => {
+          if (active.current) setPreparingGoogle(false);
+        });
+    }
+    return () => {
+      active.current = false;
+    };
+  }, []);
+  const complete = useCallback(
+    (account) => {
+      rememberUser(account, values.remember);
+      if (state?.create) {
+        const form = state.template ? copyForm(state.template) : createForm();
+        send({ type: 'add', form });
+        setDestination(`/forms/${form.id}/edit`);
+      }
+      setUser(account);
+    },
+    [send, setUser, state, values.remember],
+  );
+  const authenticate = useCallback(
+    async (method, operation) => {
+      if (busy.current) return;
+      busy.current = true;
+      setPending(method);
+      setError('');
+      try {
+        const account = await operation();
+        if (active.current) complete(account);
+      } catch (error) {
+        if (active.current) setError(error.message);
+      } finally {
+        busy.current = false;
+        if (active.current) setPending('');
+      }
+    },
+    [complete],
+  );
   const change = (name, value) => {
     setValues({ ...values, [name]: value });
     setError('');
   };
-  async function submit() {
-    if (loading) return;
+  function submit() {
+    if (busy.current) return;
     if (signingUp && !values.name.trim()) {
       setError('Please enter your full name.');
       return;
     }
-    if (signingUp && values.password !== values.confirm) {
-      setError('Passwords do not match.');
-      return;
-    }
     if (signingUp && !values.agree) {
-      setError('Please agree to the demo terms to continue.');
+      setError('Please confirm the storage notice to continue.');
       return;
     }
-    setLoading(true);
-    setError('');
-    try {
-      const user = await (signingUp ? signup(values) : login(values));
-      rememberUser(user, values.remember);
-      setUser(user);
-      navigate('/');
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-    }
+    authenticate('password', () => (signingUp ? signup(values) : login(values)));
   }
   return {
+    user,
+    destination,
+    authState: state,
     values,
+    passwordChecks: checkPassword(values.password),
+    passwordMinimum,
     change,
     error,
-    loading,
+    loading: pending === 'password',
+    busy: !!pending,
+    googleMock: appConfig.useMock,
+    googleLoading: preparingGoogle || pending === 'google',
+    onGoogle: () => authenticate('google', appConfig.useMock ? mockGoogleUser : googleUser),
     submit,
     onForgotPassword: () =>
-      setError(
-        'This local demo has no email service. Create a new demo account with another email address.',
-      ),
-    onGoogle: () =>
-      setError(
-        'Google OAuth is not configured in this frontend-only demo. Please use a local demo account.',
-      ),
+      navigate('/forgot-password', { state: { ...state, email: values.email } }),
   };
 }

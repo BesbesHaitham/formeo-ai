@@ -52,7 +52,7 @@ export function useFormEditor() {
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(localUrl);
-      workspace.notify('Local link copied.');
+      workspace.notify('Form link copied.');
     } catch {
       workspace.notify('Select the link above to copy it.');
     }

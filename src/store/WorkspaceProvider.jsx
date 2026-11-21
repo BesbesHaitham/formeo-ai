@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useReducer, useState } from 'react';
 import { WorkspaceContext } from './WorkspaceContext.js';
 import { workspaceReducer } from './workspaceReducer.js';
 import { initialForms, initialResponses, initialVisits } from '../content/fixtures.js';
@@ -20,7 +20,6 @@ export default function WorkspaceProvider({ children }) {
   const [apiKey, setApiKey] = useState('');
   const [user, setUser] = useState(readSession);
   const [keyDialog, setKeyDialog] = useState(false);
-  const [settingsDialog, setSettingsDialog] = useState(false);
   const [theme, setTheme] = useState(() => {
     try {
       return localStorage.getItem('formeo.theme') || 'light';
@@ -28,7 +27,7 @@ export default function WorkspaceProvider({ children }) {
       return 'light';
     }
   });
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.theme = theme;
     try {
       localStorage.setItem('formeo.theme', theme);
@@ -48,7 +47,9 @@ export default function WorkspaceProvider({ children }) {
       .catch(() => {
         if (active) {
           dispatch({ type: 'initialize', forms: initialForms });
-          setNotice('Mock service unavailable. Using bundled demo data.');
+          setNotice(
+            'Unable to connect to the form service. Your saved workspace remains available.',
+          );
         }
       });
     return () => {
@@ -82,7 +83,9 @@ export default function WorkspaceProvider({ children }) {
         delete: () => formsApi.remove(action.id),
         submit: () => formsApi.submit(action.response),
       }[action.type];
-      operation?.().catch(() => setNotice('Saved locally. Mock acknowledgement unavailable.'));
+      operation?.().catch(() =>
+        setNotice('Changes saved on this device. The form service could not be reached.'),
+      );
     }
   }, []);
   return (
@@ -94,12 +97,11 @@ export default function WorkspaceProvider({ children }) {
         notice,
         notify: setNotice,
         apiKey,
+        aiReady: appConfig.aiProxy || !!apiKey,
+        mockMode: appConfig.useMock,
         setApiKey,
         keyDialog,
         setKeyDialog,
-        settingsDialog,
-        setSettingsDialog,
-        onSettings: () => setSettingsDialog(true),
         theme,
         setTheme,
         user,
@@ -107,7 +109,9 @@ export default function WorkspaceProvider({ children }) {
         logout: () => {
           clearSession();
           setUser(null);
-          setNotice('Demo session ended.');
+          setApiKey('');
+          setKeyDialog(false);
+          setNotice('You have been logged out.');
         },
       }}
     >

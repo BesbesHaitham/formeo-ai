@@ -1,87 +1,57 @@
 import { appConfig } from '../config/appConfig.js';
-import { fieldTypes } from '../content/fieldTypes.js';
+import { createGenerationRequest, aiErrorMessage } from '../utils/aiRequest.js';
 import { validateGeneratedForm } from '../utils/formSchema.js';
-export const generationSchema = {
-  type: 'object',
-  additionalProperties: false,
-  required: ['title', 'description', 'fields'],
-  properties: {
-    title: { type: 'string' },
-    description: { type: 'string' },
-    fields: {
-      type: 'array',
-      items: {
-        type: 'object',
-        additionalProperties: false,
-        required: ['id', 'type', 'label', 'required', 'options'],
-        properties: {
-          id: { type: 'string' },
-          type: { type: 'string', enum: fieldTypes.map((f) => f.type) },
-          label: { type: 'string' },
-          placeholder: { type: 'string' },
-          required: { type: 'boolean' },
-          helpText: { type: 'string' },
-          section: { type: 'string' },
-          options: { type: 'array', items: { type: 'string' } },
-          validation: {
-            type: 'object',
-            additionalProperties: false,
-            properties: {
-              min: { type: 'number' },
-              max: { type: 'number' },
-              minLength: { type: 'integer' },
-              maxLength: { type: 'integer' },
-            },
-          },
-        },
-      },
-    },
-  },
-};
 async function generate(prompt, apiKey, current, signal) {
-  if (!apiKey)
-    throw new Error('Configure a temporary Gemini key, or explicitly choose the demo example.');
+  if (!apiKey && !appConfig.aiProxy)
+    throw new Error('Connect your Gemini API key to generate a form, or start with a template.');
   if (!prompt.trim()) throw new Error('Please describe the form or changes you need.');
   let response;
   try {
-    const { GoogleGenAI } = await import('@google/genai');
-    const ai = new GoogleGenAI({ apiKey });
-    response = await ai.models.generateContent({
-      model: appConfig.model,
-      contents: `${current ? `Update this form: ${JSON.stringify(current)}\nPreserve existing IDs, questions and settings unless the request requires changing them.\nRequested changes:` : 'Create a professional form from this request:'}\n${prompt}`,
-      config: {
-        abortSignal: signal,
-        systemInstruction:
-          'Return only form data, never code. Follow the request faithfully. Use logical question ordering and useful help text. Give choice fields nonempty options. Use sections only when helpful. Do not invent requirements.',
-        responseMimeType: 'application/json',
-        responseJsonSchema: generationSchema,
-        httpOptions: { timeout: 60000, retryOptions: { attempts: 1 } },
-      },
-    });
+    if (!apiKey && appConfig.aiProxy) {
+      const result = await fetch('/api/ai/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, current }),
+        signal: AbortSignal.any([AbortSignal.timeout(65000), ...(signal ? [signal] : [])]),
+      });
+      response = await result.json();
+      if (!result.ok)
+        throw Object.assign(new Error('Gemini request failed.'), { status: result.status });
+    } else {
+      const { GoogleGenAI } = await import('@google/genai');
+      const ai = new GoogleGenAI({ apiKey });
+      const request = createGenerationRequest(prompt, current);
+      response = await ai.models.generateContent({
+        ...request,
+        config: { ...request.config, abortSignal: signal },
+      });
+    }
   } catch (error) {
     if (signal?.aborted) throw signal.reason || error;
+    if (error.status) throw new Error(aiErrorMessage(error.status), { cause: error });
     if (/429|quota|rate/i.test(error.message))
       throw new Error(
-        'Gemini quota or rate limit reached. Retry later or use the labeled demo example.',
+        'Gemini request limit reached. Please try again later or start with a template.',
         { cause: error },
       );
     if (/fetch|network|timeout/i.test(error.message))
       throw new Error(
-        'Gemini could not be reached. Check your connection and retry, or use the demo example.',
+        'Unable to connect to Gemini. Check your internet connection and try again.',
         { cause: error },
       );
     if (/key|403|401/i.test(error.message))
       throw new Error('Gemini could not authorize this key. Check the key and its restrictions.', {
         cause: error,
       });
-    throw new Error('Generation failed. Please retry or use the labeled demo example.', {
+    throw new Error('Unable to generate your form. Please try again or start with a template.', {
       cause: error,
     });
   }
-  if (!response.text) throw new Error('Gemini returned no form. Try a more specific description.');
+  if (!response.text && !response.form)
+    throw new Error('Gemini returned no form. Try a more specific description.');
   let data;
   try {
-    data = JSON.parse(response.text);
+    data = response.form || JSON.parse(response.text);
   } catch (error) {
     throw new Error('Gemini returned incomplete JSON. Please retry.', { cause: error });
   }

@@ -8,6 +8,7 @@ export function useRespondent({ preview = false } = {}) {
   const navigate = useNavigate();
   const form = workspace.forms.find((f) => f.id === id);
   const [index, setIndex] = useState(0);
+  const [previewDevice, setPreviewDevice] = useState('desktop');
   const [answers, setAnswers] = useState({});
   const [error, setError] = useState('');
   const [complete, setComplete] = useState(false);
@@ -80,7 +81,11 @@ export function useRespondent({ preview = false } = {}) {
     error,
     complete,
     preview,
+    previewDevice,
+    setPreviewDevice,
     saveError: workspace.saveError,
+    theme: workspace.theme,
+    setTheme: workspace.setTheme,
     next,
     change,
     back: () => {

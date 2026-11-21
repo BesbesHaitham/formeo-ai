@@ -10,6 +10,7 @@ import AnalyticsOverview from '../components/organisms/AnalyticsOverview';
 import AuthenticationForm from '../components/organisms/AuthenticationForm';
 import AppHeader from '../components/organisms/AppHeader';
 import Sidebar from '../components/organisms/Sidebar';
+import AccountMenu from '../components/organisms/AccountMenu';
 import ResponsesTable from '../components/organisms/ResponsesTable';
 import AIBanner from '../components/organisms/AIBanner';
 import {
@@ -56,7 +57,7 @@ export const GenerationError = {
     <AIFormPrompt
       prompt="Create a survey"
       setPrompt={noop}
-      error="Gemini quota reached. Retry later or use demo mode."
+      error="Gemini request limit reached. Please try again later."
       onGenerate={noop}
       onConfigure={noop}
       onDemo={noop}
@@ -109,11 +110,19 @@ export const Authentication = {
       values={{ email: '', password: '', remember: false }}
       change={noop}
       submit={noop}
+      googleMock
+      onGoogle={noop}
     />
   ),
 };
-export const Header = { render: () => <AppHeader onCreate={noop} onHelp={noop} /> };
-export const Navigation = { render: () => <Sidebar onSettings={noop} /> };
+export const Header = { render: () => <AppHeader onCreate={noop} theme="light" onTheme={noop} /> };
+export const Navigation = {
+  render: () => (
+    <Sidebar
+      account={<AccountMenu name="Alex Morgan" email="alex@example.com" onLogout={noop} />}
+    />
+  ),
+};
 export const Responses = {
   render: () => (
     <ResponsesTable
@@ -125,3 +134,7 @@ export const Responses = {
   ),
 };
 export const Banner = { render: () => <AIBanner onGenerate={noop} /> };
+
+export const Account = {
+  render: () => <AccountMenu name="Alex Morgan" email="alex@example.com" onLogout={noop} />,
+};

@@ -13,6 +13,7 @@ export default function PasswordField({ content = uiContent.PasswordField, class
       <Button
         variant="ghost"
         aria-label={visible ? content.hidePassword : content.showPassword}
+        aria-pressed={visible}
         size="sm"
         onClick={() => setVisible(!visible)}
       >

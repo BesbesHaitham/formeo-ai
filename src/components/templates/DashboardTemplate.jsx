@@ -4,6 +4,7 @@ import Select from '../atoms/Select';
 import SearchField from '../molecules/SearchField';
 import AppHeader from '../organisms/AppHeader';
 import Sidebar from '../organisms/Sidebar';
+import AccountMenu from '../organisms/AccountMenu';
 import FormsGrid from '../organisms/FormsGrid';
 import AIBanner from '../organisms/AIBanner';
 import WorkspaceDialogs from '../organisms/WorkspaceDialogs';
@@ -22,9 +23,10 @@ export default function DashboardTemplate({
   dialog,
   setDialog,
   confirm,
-  saveError,
   initialized,
-  onSettings,
+  theme,
+  setTheme,
+  logout,
   user,
   className,
 }) {
@@ -33,12 +35,21 @@ export default function DashboardTemplate({
       <AppHeader
         user={user}
         onCreate={() => create()}
-        onHelp={onSettings}
+        theme={theme}
+        onTheme={setTheme}
+        account={user && <AccountMenu name={user.name || user.email} compact onLogout={logout} />}
         content={uiContent.AppHeader}
       />
       <div className={styles.workspace}>
-        <Sidebar onSettings={onSettings} saveError={saveError} content={uiContent.Sidebar} />
-        <main className={classNames(styles.main, className)}>
+        <Sidebar
+          account={
+            user && (
+              <AccountMenu name={user.name || user.email} email={user.email} onLogout={logout} />
+            )
+          }
+          content={uiContent.Sidebar}
+        />
+        <main id="main-content" tabIndex={-1} className={classNames(styles.main, className)}>
           <div className={styles.titleRow}>
             <div>
               <p className={styles.eyebrow}>Your workspace</p>

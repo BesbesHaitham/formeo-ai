@@ -4,6 +4,7 @@ import {
   initialResponses,
   initialVisits,
   templates,
+  studentForm,
 } from '../src/content/fixtures.js';
 await mkdir('wiremock/__files', { recursive: true });
 await mkdir('wiremock/mappings', { recursive: true });
@@ -14,6 +15,15 @@ const mapping = (method, url, response, pattern = false) => ({
   request: { method, [pattern ? 'urlPathPattern' : 'urlPath']: url },
   response: { headers: { 'Content-Type': 'application/json' }, ...response },
 });
+await write('wiremock/__files/google-user.json', {
+  name: 'Test Account',
+  email: 'test.account@example.com',
+  provider: 'mock',
+});
+await write(
+  'wiremock/mappings/auth-google.json',
+  mapping('POST', '/api/auth/google', { status: 200, bodyFileName: 'google-user.json' }),
+);
 await write(
   'wiremock/mappings/forms.json',
   mapping('GET', '/api/forms', { status: 200, bodyFileName: 'forms.json' }),
@@ -69,4 +79,31 @@ await write(
     { status: 201, jsonBody: { acknowledged: true, persistence: 'localStorage' } },
     true,
   ),
+);
+
+await write('wiremock/__files/ai-form.json', { form: studentForm });
+await write('wiremock/mappings/ai-generate.json', {
+  priority: 10,
+  ...mapping('POST', '/api/ai/generate', { status: 200, bodyFileName: 'ai-form.json' }),
+});
+await write('wiremock/mappings/ai-refine.json', {
+  priority: 1,
+  request: {
+    method: 'POST',
+    urlPath: '/api/ai/generate',
+    bodyPatterns: [{ matchesJsonPath: '$.current' }],
+  },
+  response: {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+    transformers: ['response-template'],
+    body: `{"form": {{{jsonPath request.body '$.current'}}} }`,
+  },
+});
+await write(
+  'wiremock/mappings/auth-password-reset.json',
+  mapping('POST', '/api/auth/password-reset', {
+    status: 200,
+    jsonBody: { accepted: true, delivery: 'mock' },
+  }),
 );

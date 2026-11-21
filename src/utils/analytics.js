@@ -66,7 +66,7 @@ export function exportCsv(form, responses) {
     ['Submitted', 'Source', ...fields.values()],
     ...responses.map((r) => [
       r.submittedAt,
-      r.fixture ? 'Sample data' : 'Local submission',
+      r.fixture ? 'Example response' : 'Submitted response',
       ...[...fields.keys()].map((key) => r.answers[key]),
     ]),
   ];

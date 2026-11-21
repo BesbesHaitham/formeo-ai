@@ -8,8 +8,7 @@ import styles from './Organisms.module.css';
 export default function Sidebar({
   items = navigation,
   content = uiContent.Sidebar,
-  onSettings,
-  saveError,
+  account,
   className,
   ...rest
 }) {
@@ -30,15 +29,8 @@ export default function Sidebar({
             {label}
           </NavLink>
         ))}
-        <button className={styles.sideLink} onClick={onSettings}>
-          <Icon name={content.icons.settings} />
-          {content.settings}
-        </button>
       </nav>
-      <div className={styles.saved}>
-        <Icon name={content.icons.checkcircle} size={14} />
-        {saveError ? content.changesNotSaved : content.everythingSavedLocally}
-      </div>
+      {account && <div className={styles.sidebarAccount}>{account}</div>}
     </aside>
   );
 }

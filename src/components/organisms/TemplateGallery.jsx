@@ -34,7 +34,7 @@ export default function TemplateGallery({
               <i />
             </div>
           </div>
-          <h3>{template.title}</h3>
+          <h2>{template.title}</h2>
           <p>{template.description}</p>
           <Button variant="link" onClick={() => onUse(template)}>
             {content.useTemplate}

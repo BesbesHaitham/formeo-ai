@@ -17,7 +17,7 @@ export default function FieldSettingsPanel({
   ...rest
 }) {
   return (
-    <aside className={classNames(styles.panel, className)} {...rest}>
+    <aside aria-label={content.title} className={classNames(styles.panel, className)} {...rest}>
       <h2>{content.title}</h2>
       <p>{field ? content.description : content.emptyDescription}</p>
       {field && (
@@ -127,7 +127,7 @@ export default function FieldSettingsPanel({
                   <Input
                     id={key}
                     type="number"
-                    min={key.includes('Length') ? 0 : undefined}
+                    {...(key.includes('Length') && { min: 0 })}
                     value={field.validation?.[key] ?? ''}
                     onChange={(e) => {
                       const validation = {

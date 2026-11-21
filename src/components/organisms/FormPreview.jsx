@@ -13,6 +13,9 @@ export default function FormPreview({
   value,
   onChange,
   onNext,
+  onBack,
+  canGoBack = false,
+  isLast,
   error,
   complete,
   preview,
@@ -24,7 +27,13 @@ export default function FormPreview({
   const ref = useRef(null);
   const fieldId = field?.id;
   useEffect(() => {
-    if (fieldId) ref.current?.querySelector('input,textarea,select')?.focus();
+    if (!fieldId) return;
+    ref.current?.parentElement?.scrollTo(0, 0);
+    const target =
+      ref.current?.querySelector(
+        'input:not([type="radio"]):not([type="checkbox"]),textarea,select',
+      ) || ref.current?.querySelector('h1');
+    target?.focus({ preventScroll: true });
   }, [fieldId]);
   if (complete)
     return (
@@ -44,7 +53,9 @@ export default function FormPreview({
               ? content.unsavedDescription
               : content.submittedDescription}
         </p>
-        <Button onClick={onRestart}>{content.startAgain}</Button>
+        <Button className={styles.previewAction} onClick={onRestart}>
+          {content.startAgain}
+        </Button>
       </section>
     );
   return (
@@ -62,14 +73,10 @@ export default function FormPreview({
         <IconTile icon={fieldTypes.find((f) => f.type === field.type)?.icon} />
         <span>{field.section || content.yourDetails}</span>
       </div>
-      <h1>
+      <h1 tabIndex={-1}>
         {field.label}
         {field.required && (
-          <span
-            style={{
-              color: 'var(--primary)',
-            }}
-          >
+          <span className={styles.requiredMark} aria-hidden="true">
             {' '}
             *
           </span>
@@ -81,7 +88,7 @@ export default function FormPreview({
         value={value}
         onChange={onChange}
         aria-invalid={!!error}
-        aria-describedby={error ? 'answer-error' : undefined}
+        aria-describedby={error ? 'answer-error' : ''}
       />
       {field.type === 'file' && (
         <small
@@ -98,13 +105,13 @@ export default function FormPreview({
         </p>
       )}
       <div className={styles.previewFooter}>
-        <small>
-          <Icon name={content.icons.lock} size={14} />
-          {content.privacyHint}
-        </small>
-        <Button type="submit" size="lg">
-          {content.continue}
-          <Icon name={content.icons.arrowright} size={17} />
+        <Button variant="secondary" size="lg" onClick={onBack} disabled={!canGoBack}>
+          <Icon name={content.icons.arrowleft} size={17} />
+          {content.back}
+        </Button>
+        <Button type="submit" size="lg" className={styles.previewAction}>
+          {isLast ? (preview ? content.finishPreview : content.submit) : content.continue}
+          <Icon name={isLast ? content.icons.checkcircle : content.icons.arrowright} size={17} />
         </Button>
       </div>
     </form>

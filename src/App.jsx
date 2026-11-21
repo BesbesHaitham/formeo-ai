@@ -7,6 +7,9 @@ function AppContent() {
   const workspace = useWorkspace();
   return (
     <>
+      <a className="skipLink" href="#main-content">
+        Skip to content
+      </a>
       <AppRoutes />
       <GlobalFeedback {...workspace} />
     </>

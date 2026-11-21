@@ -4,31 +4,31 @@ import Logo from '../molecules/Logo';
 import Badge from '../molecules/Badge';
 import IconTile from '../molecules/IconTile';
 import AuthenticationForm from '../organisms/AuthenticationForm';
+import PasswordRecoveryForm from '../organisms/PasswordRecoveryForm';
 import styles from './Templates.module.css';
-export default function AuthTemplate({ signingUp, className, ...props }) {
+export default function AuthTemplate({
+  content = uiContent.AuthTemplate,
+  signingUp,
+  recovery,
+  className,
+  ...props
+}) {
   return (
-    <main className={classNames(styles.auth, className)}>
+    <main id="main-content" tabIndex={-1} className={classNames(styles.auth, className)}>
       <aside className={styles.authAside}>
         <Logo content={uiContent.Logo} />
         <div className={styles.authCopy}>
           <Badge variant="purple" icon="Sparkles">
-            Smart form builder
+            {content.badge}
           </Badge>
-          <h1>
-            {signingUp
-              ? 'Your next great form starts here.'
-              : 'Build better forms, with less work.'}
-          </h1>
-          <p>
-            Create beautiful forms in minutes. Describe your idea, let AI handle the structure, then
-            personalize every detail.
-          </p>
+          <h2>{signingUp ? content.signupTitle : content.loginTitle}</h2>
+          <p>{content.description}</p>
         </div>
         <div className={styles.authArt} aria-hidden="true">
           <div className={styles.artCard}>
             <header>
               <IconTile icon="FileText" />
-              <h3>Student registration</h3>
+              <h3>{content.exampleTitle}</h3>
             </header>
             <i />
             <i
@@ -42,11 +42,15 @@ export default function AuthTemplate({ signingUp, className, ...props }) {
         </div>
       </aside>
       <section className={styles.authMain}>
-        <AuthenticationForm
-          signingUp={signingUp}
-          {...props}
-          content={uiContent.AuthenticationForm}
-        />
+        {recovery ? (
+          <PasswordRecoveryForm {...recovery} content={uiContent.PasswordRecoveryForm} />
+        ) : (
+          <AuthenticationForm
+            signingUp={signingUp}
+            {...props}
+            content={uiContent.AuthenticationForm}
+          />
+        )}
       </section>
     </main>
   );

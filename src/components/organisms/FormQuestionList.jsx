@@ -36,6 +36,7 @@ export default function FormQuestionList({
   ...rest
 }) {
   const canvas = useRef(null);
+  const accent = form.appearance?.color || formDefaults.color;
   const [dropIndex, setDropIndex] = useState(null);
   useEffect(() => {
     const clear = () => setDropIndex(null);
@@ -74,8 +75,7 @@ export default function FormQuestionList({
     <section
       ref={canvas}
       className={classNames(styles.panel, styles.canvas, className)}
-      onDragOver={tab === 'questions' ? dragOver : undefined}
-      onDrop={tab === 'questions' ? drop : undefined}
+      {...(tab === 'questions' && { onDragOver: dragOver, onDrop: drop })}
       onDragLeave={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) setDropIndex(null);
       }}
@@ -86,8 +86,9 @@ export default function FormQuestionList({
           <Button
             key={id}
             variant="ghost"
-            className={tab === id ? styles.selectedTab : ''}
+            className={classNames(styles.tabButton, tab === id && styles.selectedTab)}
             onClick={() => setTab(id)}
+            aria-pressed={tab === id}
           >
             {label}
           </Button>
@@ -128,24 +129,8 @@ export default function FormQuestionList({
             <IconTile icon={content.icons.filetext} />
             <div>
               <p className={styles.eyebrow}>{content.eyebrow}</p>
-              <Input
-                aria-label={content.formTitle}
-                value={form.title}
-                onChange={(e) =>
-                  onUpdate({
-                    title: e.target.value,
-                  })
-                }
-              />
-              <Textarea
-                aria-label={content.formDescription}
-                value={form.description}
-                onChange={(e) =>
-                  onUpdate({
-                    description: e.target.value,
-                  })
-                }
-              />
+              <h2>{form.title}</h2>
+              {form.description && <p>{form.description}</p>}
             </div>
           </div>
           <div className={styles.questions}>
@@ -179,6 +164,7 @@ export default function FormQuestionList({
                         key={action}
                         icon={icon}
                         label={`${label} ${field.label}`}
+                        className={action === 'delete' && styles.deleteAction}
                         disabled={
                           (action === 'up' && index === 0) ||
                           (action === 'down' && index === form.fields.length - 1)
@@ -236,19 +222,19 @@ export default function FormQuestionList({
           <h2>{content.makeItYours}</h2>
           <p>{content.designDescription}</p>
           <FormField id="accent" label={content.accentColor}>
-            <Input
-              id="accent"
-              type="color"
-              value={form.appearance?.color || formDefaults.color}
-              onChange={(e) =>
-                onUpdate({
-                  appearance: {
-                    ...form.appearance,
-                    color: e.target.value,
-                  },
-                })
-              }
-            />
+            <div className={styles.colorControl}>
+              <Input
+                id="accent"
+                type="color"
+                value={accent}
+                onChange={(e) =>
+                  onUpdate({
+                    appearance: { ...form.appearance, color: e.target.value },
+                  })
+                }
+              />
+              <output htmlFor="accent">{accent.toUpperCase()}</output>
+            </div>
           </FormField>
         </div>
       )}

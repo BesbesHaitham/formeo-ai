@@ -1,4 +1,5 @@
 import { fn } from 'storybook/test';
+import { useState } from 'react';
 import DashboardTemplate from '../components/templates/DashboardTemplate';
 import AIGeneratorTemplate from '../components/templates/AIGeneratorTemplate';
 import FormEditorTemplate from '../components/templates/FormEditorTemplate';
@@ -14,6 +15,7 @@ import {
   initialVisits,
 } from '../content/fixtures';
 import { getAnalytics } from '../utils/analytics';
+import { checkPassword, passwordMinimum } from '../utils/password';
 const noop = fn();
 const common = {
   create: noop,
@@ -72,20 +74,24 @@ export const Editor = {
   ),
 };
 export const Preview = {
-  render: () => (
-    <FormPreviewTemplate
-      form={studentForm}
-      field={studentForm.fields[1]}
-      index={1}
-      answers={{}}
-      change={noop}
-      next={noop}
-      back={noop}
-      exit={noop}
-      preview
-    />
-  ),
+  args: {
+    form: studentForm,
+    field: studentForm.fields[1],
+    index: 1,
+    answers: {},
+    change: noop,
+    next: noop,
+    back: noop,
+    exit: noop,
+    preview: true,
+    previewDevice: 'desktop',
+  },
+  render: function PreviewStory(args) {
+    const [device, setDevice] = useState(args.previewDevice);
+    return <FormPreviewTemplate {...args} previewDevice={device} setPreviewDevice={setDevice} />;
+  },
 };
+export const MobilePreview = { ...Preview, args: { ...Preview.args, previewDevice: 'mobile' } };
 export const Gallery = {
   render: () => (
     <TemplatesGalleryTemplate
@@ -117,6 +123,8 @@ export const Login = {
       values={{ email: '', password: '', remember: false }}
       change={noop}
       submit={noop}
+      googleMock
+      onGoogle={noop}
     />
   ),
 };
@@ -124,9 +132,24 @@ export const Signup = {
   render: () => (
     <AuthTemplate
       signingUp
-      values={{ name: '', email: '', password: '', confirm: '', agree: false }}
+      values={{ name: '', email: '', password: '', agree: false }}
+      passwordChecks={checkPassword('')}
+      passwordMinimum={passwordMinimum}
       change={noop}
       submit={noop}
+      googleMock
+      onGoogle={noop}
+    />
+  ),
+};
+
+export const PasswordRecovery = {
+  render: () => <AuthTemplate recovery={{ email: '', setEmail: noop, submit: noop, back: noop }} />,
+};
+export const ResetEmailSent = {
+  render: () => (
+    <AuthTemplate
+      recovery={{ sent: true, email: 'you@example.com', cooldown: 60, submit: noop, back: noop }}
     />
   ),
 };

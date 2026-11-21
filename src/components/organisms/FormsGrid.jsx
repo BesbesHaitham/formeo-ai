@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
-import IconButton from '../molecules/IconButton';
+import MenuButton from '../molecules/MenuButton';
 import IconTile from '../molecules/IconTile';
 import Badge from '../molecules/Badge';
 import { formActions, statusLabels } from '../../content/navigation';
@@ -19,24 +18,6 @@ export default function FormsGrid({
   className,
   ...rest
 }) {
-  const [menu, setMenu] = useState(null);
-  useEffect(() => {
-    if (!menu) return;
-    const dismiss = (event) => {
-      if (
-        event.key === 'Escape' ||
-        (event.type === 'pointerdown' &&
-          event.target.closest('[data-form-actions]')?.dataset.formActions !== menu)
-      )
-        setMenu(null);
-    };
-    document.addEventListener('pointerdown', dismiss);
-    document.addEventListener('keydown', dismiss);
-    return () => {
-      document.removeEventListener('pointerdown', dismiss);
-      document.removeEventListener('keydown', dismiss);
-    };
-  }, [menu]);
   if (!forms.length)
     return (
       <div className={classNames(styles.empty, className)} {...rest}>
@@ -51,11 +32,7 @@ export default function FormsGrid({
       {forms.map((form, index) => {
         const count = responses.filter((response) => response.formId === form.id).length;
         return (
-          <article
-            key={form.id}
-            data-form-actions={form.id}
-            className={classNames(styles.card, styles.formCard)}
-          >
+          <article key={form.id} className={classNames(styles.card, styles.formCard)}>
             <div className={styles.cardTop}>
               <IconTile
                 icon={form.icon || content.icons.filetext}
@@ -63,11 +40,21 @@ export default function FormsGrid({
                   color: `var(--card-accent-${index % 4})`,
                 }}
               />
-              <IconButton
+              <MenuButton
                 label={`${content.actionsLabel} ${form.title}`}
                 icon={content.icons.morehorizontal}
-                aria-expanded={menu === form.id}
-                onClick={() => setMenu(menu === form.id ? null : form.id)}
+                items={actions.map((action) => ({
+                  ...action,
+                  label:
+                    form.status === 'published' && action.activeLabel
+                      ? action.activeLabel
+                      : action.label,
+                  icon:
+                    form.status === 'published' && action.activeIcon
+                      ? action.activeIcon
+                      : action.icon,
+                }))}
+                onAction={(name) => onAction(name, form)}
               />
             </div>
             <button className={styles.cardTitle} onClick={() => onAction('edit', form)}>
@@ -80,28 +67,6 @@ export default function FormsGrid({
                 {statuses[form.status]}
               </Badge>
             </div>
-            {menu === form.id && (
-              <div
-                className={styles.menu}
-                onKeyDown={(event) => {
-                  if (event.key === 'Escape') setMenu(null);
-                }}
-              >
-                {actions.map(({ name, label, activeLabel, variant = 'ghost' }) => (
-                  <Button
-                    key={name}
-                    variant={variant}
-                    size="sm"
-                    onClick={() => {
-                      setMenu(null);
-                      onAction(name, form);
-                    }}
-                  >
-                    {activeLabel && form.status === 'published' ? activeLabel : label}
-                  </Button>
-                ))}
-              </div>
-            )}
           </article>
         );
       })}

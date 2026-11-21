@@ -1,4 +1,18 @@
 @import './styles/tokens.css';
+.skipLink {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 200;
+  padding: 10px 16px;
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  transform: translateY(-150%);
+}
+.skipLink:focus {
+  transform: translateY(0);
+}
 * {
   box-sizing: border-box;
 }
@@ -9,6 +23,7 @@ body {
   color: var(--text);
   font-size: var(--font-md);
   line-height: 1.5;
+  font-family: inherit;
 }
 button,
 input,
@@ -39,8 +54,23 @@ button:disabled {
   opacity: 0.55;
 }
 :focus-visible {
-  outline: 3px solid #a69aff;
+  outline: 3px solid var(--primary);
   outline-offset: 3px;
+}
+input:disabled,
+textarea:disabled,
+select:disabled {
+  cursor: not-allowed;
+  color: var(--muted);
+  background-color: var(--bg);
+}
+button,
+input,
+textarea,
+select {
+  transition:
+    border-color var(--transition),
+    background-color var(--transition);
 }
 h1,
 h2,

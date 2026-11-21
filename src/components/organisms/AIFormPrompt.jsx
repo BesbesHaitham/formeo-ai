@@ -16,6 +16,7 @@ export default function AIFormPrompt({
   loading,
   error,
   hasKey,
+  mock,
   onGenerate,
   onConfigure,
   onDemo,
@@ -37,7 +38,7 @@ export default function AIFormPrompt({
           <header>
             <Label htmlFor="ai-prompt">{content.promptLabel}</Label>
             <Badge variant="purple" icon={content.icons.sparkles}>
-              {hasKey ? content.aiReady : content.demoAvailable}
+              {mock ? content.mockReady : hasKey ? content.aiReady : content.exampleAvailable}
             </Badge>
           </header>
           <Textarea
@@ -91,16 +92,14 @@ export default function AIFormPrompt({
       </div>
       <div className={styles.demoNote}>
         <span>
-          {hasKey
-            ? content.gemini25FlashConnectedForThisSession
-            : content.realAiRequiresATemporaryGeminiKey}
+          {mock ? content.mockMessage : hasKey ? content.connectedMessage : content.connectionHint}
         </span>
         <Button variant="link" size="sm" onClick={onConfigure}>
           {hasKey ? content.changeKey : content.configureKey}
         </Button>
         <span>·</span>
         <Button variant="link" size="sm" onClick={onDemo}>
-          {content.demoLabel}
+          {content.templateLabel}
         </Button>
       </div>
     </section>

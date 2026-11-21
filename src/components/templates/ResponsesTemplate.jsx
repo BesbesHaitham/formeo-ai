@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { uiContent } from '../../content/uiContent';
 import AppHeader from '../organisms/AppHeader';
 import Sidebar from '../organisms/Sidebar';
+import AccountMenu from '../organisms/AccountMenu';
 import AnalyticsOverview from '../organisms/AnalyticsOverview';
 import ResponsesTable from '../organisms/ResponsesTable';
 import Modal from '../molecules/Modal';
@@ -24,7 +25,9 @@ export default function ResponsesTemplate({
   navigate,
   exportCsv,
   onCreate,
-  onSettings,
+  theme,
+  setTheme,
+  logout,
   user,
   className,
 }) {
@@ -33,32 +36,23 @@ export default function ResponsesTemplate({
       <AppHeader
         user={user}
         onCreate={onCreate}
-        onHelp={onSettings}
+        theme={theme}
+        onTheme={setTheme}
+        account={user && <AccountMenu name={user.name || user.email} compact onLogout={logout} />}
         content={uiContent.AppHeader}
       />
       <div className={styles.workspace}>
-        <Sidebar onSettings={onSettings} content={uiContent.Sidebar} />
-        <main className={classNames(styles.main, className)}>
+        <Sidebar
+          account={
+            user && (
+              <AccountMenu name={user.name || user.email} email={user.email} onLogout={logout} />
+            )
+          }
+          content={uiContent.Sidebar}
+        />
+        <main id="main-content" tabIndex={-1} className={classNames(styles.main, className)}>
           <div className={styles.titleRow}>
             <div>
-              <Button
-                variant="link"
-                style={{
-                  color: 'var(--muted)',
-                  marginBottom: 16,
-                }}
-                onClick={() => navigate('/')}
-              >
-                <Icon name="ArrowLeft" size={15} />
-                My forms &nbsp; / &nbsp;
-                <strong
-                  style={{
-                    color: 'var(--text)',
-                  }}
-                >
-                  {form.title}
-                </strong>
-              </Button>
               <h1>Responses &amp; insights</h1>
               <p className={styles.subtitle}>Understand how people interact with your form.</p>
             </div>
@@ -66,14 +60,14 @@ export default function ResponsesTemplate({
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 15,
+                gap: 12,
               }}
             >
-              <Badge variant={form.status === 'published' ? 'success' : undefined}>
+              <Badge variant={form.status === 'published' ? 'success' : 'neutral'}>
                 {form.status === 'published' ? 'Published' : 'Draft'}
               </Badge>
-              <Button variant="secondary" onClick={exportCsv}>
-                <Icon name="Download" size={18} />
+              <Button variant="secondary" size="sm" onClick={exportCsv}>
+                <Icon name="Download" size={16} />
                 Export CSV
               </Button>
             </div>
@@ -99,11 +93,6 @@ export default function ResponsesTemplate({
               <option value={30}>Last 30 days</option>
             </Select>
           </div>
-          {analytics.responses.some((r) => r.fixture) && (
-            <p className={styles.notice}>
-              Includes labeled sample submissions and visit events for the university demonstration.
-            </p>
-          )}
           <AnalyticsOverview
             analytics={analytics}
             days={days}
@@ -123,7 +112,7 @@ export default function ResponsesTemplate({
         <Modal title="Response details" onClose={() => setSelected(null)} content={uiContent.Modal}>
           <p>
             {new Date(selected.submittedAt).toLocaleString()}
-            {selected.fixture ? ' · Sample submission' : ' · Local submission'}
+            {selected.fixture ? ' · Example response' : ' · Submitted response'}
           </p>
           <dl>
             {details.map(({ id, label, value }) => (

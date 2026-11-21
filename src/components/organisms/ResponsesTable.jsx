@@ -72,7 +72,7 @@ export default function ResponsesTable({
         {!responses.length && (
           <div className={styles.empty}>
             <h3>{content.noResponsesYet}</h3>
-            <p>{content.submitYourPublishedFormToSeeRealLocal}</p>
+            <p>{content.emptyDescription}</p>
           </div>
         )}
       </div>

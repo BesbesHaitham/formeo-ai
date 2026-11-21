@@ -69,27 +69,37 @@ export function validateGeneratedForm(data, current) {
       'Gemini returned missing or duplicate question IDs. Please retry the refinement.',
     );
   const fields = data.fields.map((field) => {
+    const definition = fieldTypes.find((item) => item.type === field?.type);
     if (
       !field ||
-      !fieldTypes.some((item) => item.type === field.type) ||
+      !definition ||
       typeof field.label !== 'string' ||
       !field.label.trim() ||
       typeof field.required !== 'boolean'
     )
       throw new Error('The AI returned an unsupported or incomplete question.');
+    const id =
+      current?.fields.some((old) => old.id === field.id) && !ids.has(field.id) ? field.id : uid();
+    ids.add(id);
+    const existing = current?.fields.find((old) => old.id === id);
+    // Ratings have a configured scale; empty AI options should not discard it.
+    const options =
+      field.type === 'rating' &&
+      (field.options === undefined || (Array.isArray(field.options) && !field.options.length))
+        ? existing?.type === 'rating' && existing.options.length
+          ? existing.options
+          : definition.options
+        : field.options;
     if (
       choiceTypes.includes(field.type) &&
-      (!Array.isArray(field.options) ||
-        !field.options.length ||
-        field.options.some((option) => typeof option !== 'string' || !option.trim()))
+      (!Array.isArray(options) ||
+        !options.length ||
+        options.some((option) => typeof option !== 'string' || !option.trim()))
     )
       throw new Error('A choice question has invalid options.');
     for (const key of ['placeholder', 'helpText', 'section'])
       if (field[key] !== undefined && typeof field[key] !== 'string')
         throw new Error('The AI returned invalid question text.');
-    const id =
-      current?.fields.some((old) => old.id === field.id) && !ids.has(field.id) ? field.id : uid();
-    ids.add(id);
     const validation = {};
     if (
       field.validation !== undefined &&
@@ -111,7 +121,6 @@ export function validateGeneratedForm(data, current) {
       )
     )
       throw new Error('Question lengths must be nonnegative whole numbers. Please retry.');
-    const existing = current?.fields.find((old) => old.id === id);
     return createField(field.type, {
       ...existing,
       type: field.type,
@@ -123,7 +132,7 @@ export function validateGeneratedForm(data, current) {
       id,
       validation: field.validation === undefined ? existing?.validation || {} : validation,
       options: choiceTypes.includes(field.type)
-        ? [...new Set(field.options.map((option) => option.trim()))]
+        ? [...new Set(options.map((option) => option.trim()))]
         : [],
     });
   });

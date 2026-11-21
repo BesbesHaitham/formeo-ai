@@ -1,0 +1,5 @@
+{
+  "name": "Test Account",
+  "email": "test.account@example.com",
+  "provider": "mock"
+}

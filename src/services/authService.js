@@ -1,3 +1,7 @@
+import { validPassword } from '../utils/password';
+import { appConfig } from '../config/appConfig';
+import { firebaseEmailAccount, firebasePasswordReset } from './firebaseAuth';
+import { request } from './formsApi';
 const accountKey = 'formeo.demo.accounts';
 function readAccounts() {
   try {
@@ -22,10 +26,14 @@ async function digest(password, salt) {
   return [...new Uint8Array(result)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 export async function signup({ name, email, password }) {
+  if (!validPassword(password))
+    throw new Error('Choose a password that meets all four requirements.');
+  if (appConfig.firebaseApiKey && !appConfig.useMock)
+    return firebaseEmailAccount(true, { name, email, password });
   const accounts = readAccounts();
   const normalized = email.trim().toLowerCase();
   if (accounts.some((a) => a.email === normalized))
-    throw new Error('An account with this email already exists in this browser.');
+    throw new Error('An account with this email already exists. Please log in.');
   const salt = crypto.randomUUID();
   const account = {
     name: name.trim(),
@@ -37,10 +45,27 @@ export async function signup({ name, email, password }) {
   return { name: account.name, email: account.email };
 }
 export async function login({ email, password }) {
+  if (appConfig.firebaseApiKey && !appConfig.useMock)
+    return firebaseEmailAccount(false, { email, password });
   const account = readAccounts().find((a) => a.email === email.trim().toLowerCase());
   if (!account || account.digest !== (await digest(password, account.salt)))
-    throw new Error('Email or password is incorrect. Create a demo account in this browser first.');
+    throw new Error('The email or password is incorrect. Please try again.');
   return { name: account.name, email: account.email };
+}
+export async function requestPasswordReset(email) {
+  const normalized = email.trim().toLowerCase();
+  if (appConfig.useMock) {
+    const result = await request('/auth/password-reset', {
+      method: 'POST',
+      body: JSON.stringify({ email: normalized }),
+    });
+    if (!result?.accepted)
+      throw new Error('The reset request could not be completed. Please try again.');
+    return;
+  }
+  if (!appConfig.firebaseApiKey)
+    throw new Error('Password recovery is not connected yet. Please try another sign-in method.');
+  return firebasePasswordReset(normalized);
 }
 export function rememberUser(user, remember) {
   clearSession();

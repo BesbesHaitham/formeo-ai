@@ -1,9 +1,7 @@
 import { uiContent } from '../../content/uiContent';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Button from '../atoms/Button';
 import Input from '../atoms/Input';
-import Select from '../atoms/Select';
 import FormField from '../molecules/FormField';
 import Modal from '../molecules/Modal';
 export default function WorkspaceDialogs({
@@ -56,77 +54,6 @@ export default function WorkspaceDialogs({
     </Modal>
   );
 }
-export function SettingsDialog({
-  content = uiContent.SettingsDialog,
-  theme,
-  onTheme,
-  onConfigure,
-  onClose,
-  user,
-  onLogout,
-  className,
-  ...rest
-}) {
-  return (
-    <Modal title={content.title} onClose={onClose} className={className} {...rest}>
-      <p>{content.description}</p>
-      <FormField id="theme" label={content.appearance}>
-        <Select id="theme" value={theme} onChange={(e) => onTheme(e.target.value)}>
-          <option value="light">{content.light}</option>
-          <option value="dark">{content.dark}</option>
-        </Select>
-      </FormField>
-      {user && (
-        <p
-          style={{
-            marginTop: 22,
-            fontSize: 14,
-          }}
-        >
-          {content.demoSession}
-          <strong>{user.name}</strong> ({user.email}){' '}
-          <Button variant="link" size="sm" onClick={onLogout}>
-            {content.logOut}
-          </Button>
-        </p>
-      )}
-
-      <p
-        style={{
-          marginTop: 22,
-          fontSize: 14,
-        }}
-      >
-        {content.demoAccount}{' '}
-        <Link
-          to="/login"
-          onClick={onClose}
-          style={{
-            color: 'var(--primary)',
-          }}
-        >
-          {content.logIn}
-        </Link>{' '}
-        ·{' '}
-        <Link
-          to="/signup"
-          onClick={onClose}
-          style={{
-            color: 'var(--primary)',
-          }}
-        >
-          {content.createAnAccount}
-        </Link>
-      </p>
-      <footer>
-        <Button variant="secondary" onClick={onConfigure}>
-          {content.configureGeminiKey}
-        </Button>
-        <Button onClick={onClose}>{content.done}</Button>
-      </footer>
-    </Modal>
-  );
-}
 export function KeyDialog({
   content = uiContent.KeyDialog,
   onSave,
@@ -146,7 +73,7 @@ export function KeyDialog({
           onClose();
         }}
       >
-        <FormField id="gemini-key" label={content.temporaryGeminiApiKey}>
+        <FormField id="gemini-key" label={content.apiKeyLabel}>
           <Input
             id="gemini-key"
             type="password"

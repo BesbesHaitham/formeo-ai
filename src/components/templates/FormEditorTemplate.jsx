@@ -48,21 +48,25 @@ export default function FormEditorTemplate(props) {
     proposal,
     applyProposal,
     discardProposal,
-    apiKey,
+    aiReady,
     setKeyDialog,
+    theme,
+    setTheme,
     className,
   } = props;
   return (
     <>
       <AppHeader
         mode="editor"
+        theme={theme}
+        onTheme={setTheme}
         form={form}
         onPreview={preview}
         onPublish={publish}
         saved={!saveError}
         content={uiContent.AppHeader}
       />
-      <main className={classNames(styles.editor, className)}>
+      <main id="main-content" tabIndex={-1} className={classNames(styles.editor, className)}>
         <FieldLibrary types={fieldTypes} onAdd={addField} content={uiContent.FieldLibrary} />
         <FormQuestionList
           form={form}
@@ -101,13 +105,13 @@ export default function FormEditorTemplate(props) {
           content={uiContent.Modal}
         >
           <p>
-            This link works in this browser with its saved workspace. Cross-device public sharing
-            requires a backend.
+            Your form is ready to receive responses on this device. Open it here or copy the link
+            for use in this browser.
           </p>
-          <Input aria-label="Local form link" readOnly value={localUrl} />
+          <Input aria-label="Form link" readOnly value={localUrl} />
           <footer>
             <Button variant="secondary" onClick={copyLink}>
-              Copy local link
+              Copy link
             </Button>
             <Button onClick={openForm}>Open form</Button>
           </footer>
@@ -196,12 +200,12 @@ export default function FormEditorTemplate(props) {
                 />
               </FormField>
               <footer>
-                {!apiKey && (
+                {!aiReady && (
                   <Button variant="secondary" onClick={() => setKeyDialog(true)}>
                     Configure Gemini
                   </Button>
                 )}
-                <Button type="submit" loading={loading} disabled={!apiKey || !refinePrompt.trim()}>
+                <Button type="submit" loading={loading} disabled={!aiReady || !refinePrompt.trim()}>
                   Preview changes
                 </Button>
               </footer>

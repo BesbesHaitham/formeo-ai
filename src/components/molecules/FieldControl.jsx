@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useState } from 'react';
 import Input from '../atoms/Input';
 import Textarea from '../atoms/Textarea';
 import Select from '../atoms/Select';
@@ -19,6 +20,7 @@ export default function FieldControl({
   ...rest
 }) {
   const { id, type, label, placeholder, required, options } = field;
+  const [hoveredRating, setHoveredRating] = useState(null);
   const common = {
     id: `field-${id}`,
     'aria-label': label,
@@ -68,9 +70,63 @@ export default function FieldControl({
         </label>
       );
       break;
+    case 'rating': {
+      const activeIndex = hoveredRating?.id === id ? hoveredRating.index : options.indexOf(value);
+      let caption = disabled ? '' : content.chooseRating;
+      if (activeIndex >= 0) {
+        caption = options[activeIndex];
+        if (options.every((option, index) => option === String(index + 1)))
+          caption += ` / ${options.length}`;
+      }
+      control = (
+        <div className={styles.ratingControl}>
+          <div
+            className={styles.ratingStars}
+            role="radiogroup"
+            aria-label={label}
+            aria-required={required}
+            onPointerLeave={() => setHoveredRating(null)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) setHoveredRating(null);
+            }}
+            {...rest}
+          >
+            {options.map((option, index) => (
+              <label
+                key={option}
+                className={classNames(
+                  styles.ratingChoice,
+                  index <= activeIndex && styles.ratingFilled,
+                )}
+                title={option}
+                onPointerEnter={() => {
+                  if (!disabled) setHoveredRating({ id, index });
+                }}
+              >
+                <Radio
+                  name={id}
+                  value={option}
+                  aria-label={option}
+                  checked={value === option}
+                  disabled={disabled}
+                  onChange={() => {
+                    setHoveredRating(null);
+                    onChange(option);
+                  }}
+                />
+                <Icon name={content.ratingIcon} size={28} />
+              </label>
+            ))}
+          </div>
+          <span className={styles.ratingCaption} aria-hidden="true">
+            {caption}
+          </span>
+        </div>
+      );
+      break;
+    }
     case 'radio':
     case 'checkbox':
-    case 'rating':
       control = (
         <div
           className={styles.options}
@@ -104,7 +160,6 @@ export default function FieldControl({
                 />
               )}
               {option}
-              {type === 'rating' && <Icon name={content.ratingIcon} size={15} />}
             </label>
           ))}
         </div>

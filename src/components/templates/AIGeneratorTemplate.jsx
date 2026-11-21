@@ -9,7 +9,10 @@ export default function AIGeneratorTemplate({
   setPrompt,
   loading,
   error,
-  apiKey,
+  aiReady,
+  mockMode,
+  theme,
+  setTheme,
   setKeyDialog,
   generate,
   demo,
@@ -17,15 +20,16 @@ export default function AIGeneratorTemplate({
 }) {
   return (
     <>
-      <AppHeader mode="generator" onHelp={() => setKeyDialog(true)} content={uiContent.AppHeader} />
-      <main className={classNames(styles.generator, className)}>
+      <AppHeader mode="generator" theme={theme} onTheme={setTheme} content={uiContent.AppHeader} />
+      <main id="main-content" tabIndex={-1} className={classNames(styles.generator, className)}>
         <AIFormPrompt
           examples={examples}
           prompt={prompt}
           setPrompt={setPrompt}
           loading={loading}
           error={error}
-          hasKey={!!apiKey}
+          hasKey={aiReady}
+          mock={mockMode}
           onConfigure={() => setKeyDialog(true)}
           onGenerate={generate}
           onDemo={demo}

@@ -15,7 +15,11 @@ export default function FieldLibrary({
 }) {
   const [more, setMore] = useState(false);
   return (
-    <aside className={classNames(styles.panel, className)} {...rest}>
+    <aside
+      aria-label={content.title}
+      className={classNames(styles.panel, styles.libraryPanel, className)}
+      {...rest}
+    >
       <h2>{content.title}</h2>
       <p>{content.description}</p>
       <div className={styles.library}>

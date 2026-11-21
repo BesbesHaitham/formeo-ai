@@ -1,0 +1,82 @@
+{
+  "form": {
+    "id": "student-registration",
+    "title": "Student Registration",
+    "description": "Complete this short form to register for our program.",
+    "status": "draft",
+    "sections": [],
+    "fields": [
+      {
+        "id": "name",
+        "type": "text",
+        "label": "Full name",
+        "placeholder": "Enter your full name",
+        "required": true,
+        "helpText": "",
+        "section": "",
+        "options": [],
+        "validation": {}
+      },
+      {
+        "id": "email",
+        "type": "email",
+        "label": "Email address",
+        "placeholder": "you@example.com",
+        "required": true,
+        "helpText": "We’ll use it to send you registration updates.",
+        "section": "",
+        "options": [],
+        "validation": {}
+      },
+      {
+        "id": "b482a265-a485-4e76-97c2-a2f65d5fb6c8",
+        "type": "select",
+        "label": "Education level",
+        "placeholder": "Choose your education level",
+        "required": true,
+        "helpText": "",
+        "section": "",
+        "options": ["High school", "Undergraduate", "Postgraduate"],
+        "validation": {}
+      },
+      {
+        "id": "e22bf24b-22c0-4d10-96a8-ccc62829c47f",
+        "type": "radio",
+        "label": "Preferred program",
+        "placeholder": "",
+        "required": true,
+        "helpText": "",
+        "section": "",
+        "options": ["Engineering", "Business", "Design"],
+        "validation": {}
+      },
+      {
+        "id": "71a3fe85-0e44-43c4-b193-695f0dd286d0",
+        "type": "file",
+        "label": "Upload a supporting document",
+        "placeholder": "",
+        "required": false,
+        "helpText": "File metadata is saved locally. The file itself is not uploaded.",
+        "section": "",
+        "options": [],
+        "validation": {}
+      },
+      {
+        "id": "11821dce-3e7e-4be3-ae0b-0ee1dba01329",
+        "type": "checkbox",
+        "label": "Consent",
+        "placeholder": "",
+        "required": true,
+        "helpText": "",
+        "section": "",
+        "options": ["I agree to be contacted about this program."],
+        "validation": {}
+      }
+    ],
+    "appearance": {
+      "color": "#5b43e7"
+    },
+    "createdAt": "2026-11-21T14:37:26.635Z",
+    "updatedAt": "2026-11-21T14:37:26.635Z"
+  }
+}

@@ -3,20 +3,36 @@ import Label from '../atoms/Label';
 import Input from '../atoms/Input';
 import Text from '../atoms/Text';
 import styles from './Molecules.module.css';
-export default function FormField({ id, label, error, help, children, className, ...rest }) {
+export default function FormField({
+  id,
+  label,
+  labelAction,
+  error,
+  help,
+  children,
+  className,
+  ...rest
+}) {
   return (
     <div className={classNames(styles.field, className)}>
-      <Label htmlFor={id}>{label}</Label>
+      {labelAction ? (
+        <div className={styles.fieldLabel}>
+          <Label htmlFor={id}>{label}</Label>
+          {labelAction}
+        </div>
+      ) : (
+        <Label htmlFor={id}>{label}</Label>
+      )}
       {children || (
         <Input
           id={id}
           aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-describedby={error ? `${id}-error` : help ? `${id}-help` : ''}
           {...rest}
         />
       )}
       {help && (
-        <Text variant="muted" size="small">
+        <Text id={`${id}-help`} variant="muted" size="small">
           {help}
         </Text>
       )}

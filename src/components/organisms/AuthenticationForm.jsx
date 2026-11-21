@@ -6,17 +6,25 @@ import Icon from '../atoms/Icon';
 import Checkbox from '../atoms/Checkbox';
 import FormField from '../molecules/FormField';
 import PasswordField from '../molecules/PasswordField';
+import GoogleSignInButton from '../molecules/GoogleSignInButton';
+import PasswordStrength from '../molecules/PasswordStrength';
 import styles from './Organisms.module.css';
 export default function AuthenticationForm({
   content = uiContent.AuthenticationForm,
   signingUp,
   values,
+  passwordChecks,
+  passwordMinimum,
   change,
   error,
   loading,
+  busy,
+  googleMock,
+  googleLoading,
+  onGoogle,
   submit,
   onForgotPassword,
-  onGoogle,
+  authState,
   className,
   ...rest
 }) {
@@ -35,6 +43,14 @@ export default function AuthenticationForm({
           ? content.getStartedWithFormeoAiInJustA
           : content.logInToContinueBuildingAmazingForms}
       </p>
+      <GoogleSignInButton
+        onClick={onGoogle}
+        loading={googleLoading}
+        disabled={busy}
+        label={content.continueWithGoogle}
+        notice={googleMock && content.googleMockLabel}
+      />
+      <div className={styles.authDivider}>{content.orContinueWith}</div>
       <div className={styles.authFields}>
         {signingUp && (
           <FormField
@@ -43,7 +59,6 @@ export default function AuthenticationForm({
             required
             autoComplete="name"
             value={values.name}
-            placeholder={content.enterYourFullName}
             onChange={(e) => change('name', e.target.value)}
           />
         )}
@@ -54,33 +69,38 @@ export default function AuthenticationForm({
           required
           autoComplete="email"
           value={values.email}
-          placeholder={content.youExampleCom}
           onChange={(e) => change('email', e.target.value)}
         />
-        <FormField id="password" label={content.password}>
-          <PasswordField
-            id="password"
-            required
-            minLength={8}
-            autoComplete={signingUp ? 'new-password' : 'current-password'}
-            value={values.password}
-            placeholder={content.enterYourPassword}
-            onChange={(e) => change('password', e.target.value)}
-          />
-        </FormField>
-        {signingUp && (
-          <FormField id="confirm" label={content.confirmPassword}>
+        <FormField
+          id="password"
+          label={content.password}
+          labelAction={
+            !signingUp && (
+              <Button variant="link" size="sm" onClick={onForgotPassword}>
+                {content.forgotPassword}
+              </Button>
+            )
+          }
+        >
+          <div className={styles.passwordGuide}>
             <PasswordField
-              id="confirm"
+              id="password"
               required
-              minLength={8}
-              autoComplete="new-password"
-              value={values.confirm}
-              placeholder={content.confirmYourPassword}
-              onChange={(e) => change('confirm', e.target.value)}
+              minLength={signingUp ? passwordMinimum : 8}
+              autoComplete={signingUp ? 'new-password' : 'current-password'}
+              value={values.password}
+              aria-describedby={signingUp ? 'password-guidance' : ''}
+              onChange={(e) => change('password', e.target.value)}
             />
-          </FormField>
-        )}
+            {signingUp && (
+              <PasswordStrength
+                id="password-guidance"
+                checks={passwordChecks}
+                content={uiContent.PasswordStrength}
+              />
+            )}
+          </div>
+        </FormField>
       </div>
       <div className={styles.authMeta}>
         <label>
@@ -89,47 +109,23 @@ export default function AuthenticationForm({
             checked={signingUp ? values.agree : values.remember}
             onChange={(e) => change(signingUp ? 'agree' : 'remember', e.target.checked)}
           />
-          {signingUp ? content.iAgreeToTheLocalDemoTermsAnd : content.rememberMe}
+          {signingUp ? content.storageConsent : content.rememberMe}
         </label>
-        {!signingUp && (
-          <Button variant="link" size="sm" onClick={onForgotPassword}>
-            {content.forgotPassword}
-          </Button>
-        )}
       </div>
       {error && (
         <p role="alert" className={styles.error}>
           {error}
         </p>
       )}
-      <Button type="submit" loading={loading}>
+      <Button type="submit" loading={loading} disabled={busy}>
         {signingUp ? content.createAccount : content.logIn}
         <Icon name={content.icons.arrowright} size={17} />
       </Button>
-      <div className={styles.or}>{content.orContinueWith}</div>
-      <Button variant="secondary" onClick={onGoogle}>
-        <strong
-          style={{
-            color: '#4285f4',
-            fontSize: 21,
-          }}
-        >
-          {content.g}
-        </strong>
-        {content.continueWithGoogle}
-      </Button>
       <small>
         {signingUp ? content.alreadyHaveAnAccount : content.newToFormeoAi}
-        <Link to={signingUp ? content.login : content.signup}>
+        <Link to={signingUp ? content.login : content.signup} state={authState}>
           {signingUp ? content.logIn : content.createAnAccount}
         </Link>
-      </small>
-      <small
-        style={{
-          fontSize: 11,
-        }}
-      >
-        {content.localDemoAuthenticationNoSecureAccountOrEmail}
       </small>
     </form>
   );

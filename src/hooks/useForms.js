@@ -32,7 +32,9 @@ export function useForms() {
         form: { ...form, status: form.status === 'published' ? 'draft' : 'published' },
       });
       workspace.notify(
-        form.status === 'published' ? 'Form unpublished.' : 'Published for this browser.',
+        form.status === 'published'
+          ? 'Form unpublished.'
+          : 'Form published. You can open it on this device.',
       );
     }
     if (['delete', 'rename'].includes(name)) setDialog({ type: name, form });
