@@ -4,6 +4,7 @@ import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import Badge from '../molecules/Badge';
 import styles from './Organisms.module.css';
+
 export default function ResponsesTable({
   content = uiContent.ResponsesTable,
   form,
@@ -16,12 +17,14 @@ export default function ResponsesTable({
 }) {
   const find = (response, type) => {
     const field = form.fields.find((f) => f.type === type);
+
     return (
       response.answers[field?.id] ||
       (type === 'text' ? response.answers.name : response.answers.email) ||
       '—'
     );
   };
+
   return (
     <section className={classNames(styles.card, styles.tableCard, className)} {...rest}>
       <div className={styles.tableHeader}>

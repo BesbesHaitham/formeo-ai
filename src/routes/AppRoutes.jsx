@@ -10,20 +10,24 @@ import ResponsesPage from '../pages/ResponsesPage';
 import AuthPage from '../pages/AuthPage';
 import PasswordRecoveryPage from '../pages/PasswordRecoveryPage';
 import NotFoundTemplate from '../components/templates/NotFoundTemplate';
+
 function RequireAuth() {
   const { user } = useWorkspace();
   const { pathname, search, hash } = useLocation();
+
   return user ? (
     <Outlet />
   ) : (
     <Navigate to="/login" replace state={{ returnTo: pathname + search + hash }} />
   );
 }
+
 export default function AppRoutes() {
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
   return (
     <Routes>
       <Route path="/templates" element={<TemplatesPage />} />

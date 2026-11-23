@@ -2,6 +2,7 @@ import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
 import Text from '../atoms/Text';
 import styles from './Molecules.module.css';
+
 export default function FormProgress({
   content = uiContent.FormProgress,
   title,
@@ -11,6 +12,7 @@ export default function FormProgress({
   ...rest
 }) {
   const progress = total ? (current / total) * 100 : 0;
+
   return (
     <div className={classNames(styles.progress, className)} {...rest}>
       <header>

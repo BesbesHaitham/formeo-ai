@@ -4,6 +4,7 @@ import Icon from '../atoms/Icon';
 
 export default function ThemeSwitch({ theme, onChange, ...rest }) {
   const dark = theme === 'dark';
+
   return (
     <Button
       variant="ghost"

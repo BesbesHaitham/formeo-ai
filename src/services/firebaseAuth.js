@@ -29,6 +29,7 @@ async function firebaseRequest(action, body) {
     throw new Error('Unable to reach the account service. Check your connection and try again.');
   }
   const data = await response.json();
+
   if (!response.ok) {
     const code = data.error?.message?.split(' : ')[0];
     throw Object.assign(
@@ -38,12 +39,14 @@ async function firebaseRequest(action, body) {
       { code },
     );
   }
+
   return data;
 }
 
 function identity({ localId, email, displayName }) {
   if (typeof localId !== 'string' || typeof email !== 'string')
     throw new Error('The account service returned an invalid account. Please try again.');
+
   return { id: localId, email, name: displayName || email, provider: 'firebase' };
 }
 
@@ -57,6 +60,7 @@ export async function firebaseEmailAccount(signingUp, { name, email, password })
       ...(signingUp && { displayName: name.trim() }),
     },
   );
+
   return identity({ ...data, displayName: data.displayName || (signingUp ? name.trim() : '') });
 }
 

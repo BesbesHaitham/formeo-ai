@@ -1,10 +1,14 @@
 import { appConfig } from '../config/appConfig.js';
 import { validStoredForm } from '../utils/formSchema.js';
+
 export function readWorkspace() {
   try {
     const raw = localStorage.getItem(appConfig.storageKey);
+
     if (raw === null) return null;
+
     const data = JSON.parse(raw);
+
     if (
       !Array.isArray(data.forms) ||
       !data.forms.every(validStoredForm) ||
@@ -12,6 +16,7 @@ export function readWorkspace() {
       !Array.isArray(data.visits)
     )
       return null;
+
     if (
       !data.responses.every(
         (r) =>
@@ -38,14 +43,17 @@ export function readWorkspace() {
       )
     )
       return null;
+
     return data;
   } catch {
     return null;
   }
 }
+
 export function saveWorkspace(data) {
   try {
     localStorage.setItem(appConfig.storageKey, JSON.stringify(data));
+
     return '';
   } catch {
     return 'Your browser could not save these changes. Free some storage before leaving this page.';

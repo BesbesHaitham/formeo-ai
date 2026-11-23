@@ -2,6 +2,7 @@ export function workspaceReducer(state, action) {
   switch (action.type) {
     case 'initialize':
       if (state.initialized) return state;
+
       return {
         ...state,
         forms: action.forms,

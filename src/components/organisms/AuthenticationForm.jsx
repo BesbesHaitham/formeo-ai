@@ -9,6 +9,7 @@ import PasswordField from '../molecules/PasswordField';
 import GoogleSignInButton from '../molecules/GoogleSignInButton';
 import PasswordStrength from '../molecules/PasswordStrength';
 import styles from './Organisms.module.css';
+
 export default function AuthenticationForm({
   content = uiContent.AuthenticationForm,
   signingUp,

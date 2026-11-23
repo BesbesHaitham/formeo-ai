@@ -1,5 +1,5 @@
 export const appConfig = {
-  model: import.meta.env?.VITE_GEMINI_MODEL || 'gemini-3.5-flash-lite',
+  model: import.meta.env?.VITE_GEMINI_MODEL || 'gemini-3.5-flash',
   apiBase: import.meta.env?.VITE_API_BASE_URL || '/api',
   useMock: import.meta.env?.VITE_USE_MOCK_API === 'true',
   firebaseAuthDomain: import.meta.env?.VITE_FIREBASE_AUTH_DOMAIN || '',

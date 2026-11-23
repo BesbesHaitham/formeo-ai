@@ -11,10 +11,12 @@ export default function MenuButton({ label, icon, children, items, onAction, cla
   const menu = useRef(null);
   const [open, setOpen] = useState(false);
   useMenuPosition(open, trigger, menu);
+
   function focusItem(index) {
     const buttons = menu.current.querySelectorAll('[role="menuitem"]');
     buttons[(index + buttons.length) % buttons.length]?.focus();
   }
+
   return (
     <>
       <Button
@@ -47,10 +49,12 @@ export default function MenuButton({ label, icon, children, items, onAction, cla
         onToggle={(event) => {
           const expanded = event.newState === 'open';
           setOpen(expanded);
+
           if (expanded) focusItem(0);
         }}
         onKeyDown={(event) => {
           const keys = ['ArrowDown', 'ArrowUp', 'Home', 'End'];
+
           if (keys.includes(event.key)) {
             event.preventDefault();
             const buttons = [...menu.current.querySelectorAll('[role="menuitem"]')];
@@ -63,6 +67,7 @@ export default function MenuButton({ label, icon, children, items, onAction, cla
                   : index + (event.key === 'ArrowDown' ? 1 : -1),
             );
           }
+
           if (event.key === 'Tab') menu.current.hidePopover();
         }}
       >

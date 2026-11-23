@@ -5,6 +5,7 @@ import Button from '../atoms/Button';
 import FieldTypeItem from '../molecules/FieldTypeItem';
 import { startEditorDrag } from '../../utils/editorDrag';
 import styles from './Organisms.module.css';
+
 export default function FieldLibrary({
   content = uiContent.FieldLibrary,
   types = [],
@@ -14,6 +15,7 @@ export default function FieldLibrary({
   ...rest
 }) {
   const [more, setMore] = useState(false);
+
   return (
     <aside
       aria-label={content.title}

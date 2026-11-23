@@ -20,6 +20,7 @@ export default function AccountMenu({
     .map((part) => part[0])
     .join('')
     .toUpperCase();
+
   return (
     <MenuButton
       className={classNames(styles.accountButton, compact && styles.compactAccount, className)}

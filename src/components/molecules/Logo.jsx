@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Text from '../atoms/Text';
 import styles from './Molecules.module.css';
+
 export default function Logo({ content = uiContent.Logo, className, ...rest }) {
   return (
     <Link

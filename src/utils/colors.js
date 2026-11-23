@@ -1,8 +1,10 @@
 /** Keep form accents separate from brand/focus colors, with readable white button text. */
 export function accentStyle(color) {
   if (!/^#[a-f\d]{6}$/i.test(color)) return undefined;
+
   const channels = color.match(/[a-f\d]{2}/gi).map((hex) => {
     const value = parseInt(hex, 16) / 255;
+
     return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
   });
   const luminance = channels.reduce(
@@ -20,11 +22,13 @@ export function accentStyle(color) {
           .map((channel) => {
             const value = channel * scale;
             const encoded = value <= 0.0031308 ? value * 12.92 : 1.055 * value ** (1 / 2.4) - 0.055;
+
             return Math.floor(encoded * 255)
               .toString(16)
               .padStart(2, '0');
           })
           .join('');
+
   return {
     '--form-accent': color,
     '--form-button-bg': buttonColor,

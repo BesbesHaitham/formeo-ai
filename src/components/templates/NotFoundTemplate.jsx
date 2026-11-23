@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import Logo from '../molecules/Logo';
 import styles from './Templates.module.css';
+
 export default function NotFoundTemplate({ message = 'This form could not be found', className }) {
   return (
     <main id="main-content" tabIndex={-1} className={classNames(styles.center, className)}>

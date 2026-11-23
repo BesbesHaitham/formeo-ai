@@ -7,6 +7,7 @@ import Badge from '../molecules/Badge';
 import { formActions, statusLabels } from '../../content/navigation';
 import { uiContent } from '../../content/uiContent';
 import styles from './Organisms.module.css';
+
 export default function FormsGrid({
   forms,
   responses = [],
@@ -27,10 +28,12 @@ export default function FormsGrid({
         <Button onClick={onCreate}>{content.createAForm}</Button>
       </div>
     );
+
   return (
     <div className={classNames(styles.grid, className)} {...rest}>
       {forms.map((form, index) => {
         const count = responses.filter((response) => response.formId === form.id).length;
+
         return (
           <article key={form.id} className={classNames(styles.card, styles.formCard)}>
             <div className={styles.cardTop}>

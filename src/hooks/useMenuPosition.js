@@ -4,7 +4,9 @@ import { useLayoutEffect } from 'react';
 export function useMenuPosition(open, trigger, menu) {
   useLayoutEffect(() => {
     if (!open) return;
+
     const element = menu.current;
+
     function position() {
       const anchor = trigger.current.getBoundingClientRect();
       const gap = 8;
@@ -24,9 +26,11 @@ export function useMenuPosition(open, trigger, menu) {
         `${Math.max(gap, upwards ? anchor.top - Math.min(height, available) - gap : anchor.bottom + gap)}px`,
       );
     }
+
     position();
     window.addEventListener('resize', position);
     window.addEventListener('scroll', position, true);
+
     return () => {
       window.removeEventListener('resize', position);
       window.removeEventListener('scroll', position, true);

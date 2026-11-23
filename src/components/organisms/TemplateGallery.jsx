@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import styles from './Organisms.module.css';
+
 export default function TemplateGallery({
   content = uiContent.TemplateGallery,
   templates,

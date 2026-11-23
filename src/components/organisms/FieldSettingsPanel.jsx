@@ -8,6 +8,7 @@ import Select from '../atoms/Select';
 import Divider from '../atoms/Divider';
 import { fieldTypes, choiceTypes } from '../../content/fieldTypes';
 import styles from './Organisms.module.css';
+
 export default function FieldSettingsPanel({
   content = uiContent.FieldSettingsPanel,
   field,
@@ -133,8 +134,10 @@ export default function FieldSettingsPanel({
                       const validation = {
                         ...field.validation,
                       };
+
                       if (e.target.value === '') delete validation[key];
                       else validation[key] = Number(e.target.value);
+
                       onChange({
                         validation,
                       });

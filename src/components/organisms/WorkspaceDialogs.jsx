@@ -4,6 +4,7 @@ import Button from '../atoms/Button';
 import Input from '../atoms/Input';
 import FormField from '../molecules/FormField';
 import Modal from '../molecules/Modal';
+
 export default function WorkspaceDialogs({
   content = uiContent.WorkspaceDialogs,
   dialog,
@@ -13,6 +14,7 @@ export default function WorkspaceDialogs({
   ...rest
 }) {
   const [value, setValue] = useState(dialog.form.title);
+
   return (
     <Modal
       title={dialog.type === 'delete' ? content.deleteThisForm : content.renameForm}
@@ -54,6 +56,7 @@ export default function WorkspaceDialogs({
     </Modal>
   );
 }
+
 export function KeyDialog({
   content = uiContent.KeyDialog,
   onSave,
@@ -63,6 +66,7 @@ export function KeyDialog({
   ...rest
 }) {
   const [key, setKey] = useState('');
+
   return (
     <Modal title={content.title} onClose={onClose} className={className} {...rest}>
       <p>{content.description}</p>

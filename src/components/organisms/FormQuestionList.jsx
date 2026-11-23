@@ -2,6 +2,7 @@ import { formDefaults } from '../../config/appConfig';
 import { editorTabs, fieldActions } from '../../content/navigation';
 import { uiContent } from '../../content/uiContent';
 import { useEffect, useRef, useState } from 'react';
+import { useListAnimation } from '../../hooks/useListAnimation';
 import { startEditorDrag, isEditorDrag, readEditorDrag } from '../../utils/editorDrag';
 import classNames from 'classnames';
 import Button from '../atoms/Button';
@@ -13,6 +14,7 @@ import IconButton from '../molecules/IconButton';
 import FieldControl from '../molecules/FieldControl';
 import FormField from '../molecules/FormField';
 import styles from './Organisms.module.css';
+
 export default function FormQuestionList({
   actions = fieldActions,
   tabs = editorTabs,
@@ -36,11 +38,13 @@ export default function FormQuestionList({
   ...rest
 }) {
   const canvas = useRef(null);
+  const questions = useListAnimation(form.fields, tab === 'questions');
   const accent = form.appearance?.color || formDefaults.color;
   const [dropIndex, setDropIndex] = useState(null);
   useEffect(() => {
     const clear = () => setDropIndex(null);
     window.addEventListener('dragend', clear);
+
     return () => window.removeEventListener('dragend', clear);
   }, []);
   useEffect(() => {
@@ -48,29 +52,40 @@ export default function FormQuestionList({
       ?.querySelector('[data-selected="true"]')
       ?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }, [selectedId]);
+
   function dragOver(event) {
     if (!isEditorDrag(event.dataTransfer)) return;
+
     event.preventDefault();
     const card = event.target.closest('[data-question-index]');
+
     if (!card) {
       setDropIndex(form.fields.length);
+
       return;
     }
+
     const rect = card.getBoundingClientRect();
     setDropIndex(
       Number(card.dataset.questionIndex) + (event.clientY > rect.top + rect.height / 2 ? 1 : 0),
     );
   }
+
   function drop(event) {
     const payload = readEditorDrag(event.dataTransfer);
+
     if (!payload) return;
+
     event.preventDefault();
     event.stopPropagation();
     const index = dropIndex ?? form.fields.length;
+
     if (payload.kind === 'field') onAdd(payload.value, index);
     else onReorder(payload.value, index);
+
     setDropIndex(null);
   }
+
   return (
     <section
       ref={canvas}
@@ -133,10 +148,11 @@ export default function FormQuestionList({
               {form.description && <p>{form.description}</p>}
             </div>
           </div>
-          <div className={styles.questions}>
+          <div ref={questions} className={styles.questions}>
             {form.fields.map((field, index) => (
               <article
                 key={field.id}
+                data-id={field.id}
                 data-question-index={index}
                 data-selected={selectedId === field.id}
                 onClick={() => onSelect(field.id)}

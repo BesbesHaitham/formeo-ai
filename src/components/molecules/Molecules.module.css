@@ -95,8 +95,13 @@
   border-radius: var(--radius-panel);
   background: var(--surface);
   color: var(--text);
+  overflow-y: auto;
 
   font-size: var(--font-sm);
+}
+.passwordStrength[data-placement='top'] {
+  top: auto;
+  bottom: calc(100% + var(--space-2));
 }
 .strengthTrack {
   height: 5px;

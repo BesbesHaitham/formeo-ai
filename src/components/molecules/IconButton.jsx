@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import styles from './Molecules.module.css';
+
 export default function IconButton({ icon, label, variant = 'ghost', className, ...rest }) {
   return (
     <Button

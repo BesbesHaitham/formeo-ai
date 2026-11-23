@@ -9,6 +9,7 @@ import PreviewDeviceSwitch from '../molecules/PreviewDeviceSwitch';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import styles from './Organisms.module.css';
+
 export default function AppHeader({
   items = navigation,
   content = uiContent.AppHeader,
@@ -102,13 +103,8 @@ export default function AppHeader({
         )}
         {mode === 'editor' && (
           <>
-            <span
-              style={{
-                color: 'var(--muted)',
-                fontSize: 14,
-              }}
-            >
-              <Icon name={saved ? content.icons.checkcircle : 'CircleAlert'} size={15} /> &nbsp;
+            <span className={styles.saveStatus}>
+              <Icon name={saved ? content.icons.checkcircle : 'CircleAlert'} size={16} />
               <span role="status">
                 {saved ? content.allChangesSaved : content.savingUnavailable}
               </span>

@@ -2,13 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useWorkspace } from './useWorkspace';
 import { uid, validateAnswer } from '../utils/formSchema';
+
 export function useRespondent({ preview = false } = {}) {
   const { id } = useParams();
   const workspace = useWorkspace();
   const navigate = useNavigate();
   const form = workspace.forms.find((f) => f.id === id);
   const [index, setIndex] = useState(0);
-  const [previewDevice, setPreviewDevice] = useState('desktop');
   const [answers, setAnswers] = useState({});
   const [error, setError] = useState('');
   const [complete, setComplete] = useState(false);
@@ -34,30 +34,41 @@ export function useRespondent({ preview = false } = {}) {
   useEffect(() => {
     if (available) start();
   }, [available, start]);
+
   function change(value) {
     start();
     setAnswers({ ...answers, [field.id]: value });
     setError('');
   }
+
   function next() {
     if (!field || complete || submitted.current) return;
+
     start();
     const message = validateAnswer(field, answers[field.id]);
     setError(message);
+
     if (message) return;
+
     if (index < form.fields.length - 1) {
       setIndex(index + 1);
+
       return;
     }
+
     const invalidIndex = form.fields.findIndex((question) =>
       validateAnswer(question, answers[question.id]),
     );
+
     if (invalidIndex >= 0) {
       setIndex(invalidIndex);
       setError(validateAnswer(form.fields[invalidIndex], answers[form.fields[invalidIndex].id]));
+
       return;
     }
+
     submitted.current = true;
+
     if (!preview)
       workspace.send({
         type: 'submit',
@@ -71,8 +82,10 @@ export function useRespondent({ preview = false } = {}) {
           duration: Math.round((Date.now() - session.current.startedAt) / 1000),
         },
       });
+
     setComplete(true);
   }
+
   return {
     form,
     field,
@@ -81,8 +94,6 @@ export function useRespondent({ preview = false } = {}) {
     error,
     complete,
     preview,
-    previewDevice,
-    setPreviewDevice,
     saveError: workspace.saveError,
     theme: workspace.theme,
     setTheme: workspace.setTheme,

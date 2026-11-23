@@ -16,6 +16,7 @@ import {
 } from '../content/fixtures';
 import { getAnalytics } from '../utils/analytics';
 import { checkPassword, passwordMinimum } from '../utils/password';
+
 const noop = fn();
 const common = {
   create: noop,
@@ -28,7 +29,9 @@ const common = {
   query: '',
   forms: initialForms,
 };
+
 export default { title: 'Templates/Pages', parameters: { layout: 'fullscreen' } };
+
 export const Dashboard = {
   render: () => (
     <DashboardTemplate
@@ -41,6 +44,7 @@ export const Dashboard = {
     />
   ),
 };
+
 export const Generator = {
   render: () => (
     <AIGeneratorTemplate
@@ -52,6 +56,7 @@ export const Generator = {
     />
   ),
 };
+
 export const Editor = {
   render: () => (
     <FormEditorTemplate
@@ -73,6 +78,7 @@ export const Editor = {
     />
   ),
 };
+
 export const Preview = {
   args: {
     form: studentForm,
@@ -88,10 +94,13 @@ export const Preview = {
   },
   render: function PreviewStory(args) {
     const [device, setDevice] = useState(args.previewDevice);
+
     return <FormPreviewTemplate {...args} previewDevice={device} setPreviewDevice={setDevice} />;
   },
 };
+
 export const MobilePreview = { ...Preview, args: { ...Preview.args, previewDevice: 'mobile' } };
+
 export const Gallery = {
   render: () => (
     <TemplatesGalleryTemplate
@@ -102,6 +111,7 @@ export const Gallery = {
     />
   ),
 };
+
 export const Responses = {
   render: () => (
     <ResponsesTemplate
@@ -117,6 +127,7 @@ export const Responses = {
     />
   ),
 };
+
 export const Login = {
   render: () => (
     <AuthTemplate
@@ -128,6 +139,7 @@ export const Login = {
     />
   ),
 };
+
 export const Signup = {
   render: () => (
     <AuthTemplate
@@ -146,6 +158,7 @@ export const Signup = {
 export const PasswordRecovery = {
   render: () => <AuthTemplate recovery={{ email: '', setEmail: noop, submit: noop, back: noop }} />,
 };
+
 export const ResetEmailSent = {
   render: () => (
     <AuthTemplate

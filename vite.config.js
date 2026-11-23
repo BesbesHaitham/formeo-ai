@@ -19,11 +19,12 @@ export default defineConfig(({ mode }) => {
         server.middlewares.use(aiMiddleware(env.GEMINI_API_KEY, env.GEMINI_MODEL));
     },
   };
+
   return {
     plugins: [react(), ai],
     define: {
       'import.meta.env.VITE_GEMINI_MODEL': JSON.stringify(
-        env.GEMINI_MODEL || 'gemini-3.5-flash-lite',
+        env.GEMINI_MODEL || 'gemini-3.5-flash',
       ),
       'import.meta.env.VITE_AI_PROXY_ENABLED': JSON.stringify(
         String(!!env.GEMINI_API_KEY || env.VITE_USE_MOCK_API === 'true'),

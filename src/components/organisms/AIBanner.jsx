@@ -4,6 +4,7 @@ import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import IconTile from '../molecules/IconTile';
 import styles from './Organisms.module.css';
+
 export default function AIBanner({ content = uiContent.AIBanner, onGenerate, className, ...rest }) {
   return (
     <section className={classNames(styles.banner, className)} {...rest}>

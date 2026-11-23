@@ -2,6 +2,7 @@ import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
 import styles from './Templates.module.css';
 import { KeyDialog } from '../organisms/WorkspaceDialogs';
+
 export default function GlobalFeedback({
   keyDialog,
   setKeyDialog,

@@ -142,6 +142,9 @@
   width: 100%;
   max-width: 760px;
 }
+.publicRespondent {
+  min-height: 100dvh;
+}
 .respondentInner {
   container: form-preview / inline-size;
   width: 100%;

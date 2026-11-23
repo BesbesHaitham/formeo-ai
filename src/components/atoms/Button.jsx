@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import styles from './Primitives.module.css';
+
 export default function Button({
   variant = 'primary',
   size = 'md',

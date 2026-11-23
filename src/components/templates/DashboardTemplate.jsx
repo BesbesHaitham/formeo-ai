@@ -9,6 +9,7 @@ import FormsGrid from '../organisms/FormsGrid';
 import AIBanner from '../organisms/AIBanner';
 import WorkspaceDialogs from '../organisms/WorkspaceDialogs';
 import styles from './Templates.module.css';
+
 export default function DashboardTemplate({
   forms,
   total,

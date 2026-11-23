@@ -7,4 +7,5 @@ const rules = [
 ];
 
 export const checkPassword = (value) => rules.map(([id, test]) => ({ id, met: test(value) }));
+
 export const validPassword = (value) => checkPassword(value).every(({ met }) => met);

@@ -2,6 +2,7 @@ import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
 import IconTile from '../molecules/IconTile';
 import styles from './Organisms.module.css';
+
 export default function AnalyticsOverview({
   content = uiContent.AnalyticsOverview,
   analytics,
@@ -20,6 +21,7 @@ export default function AnalyticsOverview({
         : Math.floor(average / 60) + 'm ' + (average % 60) + 's',
   };
   const max = Math.max(...bars.map((b) => b.count), 1);
+
   return (
     <div className={classNames(styles.analytics, className)} {...rest}>
       <div className={styles.stats}>

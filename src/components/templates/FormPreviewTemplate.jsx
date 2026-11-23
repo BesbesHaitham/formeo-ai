@@ -6,6 +6,7 @@ import FormPreview from '../organisms/FormPreview';
 import FormProgress from '../molecules/FormProgress';
 import PhoneStatusBar from '../molecules/PhoneStatusBar';
 import styles from './Templates.module.css';
+
 export default function FormPreviewTemplate({
   form,
   field,
@@ -27,21 +28,24 @@ export default function FormPreviewTemplate({
   className,
 }) {
   const mobile = preview && previewDevice === 'mobile';
+
   return (
     <>
-      <AppHeader
-        mode={preview ? 'preview' : 'respondent'}
-        onPreview={exit}
-        previewDevice={previewDevice}
-        onPreviewDevice={setPreviewDevice}
-        theme={theme}
-        onTheme={setTheme}
-        content={uiContent.AppHeader}
-      />
+      {preview && (
+        <AppHeader
+          mode="preview"
+          onPreview={exit}
+          previewDevice={previewDevice}
+          onPreviewDevice={setPreviewDevice}
+          theme={theme}
+          onTheme={setTheme}
+          content={uiContent.AppHeader}
+        />
+      )}
       <main
         id="main-content"
         tabIndex={-1}
-        className={classNames(styles.respondent, className)}
+        className={classNames(styles.respondent, !preview && styles.publicRespondent, className)}
         style={accentStyle(form.appearance?.color)}
       >
         <div className={classNames(styles.previewViewport, mobile && styles.mobileDevice)}>

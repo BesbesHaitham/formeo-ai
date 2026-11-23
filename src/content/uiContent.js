@@ -1,4 +1,5 @@
 import { passwordMinimum } from '../utils/password';
+
 /** Configurable UI copy and icon defaults. Each section accepts a content prop. */
 export const uiContent = {
   PasswordRecoveryForm: {

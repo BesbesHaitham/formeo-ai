@@ -1,5 +1,6 @@
 import '../src/index.css';
 import { MemoryRouter } from 'react-router-dom';
+
 export default {
   globalTypes: {
     theme: { description: 'Theme', toolbar: { icon: 'paintbrush', items: ['light', 'dark'] } },

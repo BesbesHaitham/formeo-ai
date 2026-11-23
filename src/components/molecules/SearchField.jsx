@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import Input from '../atoms/Input';
 import Icon from '../atoms/Icon';
 import styles from './Molecules.module.css';
+
 export default function SearchField({
   content = uiContent.SearchField,
   className,

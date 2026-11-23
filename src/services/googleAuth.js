@@ -7,6 +7,7 @@ let client;
 export function prepareGoogleSignIn() {
   if (!appConfig.firebaseApiKey || !appConfig.firebaseAuthDomain)
     return Promise.reject(new Error('Google sign-in is not configured. Please use email sign-in.'));
+
   if (!client) {
     client = Promise.all([import('firebase/app'), import('firebase/auth')])
       .then(([app, sdk]) => {
@@ -29,6 +30,7 @@ export function prepareGoogleSignIn() {
             });
         const provider = new sdk.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
+
         return { auth, provider, signInWithPopup: sdk.signInWithPopup, signOut: sdk.signOut };
       })
       .catch((error) => {
@@ -36,6 +38,7 @@ export function prepareGoogleSignIn() {
         throw error;
       });
   }
+
   return client;
 }
 
@@ -43,8 +46,10 @@ export async function googleUser() {
   const { auth, provider, signInWithPopup, signOut } = await prepareGoogleSignIn();
   try {
     const { user } = await signInWithPopup(auth, provider);
+
     if (!user.uid || !user.email || !user.emailVerified)
       throw new Error('Google could not verify your account. Please try again.');
+
     return {
       id: user.uid,
       name: user.displayName || user.email,
@@ -73,8 +78,11 @@ export async function googleUser() {
 
 export async function mockGoogleUser() {
   if (!appConfig.useMock) throw new Error('Mock sign-in is not enabled.');
+
   const user = await request('/auth/google', { method: 'POST', body: '{}' });
+
   if (typeof user?.name !== 'string' || typeof user?.email !== 'string' || user.provider !== 'mock')
     throw new Error('The sign-in service returned an invalid account.');
+
   return user;
 }

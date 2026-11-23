@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Icon from '../atoms/Icon';
 import Text from '../atoms/Text';
 import styles from './Organisms.module.css';
+
 export default function Sidebar({
   items = navigation,
   content = uiContent.Sidebar,

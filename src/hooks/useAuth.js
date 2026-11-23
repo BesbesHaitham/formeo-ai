@@ -6,6 +6,7 @@ import { useWorkspace } from './useWorkspace';
 import { appConfig } from '../config/appConfig';
 import { googleUser, mockGoogleUser, prepareGoogleSignIn } from '../services/googleAuth';
 import { checkPassword, passwordMinimum } from '../utils/password';
+
 export function useAuth(signingUp) {
   const navigate = useNavigate();
   const { user, setUser, send } = useWorkspace();
@@ -33,6 +34,7 @@ export function useAuth(signingUp) {
   const active = useRef(true);
   useEffect(() => {
     active.current = true;
+
     if (!appConfig.useMock) {
       prepareGoogleSignIn()
         .catch(() => {})
@@ -40,6 +42,7 @@ export function useAuth(signingUp) {
           if (active.current) setPreparingGoogle(false);
         });
     }
+
     return () => {
       active.current = false;
     };
@@ -47,11 +50,13 @@ export function useAuth(signingUp) {
   const complete = useCallback(
     (account) => {
       rememberUser(account, values.remember);
+
       if (state?.create) {
         const form = state.template ? copyForm(state.template) : createForm();
         send({ type: 'add', form });
         setDestination(`/forms/${form.id}/edit`);
       }
+
       setUser(account);
     },
     [send, setUser, state, values.remember],
@@ -59,16 +64,19 @@ export function useAuth(signingUp) {
   const authenticate = useCallback(
     async (method, operation) => {
       if (busy.current) return;
+
       busy.current = true;
       setPending(method);
       setError('');
       try {
         const account = await operation();
+
         if (active.current) complete(account);
       } catch (error) {
         if (active.current) setError(error.message);
       } finally {
         busy.current = false;
+
         if (active.current) setPending('');
       }
     },
@@ -78,18 +86,25 @@ export function useAuth(signingUp) {
     setValues({ ...values, [name]: value });
     setError('');
   };
+
   function submit() {
     if (busy.current) return;
+
     if (signingUp && !values.name.trim()) {
       setError('Please enter your full name.');
+
       return;
     }
+
     if (signingUp && !values.agree) {
       setError('Please confirm the storage notice to continue.');
+
       return;
     }
+
     authenticate('password', () => (signingUp ? signup(values) : login(values)));
   }
+
   return {
     user,
     destination,

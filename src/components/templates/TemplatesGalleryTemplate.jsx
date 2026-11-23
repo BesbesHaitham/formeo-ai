@@ -9,6 +9,7 @@ import SearchField from '../molecules/SearchField';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import styles from './Templates.module.css';
+
 export default function TemplatesGalleryTemplate({
   templates,
   query,

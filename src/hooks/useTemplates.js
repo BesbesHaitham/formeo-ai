@@ -5,6 +5,7 @@ import { templateCategories } from '../content/navigation';
 import { appConfig } from '../config/appConfig';
 import { formsApi } from '../services/formsApi';
 import { validStoredForm } from '../utils/formSchema';
+
 export function useTemplates() {
   const forms = useFormActions();
   const [query, setQuery] = useState('');
@@ -12,6 +13,7 @@ export function useTemplates() {
   const [catalog, setCatalog] = useState(templates);
   useEffect(() => {
     if (!appConfig.useMock) return;
+
     let active = true;
     formsApi
       .templates()
@@ -21,10 +23,12 @@ export function useTemplates() {
       .catch(() => {
         /* Bundled templates remain available offline. */
       });
+
     return () => {
       active = false;
     };
   }, []);
+
   return {
     ...forms,
     query,

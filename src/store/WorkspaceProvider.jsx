@@ -7,9 +7,11 @@ import { formsApi } from '../services/formsApi.js';
 import { appConfig } from '../config/appConfig.js';
 import { validStoredForm } from '../utils/formSchema.js';
 import { readSession, clearSession } from '../services/authService.js';
+
 export default function WorkspaceProvider({ children }) {
   const [state, dispatch] = useReducer(workspaceReducer, null, () => {
     const saved = readWorkspace();
+
     return {
       ...(saved || { forms: initialForms, responses: initialResponses, visits: initialVisits }),
       initialized: !appConfig.useMock || saved !== null,
@@ -37,11 +39,13 @@ export default function WorkspaceProvider({ children }) {
   }, [theme]);
   useEffect(() => {
     if (state.initialized) return;
+
     let active = true;
     Promise.all([formsApi.list(), formsApi.responses('event')])
       .then(([forms, events]) => {
         if (!Array.isArray(forms) || !forms.every(validStoredForm))
           throw new Error('Invalid fixtures');
+
         if (active) dispatch({ type: 'initialize', forms, events });
       })
       .catch(() => {
@@ -52,30 +56,37 @@ export default function WorkspaceProvider({ children }) {
           );
         }
       });
+
     return () => {
       active = false;
     };
   }, [state.initialized]);
   useEffect(() => {
     if (!state.initialized) return;
+
     queueMicrotask(() => setSaveError(saveWorkspace(state)));
   }, [state]);
   useEffect(() => {
     if (!notice) return;
+
     const id = setTimeout(() => setNotice(''), 5000);
+
     return () => clearTimeout(id);
   }, [notice]);
   useEffect(() => {
     if (!saveError) return;
+
     const warn = (event) => {
       event.preventDefault();
       event.returnValue = '';
     };
     window.addEventListener('beforeunload', warn);
+
     return () => window.removeEventListener('beforeunload', warn);
   }, [saveError]);
   const send = useCallback((action) => {
     dispatch(action);
+
     if (appConfig.useMock) {
       const operation = {
         add: () => formsApi.create(action.form),
@@ -88,6 +99,7 @@ export default function WorkspaceProvider({ children }) {
       );
     }
   }, []);
+
   return (
     <WorkspaceContext.Provider
       value={{

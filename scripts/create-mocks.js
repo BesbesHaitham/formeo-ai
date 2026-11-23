@@ -6,6 +6,7 @@ import {
   templates,
   studentForm,
 } from '../src/content/fixtures.js';
+
 await mkdir('wiremock/__files', { recursive: true });
 await mkdir('wiremock/mappings', { recursive: true });
 const write = (path, data) => writeFile(path, JSON.stringify(data, null, 2) + '\n');

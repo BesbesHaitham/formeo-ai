@@ -5,8 +5,10 @@ import Input from '../atoms/Input';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import styles from './Molecules.module.css';
+
 export default function PasswordField({ content = uiContent.PasswordField, className, ...rest }) {
   const [visible, setVisible] = useState(false);
+
   return (
     <div className={classNames(styles.password, className)}>
       <Input type={visible ? 'text' : 'password'} {...rest} />

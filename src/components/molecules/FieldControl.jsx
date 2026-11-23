@@ -73,11 +73,14 @@ export default function FieldControl({
     case 'rating': {
       const activeIndex = hoveredRating?.id === id ? hoveredRating.index : options.indexOf(value);
       let caption = disabled ? '' : content.chooseRating;
+
       if (activeIndex >= 0) {
         caption = options[activeIndex];
+
         if (options.every((option, index) => option === String(index + 1)))
           caption += ` / ${options.length}`;
       }
+
       control = (
         <div className={styles.ratingControl}>
           <div
@@ -176,5 +179,6 @@ export default function FieldControl({
         />
       );
   }
+
   return <div className={classNames(styles.control, className)}>{control}</div>;
 }

@@ -54,6 +54,7 @@ import {
 } from 'lucide-react';
 import classNames from 'classnames';
 import styles from './Primitives.module.css';
+
 const icons = {
   AlignLeft,
   ArrowLeft,
@@ -108,8 +109,10 @@ const icons = {
   Users,
   X,
 };
+
 export default function Icon({ name = 'FileText', size = 19, className, ...rest }) {
   const Component = icons[name] || FileText;
+
   return (
     <Component
       size={size}

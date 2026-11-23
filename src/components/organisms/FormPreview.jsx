@@ -7,6 +7,7 @@ import IconTile from '../molecules/IconTile';
 import FieldControl from '../molecules/FieldControl';
 import { fieldTypes } from '../../content/fieldTypes';
 import styles from './Organisms.module.css';
+
 export default function FormPreview({
   content = uiContent.FormPreview,
   field,
@@ -28,6 +29,7 @@ export default function FormPreview({
   const fieldId = field?.id;
   useEffect(() => {
     if (!fieldId) return;
+
     ref.current?.parentElement?.scrollTo(0, 0);
     const target =
       ref.current?.querySelector(
@@ -35,6 +37,7 @@ export default function FormPreview({
       ) || ref.current?.querySelector('h1');
     target?.focus({ preventScroll: true });
   }, [fieldId]);
+
   if (complete)
     return (
       <section
@@ -58,6 +61,7 @@ export default function FormPreview({
         </Button>
       </section>
     );
+
   return (
     <form
       noValidate

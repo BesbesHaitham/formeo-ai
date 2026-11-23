@@ -1,5 +1,6 @@
 import { appConfig } from '../config/appConfig.js';
 import { fieldTypes } from '../content/fieldTypes.js';
+
 export const generationSchema = {
   type: 'object',
   additionalProperties: false,
@@ -41,6 +42,7 @@ export const generationSchema = {
     },
   },
 };
+
 export function createGenerationRequest(prompt, current) {
   return {
     model: appConfig.model,
@@ -65,6 +67,7 @@ const errorMessages = {
   503: 'Gemini is temporarily busy. Please try again shortly.',
   504: 'Gemini took too long to respond. Please try again with a shorter description.',
 };
+
 export function aiErrorMessage(status) {
   return errorMessages[status] || 'Gemini is temporarily unavailable. Please try again.';
 }

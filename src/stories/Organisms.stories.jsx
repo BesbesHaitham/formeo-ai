@@ -22,13 +22,18 @@ import {
 } from '../content/fixtures';
 import { getAnalytics } from '../utils/analytics';
 import { fieldTypes } from '../content/fieldTypes';
+
 export default { title: 'Organisms/Sections' };
 const noop = fn();
+
 export const Forms = {
   render: () => <FormsGrid forms={initialForms} responses={initialResponses} onAction={noop} />,
 };
+
 export const EmptyForms = { render: () => <FormsGrid forms={[]} onCreate={noop} /> };
+
 export const Templates = { render: () => <TemplateGallery templates={templates} onUse={noop} /> };
+
 export const Prompt = {
   render: () => (
     <AIFormPrompt
@@ -40,6 +45,7 @@ export const Prompt = {
     />
   ),
 };
+
 export const Generating = {
   render: () => (
     <AIFormPrompt
@@ -52,6 +58,7 @@ export const Generating = {
     />
   ),
 };
+
 export const GenerationError = {
   render: () => (
     <AIFormPrompt
@@ -64,6 +71,7 @@ export const GenerationError = {
     />
   ),
 };
+
 export const Library = {
   render: () => (
     <div style={{ width: 308 }}>
@@ -71,6 +79,7 @@ export const Library = {
     </div>
   ),
 };
+
 export const Settings = {
   render: () => (
     <div style={{ width: 330 }}>
@@ -78,6 +87,7 @@ export const Settings = {
     </div>
   ),
 };
+
 export const Canvas = {
   render: () => (
     <FormQuestionList
@@ -93,9 +103,11 @@ export const Canvas = {
     />
   ),
 };
+
 export const Preview = {
   render: () => <FormPreview field={studentForm.fields[1]} onChange={noop} onNext={noop} />,
 };
+
 export const Analytics = {
   render: () => (
     <AnalyticsOverview
@@ -104,6 +116,7 @@ export const Analytics = {
     />
   ),
 };
+
 export const Authentication = {
   render: () => (
     <AuthenticationForm
@@ -115,7 +128,9 @@ export const Authentication = {
     />
   ),
 };
+
 export const Header = { render: () => <AppHeader onCreate={noop} theme="light" onTheme={noop} /> };
+
 export const Navigation = {
   render: () => (
     <Sidebar
@@ -123,6 +138,7 @@ export const Navigation = {
     />
   ),
 };
+
 export const Responses = {
   render: () => (
     <ResponsesTable
@@ -133,6 +149,7 @@ export const Responses = {
     />
   ),
 };
+
 export const Banner = { render: () => <AIBanner onGenerate={noop} /> };
 
 export const Account = {

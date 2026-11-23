@@ -16,4 +16,5 @@ export const fieldTypes = [
   { type: 'tel', label: 'Phone', icon: 'Phone', placeholder: '+234...' },
   { type: 'rating', label: 'Rating', icon: 'Star', options: ['1', '2', '3', '4', '5'] },
 ];
+
 export const choiceTypes = ['select', 'radio', 'checkbox', 'rating'];

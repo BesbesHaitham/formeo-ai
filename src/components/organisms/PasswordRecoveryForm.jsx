@@ -26,6 +26,7 @@ export default function PasswordRecoveryForm({
   useEffect(() => {
     if (sent) title.current?.focus();
   }, [sent]);
+
   return (
     <form
       className={classNames(styles.authForm, styles.recoveryForm, className)}

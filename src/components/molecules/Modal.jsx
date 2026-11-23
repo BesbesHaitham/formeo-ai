@@ -5,6 +5,7 @@ import Heading from '../atoms/Heading';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
 import styles from './Molecules.module.css';
+
 export default function Modal({
   content = uiContent.Modal,
   title,
@@ -18,8 +19,10 @@ export default function Modal({
   useEffect(() => {
     const dialog = ref.current;
     dialog.showModal();
+
     return () => dialog.close();
   }, []);
+
   return (
     <dialog
       ref={ref}
@@ -29,6 +32,7 @@ export default function Modal({
       onClick={(event) => {
         if (event.target === ref.current) {
           const rect = ref.current.getBoundingClientRect();
+
           if (
             event.clientX < rect.left ||
             event.clientX > rect.right ||

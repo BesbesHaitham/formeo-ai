@@ -6,6 +6,7 @@ import IconTile from '../molecules/IconTile';
 import AuthenticationForm from '../organisms/AuthenticationForm';
 import PasswordRecoveryForm from '../organisms/PasswordRecoveryForm';
 import styles from './Templates.module.css';
+
 export default function AuthTemplate({
   content = uiContent.AuthTemplate,
   signingUp,

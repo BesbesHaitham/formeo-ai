@@ -12,12 +12,14 @@ export function getAnalytics(responses, visits, days = 7, now = new Date()) {
   const bars = Array.from({ length: days }, (_, i) => {
     const date = new Date(start);
     date.setDate(date.getDate() + i);
+
     return {
       label: date.toLocaleDateString('en', { weekday: 'short' }),
       count: selected.filter((r) => new Date(r.submittedAt).toDateString() === date.toDateString())
         .length,
     };
   });
+
   return {
     responses: selected.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)),
     total: selected.length,
@@ -31,16 +33,21 @@ export function getAnalytics(responses, visits, days = 7, now = new Date()) {
     bars,
   };
 }
+
 export function formatAnswer(value, empty = '—', separator = ', ') {
   if (value == null) return empty;
+
   if (Array.isArray(value)) return value.join(separator);
+
   if (typeof value === 'object') return value.name || JSON.stringify(value);
+
   return String(value);
 }
 
 export function responseDetails(response, form) {
   const labels = new Map(form.fields.map(({ id, label }) => [id, label]));
   for (const field of response.fieldSnapshot || []) labels.set(field.id, field.label);
+
   return Object.entries(response.answers).map(([id, value]) => ({
     id,
     label: labels.get(id) || id,
@@ -60,6 +67,7 @@ export function exportCsv(form, responses) {
   });
   const safe = (value) => {
     const text = formatAnswer(value, '', '; ');
+
     return `"${(/^[=+@\-\t\r]/.test(text) ? "'" + text : text).replaceAll('"', '""')}"`;
   };
   const rows = [

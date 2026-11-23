@@ -21,7 +21,9 @@ import PasswordStrength from '../components/molecules/PasswordStrength';
 import { checkPassword } from '../utils/password';
 import { uiContent } from '../content/uiContent';
 import { studentForm } from '../content/fixtures';
+
 export default { title: 'Molecules/Compositions', args: { onClick: fn(), onChange: fn() } };
+
 export const Status = {
   render: () => (
     <div style={{ display: 'flex', gap: 15 }}>
@@ -33,7 +35,9 @@ export const Status = {
     </div>
   ),
 };
+
 export const Search = { render: (args) => <SearchField {...args} /> };
+
 export const PasswordGuidance = {
   render: () => (
     <PasswordStrength
@@ -43,6 +47,7 @@ export const PasswordGuidance = {
     />
   ),
 };
+
 export const GoogleSignIn = {
   render: () => (
     <GoogleSignInButton
@@ -52,11 +57,13 @@ export const GoogleSignIn = {
     />
   ),
 };
+
 export const Field = {
   render: (args) => (
     <FormField id="story-email" label="Email address" placeholder="you@example.com" {...args} />
   ),
 };
+
 export const ValidationError = {
   render: (args) => (
     <FormField
@@ -68,26 +75,34 @@ export const ValidationError = {
     />
   ),
 };
+
 export const Password = {
   render: (args) => (
     <PasswordField aria-label="Password" placeholder="Enter your password" {...args} />
   ),
 };
+
 export const Question = {
   render: (args) => <FieldControl field={studentForm.fields[3]} {...args} />,
 };
+
 export const AddField = { render: (args) => <FieldTypeItem icon="Mail" label="Email" {...args} /> };
+
 export const Progress = {
   args: { current: 2, total: 6, title: 'Student Registration' },
   render: (args) => <FormProgress {...args} />,
 };
+
 export const Action = {
   render: (args) => <IconButton icon="Trash2" label="Delete question" {...args} />,
 };
+
 export const Brand = { render: () => <Logo /> };
+
 export const Tile = { render: () => <IconTile icon="Sparkles" /> };
 
 export const Theme = { render: () => <ThemeSwitch theme="light" onChange={fn()} /> };
+
 export const ActionMenu = {
   render: () => (
     <MenuButton label="Form actions" icon="MoreHorizontal" items={formActions} onAction={fn()} />
@@ -105,6 +120,7 @@ export const Rating = {
   },
   render: function RatingStory(args) {
     const [value, setValue] = useState(args.value);
+
     return (
       <FieldControl
         {...args}
@@ -117,6 +133,7 @@ export const Rating = {
     );
   },
 };
+
 export const CustomRating = {
   ...Rating,
   args: {
@@ -128,11 +145,13 @@ export const CustomRating = {
     }),
   },
 };
+
 export const DisabledRating = { ...Rating, args: { ...Rating.args, disabled: true, value: '3' } };
 
 export const PreviewDevices = {
   render: function PreviewDevicesStory() {
     const [device, setDevice] = useState('desktop');
+
     return <PreviewDeviceSwitch value={device} onChange={setDevice} />;
   },
 };

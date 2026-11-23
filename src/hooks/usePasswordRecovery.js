@@ -16,6 +16,7 @@ export function usePasswordRecovery() {
   const active = useRef(true);
   useEffect(() => {
     active.current = true;
+
     return () => {
       active.current = false;
     };
@@ -23,19 +24,24 @@ export function usePasswordRecovery() {
   const coolingDown = cooldown > 0;
   useEffect(() => {
     if (!coolingDown) return;
+
     const timer = setInterval(
       () => setCooldown(Math.max(0, Math.ceil((retryAt.current - Date.now()) / 1000))),
       1000,
     );
+
     return () => clearInterval(timer);
   }, [coolingDown]);
+
   async function submit() {
     if (busy.current || cooldown) return;
+
     busy.current = true;
     setLoading(true);
     setError('');
     try {
       await requestPasswordReset(email);
+
       if (active.current) {
         setSent(true);
         retryAt.current = Date.now() + 60000;
@@ -45,9 +51,11 @@ export function usePasswordRecovery() {
       if (active.current) setError(error.message);
     } finally {
       busy.current = false;
+
       if (active.current) setLoading(false);
     }
   }
+
   return {
     email,
     setEmail,

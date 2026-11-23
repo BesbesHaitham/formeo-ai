@@ -1,4 +1,5 @@
 import Select from '../components/atoms/Select';
+
 export default {
   title: 'Atoms/Select',
   component: Select,
@@ -11,5 +12,7 @@ export default {
   ),
   args: { 'aria-label': 'Select an option', children: null },
 };
+
 export const Default = {};
+
 export const Disabled = { args: { disabled: true } };

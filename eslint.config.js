@@ -17,6 +17,15 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: 'import', next: '*' },
+        { blankLine: 'any', prev: 'import', next: 'import' },
+        { blankLine: 'always', prev: '*', next: ['function', 'export', 'return', 'if'] },
+        { blankLine: 'always', prev: ['function', 'if'], next: '*' },
+      ],
+    },
   },
   {
     files: ['*.config.js', 'scripts/**/*.js', 'server/**/*.js'],

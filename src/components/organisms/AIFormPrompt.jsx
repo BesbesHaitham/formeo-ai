@@ -7,6 +7,7 @@ import Icon from '../atoms/Icon';
 import Badge from '../molecules/Badge';
 import IconTile from '../molecules/IconTile';
 import styles from './Organisms.module.css';
+
 export default function AIFormPrompt({
   content = uiContent.AIFormPrompt,
   examples = [],

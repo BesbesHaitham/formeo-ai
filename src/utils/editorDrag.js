@@ -1,4 +1,5 @@
 import { fieldTypes } from '../content/fieldTypes';
+
 const fieldType = 'application/x-formeo-field-type';
 const questionId = 'application/x-formeo-question-id';
 
@@ -14,7 +15,10 @@ export function isEditorDrag(transfer) {
 
 export function readEditorDrag(transfer) {
   const type = transfer.getData(fieldType);
+
   if (fieldTypes.some((field) => field.type === type)) return { kind: 'field', value: type };
+
   const id = transfer.getData(questionId);
+
   return id ? { kind: 'question', value: id } : null;
 }

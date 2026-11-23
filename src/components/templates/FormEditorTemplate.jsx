@@ -12,6 +12,7 @@ import Button from '../atoms/Button';
 import Textarea from '../atoms/Textarea';
 import Input from '../atoms/Input';
 import styles from './Templates.module.css';
+
 export default function FormEditorTemplate(props) {
   const {
     form,
@@ -54,6 +55,7 @@ export default function FormEditorTemplate(props) {
     setTheme,
     className,
   } = props;
+
   return (
     <>
       <AppHeader

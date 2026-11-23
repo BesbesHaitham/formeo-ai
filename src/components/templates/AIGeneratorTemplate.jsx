@@ -4,6 +4,7 @@ import AppHeader from '../organisms/AppHeader';
 import AIFormPrompt from '../organisms/AIFormPrompt';
 import { examples } from '../../content/fixtures';
 import styles from './Templates.module.css';
+
 export default function AIGeneratorTemplate({
   prompt,
   setPrompt,

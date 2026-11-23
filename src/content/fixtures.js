@@ -1,5 +1,7 @@
 import { createField, createForm } from '../utils/formSchema.js';
+
 const field = (type, label, patch = {}) => createField(type, { label, required: true, ...patch });
+
 export const studentForm = createForm({
   id: 'student-registration',
   title: 'Student Registration',
@@ -127,9 +129,11 @@ const definitions = [
     ],
   ],
 ];
+
 export const templates = definitions.map(([id, title, description, icon, category, fields]) =>
   createForm({ id, title, description, icon, category, fields }),
 );
+
 export const initialForms = ['event', 'feedback', 'job', 'course', 'contact', 'survey'].map(
   (id, i) => ({
     ...templates.find((f) => f.id === id),
@@ -142,6 +146,7 @@ export const initialForms = ['event', 'feedback', 'job', 'course', 'contact', 's
     status: [2, 5].includes(i) ? 'draft' : 'published',
   }),
 );
+
 export const initialResponses = Array.from({ length: 124 }, (_, index) => {
   const names = [
     'Amira Ben Salem',
@@ -152,6 +157,7 @@ export const initialResponses = Array.from({ length: 124 }, (_, index) => {
   ];
   const date = new Date('2026-11-19T12:00:00Z');
   date.setUTCDate(date.getUTCDate() - (index % 7));
+
   return {
     id: `sample-${index}`,
     formId: 'event',
@@ -164,6 +170,7 @@ export const initialResponses = Array.from({ length: 124 }, (_, index) => {
     fixture: true,
   };
 });
+
 export const initialVisits = Array.from({ length: 135 }, (_, i) => ({
   id: `visit-${i}`,
   formId: 'event',
@@ -171,6 +178,7 @@ export const initialVisits = Array.from({ length: 135 }, (_, i) => ({
   completed: i < 124,
   fixture: true,
 }));
+
 export const examples = [
   {
     label: 'Event registration',
