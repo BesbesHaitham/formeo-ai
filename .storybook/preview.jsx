@@ -1,5 +1,8 @@
 import '../src/index.css';
 import { MemoryRouter } from 'react-router-dom';
+import { useGlobals } from 'storybook/preview-api';
+import StoryWorkspace from './StoryWorkspace';
+import ThemeFrame from './ThemeFrame';
 
 export default {
   globalTypes: {
@@ -7,19 +10,35 @@ export default {
   },
   initialGlobals: { theme: 'light' },
   decorators: [
-    (Story, context) => (
-      <MemoryRouter>
-        <div
-          data-theme={context.globals.theme}
-          style={{ padding: 24, color: 'var(--text)', background: 'var(--bg)', minHeight: '100vh' }}
-        >
-          <Story />
-        </div>
-      </MemoryRouter>
-    ),
+    function PreviewDecorator(Story, context) {
+      const [, updateGlobals] = useGlobals();
+
+      return (
+        <MemoryRouter key={context.id} initialEntries={[context.parameters.route || '/']}>
+          <ThemeFrame
+            theme={context.globals.theme}
+            fullscreen={context.parameters.layout === 'fullscreen'}
+          >
+            {context.parameters.workspace ? (
+              <StoryWorkspace
+                key={context.id}
+                workspace={context.parameters.workspace}
+                theme={context.globals.theme}
+                setTheme={(theme) => updateGlobals({ theme })}
+              >
+                <Story />
+              </StoryWorkspace>
+            ) : (
+              <Story />
+            )}
+          </ThemeFrame>
+        </MemoryRouter>
+      );
+    },
   ],
   parameters: {
     controls: { matchers: { color: /(background|color)$/i, date: /Date$/i } },
+    options: { storySort: { order: ['Atoms', 'Molecules', 'Organisms', 'Templates', 'Pages'] } },
     a11y: { test: 'todo' },
   },
 };
