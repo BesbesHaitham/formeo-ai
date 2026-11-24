@@ -21,7 +21,7 @@ export default function ResponsesTable({
     return (
       response.answers[field?.id] ||
       (type === 'text' ? response.answers.name : response.answers.email) ||
-      '—'
+      content.emptyValue
     );
   };
 
@@ -58,7 +58,7 @@ export default function ResponsesTable({
                 <td>{String(find(response, 'text'))}</td>
                 <td>{String(find(response, 'email'))}</td>
                 <td>
-                  {new Date(response.submittedAt).toLocaleDateString('en-US', {
+                  {new Date(response.submittedAt).toLocaleDateString(content.locale, {
                     month: 'short',
                     day: 'numeric',
                     year: 'numeric',

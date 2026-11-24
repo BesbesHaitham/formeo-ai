@@ -19,6 +19,9 @@ export function prepareGoogleSignIn() {
               apiKey: appConfig.firebaseApiKey,
               authDomain: appConfig.firebaseAuthDomain,
               projectId: appConfig.firebaseProjectId,
+              storageBucket: appConfig.firebaseStorageBucket,
+              messagingSenderId: appConfig.firebaseMessagingSenderId,
+              appId: appConfig.firebaseAppId,
             },
             'formeo-google',
           );

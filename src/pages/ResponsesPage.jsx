@@ -1,10 +1,11 @@
+import { uiContent } from '../content/uiContent';
 import { useState } from 'react';
 import { useFormResponses } from '../hooks/useFormResponses';
 import { useFormActions } from '../hooks/useFormActions';
 import ResponsesTemplate from '../components/templates/ResponsesTemplate';
 import NotFoundTemplate from '../components/templates/NotFoundTemplate';
 
-export default function ResponsesPage() {
+export default function ResponsesPage({ content = uiContent.ResponsesPage } = {}) {
   const [showAll, setShowAll] = useState(false);
   const responses = useFormResponses();
   const { create } = useFormActions();
@@ -17,6 +18,6 @@ export default function ResponsesPage() {
       onCreate={() => create()}
     />
   ) : (
-    <NotFoundTemplate message="Create a form to start collecting responses" />
+    <NotFoundTemplate message={content.empty} />
   );
 }

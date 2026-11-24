@@ -2,6 +2,7 @@ import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
 import Text from '../atoms/Text';
 import styles from './Molecules.module.css';
+import { useCssVariables } from '../../hooks/useCssVariables';
 
 export default function FormProgress({
   content = uiContent.FormProgress,
@@ -12,9 +13,10 @@ export default function FormProgress({
   ...rest
 }) {
   const progress = total ? (current / total) * 100 : 0;
+  const progressRef = useCssVariables({ '--progress-value': progress });
 
   return (
-    <div className={classNames(styles.progress, className)} {...rest}>
+    <div ref={progressRef} className={classNames(styles.progress, className)} {...rest}>
       <header>
         <Text>{title}</Text>
         <Text>
@@ -32,11 +34,7 @@ export default function FormProgress({
         aria-valuemax={total}
         aria-label={content.formProgress}
       >
-        <span
-          style={{
-            width: `${progress}%`,
-          }}
-        />
+        <span />
       </div>
     </div>
   );

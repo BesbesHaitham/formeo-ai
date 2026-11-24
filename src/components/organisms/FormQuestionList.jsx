@@ -111,11 +111,7 @@ export default function FormQuestionList({
         <small className={styles.questionCount} role="status">
           {form.fields.length} {content.questionsLabel}
         </small>
-        <span
-          style={{
-            flex: 1,
-          }}
-        />
+        <span className={styles.tabSpacer} />
         <IconButton
           label={content.undo}
           icon={content.icons.undo2}
@@ -163,7 +159,7 @@ export default function FormQuestionList({
                     onSelect(field.id);
                   }
                 }}
-                aria-label={`Edit ${field.label}`}
+                aria-label={content.editQuestion(field.label)}
                 className={classNames(
                   styles.question,
                   selectedId === field.id && styles.questionSelected,
@@ -172,7 +168,7 @@ export default function FormQuestionList({
               >
                 <header>
                   <label>
-                    {field.label} {field.required && <em>*</em>}
+                    {field.label} {field.required && <em>{content.requiredMark}</em>}
                   </label>
                   <div className={styles.questionActions}>
                     {actions.map(({ name: action, icon, label }) => (
@@ -220,14 +216,7 @@ export default function FormQuestionList({
             <Icon name={content.icons.plus} size={17} />
             {content.addQuestion}
           </Button>
-          <Button
-            variant="link"
-            size="sm"
-            style={{
-              marginTop: 15,
-            }}
-            onClick={onRefine}
-          >
+          <Button variant="link" size="sm" className={styles.refineAction} onClick={onRefine}>
             <Icon name={content.icons.sparkles} size={16} />
             {content.refineWithAi}
           </Button>
@@ -257,13 +246,7 @@ export default function FormQuestionList({
       {tab === 'settings' && (
         <div className={styles.settings}>
           <h2>{content.formSettings}</h2>
-          <p
-            style={{
-              color: 'var(--muted)',
-            }}
-          >
-            {content.settingsDescription}
-          </p>
+          <p className={styles.settingsDescription}>{content.settingsDescription}</p>
           <FormField
             id="settings-title"
             label={content.formTitle}

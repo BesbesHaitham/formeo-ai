@@ -30,7 +30,8 @@ export default function WorkspaceDialogs({
       >
         {dialog.type === 'delete' ? (
           <p>
-            “{dialog.form.title}
+            {content.openingQuote}
+            {dialog.form.title}
             {content.deleteSuffix}
           </p>
         ) : (

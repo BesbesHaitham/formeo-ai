@@ -31,18 +31,13 @@ export default function FormsGrid({
 
   return (
     <div className={classNames(styles.grid, className)} {...rest}>
-      {forms.map((form, index) => {
+      {forms.map((form) => {
         const count = responses.filter((response) => response.formId === form.id).length;
 
         return (
           <article key={form.id} className={classNames(styles.card, styles.formCard)}>
             <div className={styles.cardTop}>
-              <IconTile
-                icon={form.icon || content.icons.filetext}
-                style={{
-                  color: `var(--card-accent-${index % 4})`,
-                }}
-              />
+              <IconTile icon={form.icon || content.icons.filetext} className={styles.formIcon} />
               <MenuButton
                 label={`${content.actionsLabel} ${form.title}`}
                 icon={content.icons.morehorizontal}

@@ -13,25 +13,16 @@ export default function TemplateGallery({
 }) {
   return (
     <div className={classNames(styles.grid, styles.templateGrid, className)} {...rest}>
-      {templates.map((template, i) => (
+      {templates.map((template) => (
         <article key={template.id} className={classNames(styles.card, styles.templateCard)}>
           <div className={styles.thumbnail} aria-hidden="true">
-            <div
-              className={styles.miniForm}
-              style={{
-                color: `var(--template-accent-${i % 4})`,
-              }}
-            >
+            <div className={styles.miniForm}>
               <div>
                 <Icon name={template.icon} size={16} />
                 <i />
               </div>
               <i />
-              <i
-                style={{
-                  width: '75%',
-                }}
-              />
+              <i className={styles.thumbnailShortLine} />
               <i />
             </div>
           </div>

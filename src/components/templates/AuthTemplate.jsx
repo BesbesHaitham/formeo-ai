@@ -32,11 +32,7 @@ export default function AuthTemplate({
               <h3>{content.exampleTitle}</h3>
             </header>
             <i />
-            <i
-              style={{
-                width: '87%',
-              }}
-            />
+            <i className={styles.authPreviewLine} />
             <i />
           </div>
           <IconTile icon="Sparkles" className={styles.artSparkle} />

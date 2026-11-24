@@ -40,13 +40,7 @@ export default function FormPreview({
 
   if (complete)
     return (
-      <section
-        className={classNames(styles.preview, className)}
-        style={{
-          textAlign: 'center',
-        }}
-        {...rest}
-      >
+      <section className={classNames(styles.preview, styles.previewComplete, className)} {...rest}>
         <IconTile icon={content.icons.checkcircle} />
         <h1>{content.completeTitle}</h1>
         <p>
@@ -82,7 +76,7 @@ export default function FormPreview({
         {field.required && (
           <span className={styles.requiredMark} aria-hidden="true">
             {' '}
-            *
+            {content.requiredMark}
           </span>
         )}
       </h1>
@@ -94,15 +88,7 @@ export default function FormPreview({
         aria-invalid={!!error}
         aria-describedby={error ? 'answer-error' : ''}
       />
-      {field.type === 'file' && (
-        <small
-          style={{
-            color: 'var(--muted)',
-          }}
-        >
-          {content.fileHint}
-        </small>
-      )}
+      {field.type === 'file' && <small className={styles.fileHint}>{content.fileHint}</small>}
       {error && (
         <p id="answer-error" className={styles.error} role="alert">
           {error}

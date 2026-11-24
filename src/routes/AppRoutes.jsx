@@ -10,6 +10,7 @@ import ResponsesPage from '../pages/ResponsesPage';
 import AuthPage from '../pages/AuthPage';
 import PasswordRecoveryPage from '../pages/PasswordRecoveryPage';
 import NotFoundTemplate from '../components/templates/NotFoundTemplate';
+import { uiContent } from '../content/uiContent';
 
 function RequireAuth() {
   const { user } = useWorkspace();
@@ -43,7 +44,10 @@ export default function AppRoutes() {
       <Route path="/login" element={<AuthPage key="login" />} />
       <Route path="/signup" element={<AuthPage key="signup" signingUp />} />
       <Route path="/forgot-password" element={<PasswordRecoveryPage />} />
-      <Route path="*" element={<NotFoundTemplate message="Page not found" />} />
+      <Route
+        path="*"
+        element={<NotFoundTemplate message={uiContent.NotFoundTemplate.pageNotFound} />}
+      />
     </Routes>
   );
 }

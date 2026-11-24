@@ -696,6 +696,7 @@
   color: var(--muted);
 }
 .barColumn span {
+  height: calc(var(--bar-value, 0) * 90%);
   display: block;
   background: #b1a5f5;
   width: min(51px, 85%);
@@ -713,6 +714,7 @@
   min-height: 190px;
 }
 .donut {
+  background: conic-gradient(var(--primary) calc(var(--completion-value, 0) * 1%), var(--soft) 0);
   width: 150px;
   height: 150px;
   border-radius: 50%;
@@ -1305,4 +1307,57 @@
   .previewFooter > button {
     padding-inline: 8px;
   }
+}
+
+.generationStep {
+  color: var(--muted);
+  font-size: 14px;
+}
+.advancedSummary {
+  color: var(--muted);
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+.previewComplete {
+  text-align: center;
+}
+.fileHint {
+  color: var(--muted);
+}
+.tabSpacer {
+  flex: 1;
+}
+.refineAction {
+  margin-top: 15px;
+}
+.settingsDescription {
+  color: var(--muted);
+}
+.miniForm .thumbnailShortLine {
+  width: 75%;
+}
+
+.formCard:nth-child(4n + 1) .formIcon {
+  color: var(--card-accent-0);
+}
+.formCard:nth-child(4n + 2) .formIcon {
+  color: var(--card-accent-1);
+}
+.formCard:nth-child(4n + 3) .formIcon {
+  color: var(--card-accent-2);
+}
+.formCard:nth-child(4n + 4) .formIcon {
+  color: var(--card-accent-3);
+}
+.templateCard:nth-child(4n + 1) .miniForm {
+  color: var(--template-accent-0);
+}
+.templateCard:nth-child(4n + 2) .miniForm {
+  color: var(--template-accent-1);
+}
+.templateCard:nth-child(4n + 3) .miniForm {
+  color: var(--template-accent-2);
+}
+.templateCard:nth-child(4n + 4) .miniForm {
+  color: var(--template-accent-3);
 }

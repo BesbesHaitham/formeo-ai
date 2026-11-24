@@ -11,6 +11,7 @@ import WorkspaceDialogs from '../organisms/WorkspaceDialogs';
 import styles from './Templates.module.css';
 
 export default function DashboardTemplate({
+  content = uiContent.DashboardTemplate,
   forms,
   total,
   responses,
@@ -53,35 +54,38 @@ export default function DashboardTemplate({
         <main id="main-content" tabIndex={-1} className={classNames(styles.main, className)}>
           <div className={styles.titleRow}>
             <div>
-              <p className={styles.eyebrow}>Your workspace</p>
-              <h1>My forms</h1>
-              <p className={styles.subtitle}>
-                Everything you need to create, share and manage beautiful forms.
-              </p>
+              <p className={styles.eyebrow}>{content.eyebrow}</p>
+              <h1>{content.title}</h1>
+              <p className={styles.subtitle}>{content.description}</p>
             </div>
           </div>
           <AIBanner onGenerate={() => navigate('/generate')} content={uiContent.AIBanner} />
           <div className={styles.toolbar}>
             <div>
               <h2>
-                All forms <small>({total})</small>
+                {content.formsTitle}{' '}
+                <small>
+                  {content.countStart}
+                  {total}
+                  {content.countEnd}
+                </small>
               </h2>
-              <small>Your recent work, ready to edit and share</small>
+              <small>{content.recentDescription}</small>
             </div>
             <SearchField
-              placeholder="Search forms"
+              placeholder={content.searchPlaceholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               content={uiContent.SearchField}
             />
             <Select
-              aria-label="Filter forms by status"
+              aria-label={content.statusLabel}
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="all">All statuses</option>
-              <option value="published">Published</option>
-              <option value="draft">Drafts</option>
+              <option value="all">{content.allStatuses}</option>
+              <option value="published">{content.published}</option>
+              <option value="draft">{content.drafts}</option>
             </Select>
           </div>
           {initialized ? (
@@ -93,7 +97,7 @@ export default function DashboardTemplate({
               content={uiContent.FormsGrid}
             />
           ) : (
-            <p role="status">Loading your workspace…</p>
+            <p role="status">{content.loading}</p>
           )}
         </main>
       </div>

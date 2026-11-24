@@ -15,6 +15,7 @@ import styles from './Templates.module.css';
 
 export default function FormEditorTemplate(props) {
   const {
+    content = uiContent.FormEditorTemplate,
     form,
     selected,
     selectedId,
@@ -102,46 +103,35 @@ export default function FormEditorTemplate(props) {
       </main>
       {publishOpen && (
         <Modal
-          title="Your form is published"
+          title={content.publishedTitle}
           onClose={() => setPublishOpen(false)}
           content={uiContent.Modal}
         >
-          <p>
-            Your form is ready to receive responses on this device. Open it here or copy the link
-            for use in this browser.
-          </p>
-          <Input aria-label="Form link" readOnly value={localUrl} />
+          <p>{content.publishedDescription}</p>
+          <Input aria-label={content.formLink} readOnly value={localUrl} />
           <footer>
             <Button variant="secondary" onClick={copyLink}>
-              Copy link
+              {content.copyLink}
             </Button>
-            <Button onClick={openForm}>Open form</Button>
+            <Button onClick={openForm}>{content.openForm}</Button>
           </footer>
         </Modal>
       )}
       {refineOpen && (
         <Modal
-          title={proposal ? 'Review AI changes' : 'Refine your form with AI'}
+          title={proposal ? content.reviewTitle : content.refineTitle}
           onClose={() => setRefineOpen(false)}
           content={uiContent.Modal}
         >
           {error && (
-            <p
-              role="alert"
-              style={{
-                color: 'var(--danger)',
-              }}
-            >
+            <p role="alert" className={styles.refineError}>
               {error}
             </p>
           )}
 
           {proposal ? (
             <>
-              <p>
-                Review the proposed questions before applying. Your saved form remains unchanged
-                until you apply.
-              </p>
+              <p>{content.reviewDescription}</p>
               <h3>{proposal.title}</h3>
               <p>{proposal.description}</p>
               <ol>
@@ -150,36 +140,22 @@ export default function FormEditorTemplate(props) {
                     {f.label}{' '}
                     <Badge>
                       {f.type}
-                      {f.required ? ' · required' : ''}
+                      {f.required ? content.requiredSuffix : ''}
                     </Badge>
                     {f.options?.length > 0 && (
-                      <small
-                        style={{
-                          display: 'block',
-                          color: 'var(--muted)',
-                        }}
-                      >
-                        {f.options.join(' · ')}
+                      <small className={styles.proposalDetail}>
+                        {f.options.join(content.optionSeparator)}
                       </small>
                     )}
-                    {f.helpText && (
-                      <small
-                        style={{
-                          display: 'block',
-                          color: 'var(--muted)',
-                        }}
-                      >
-                        {f.helpText}
-                      </small>
-                    )}
+                    {f.helpText && <small className={styles.proposalDetail}>{f.helpText}</small>}
                   </li>
                 ))}
               </ol>
               <footer>
                 <Button variant="secondary" onClick={discardProposal}>
-                  Discard
+                  {content.discard}
                 </Button>
-                <Button onClick={applyProposal}>Apply changes</Button>
+                <Button onClick={applyProposal}>{content.applyChanges}</Button>
               </footer>
             </>
           ) : (
@@ -189,11 +165,8 @@ export default function FormEditorTemplate(props) {
                 refine();
               }}
             >
-              <p>
-                Describe a change, such as “Make phone optional” or “Translate all questions into
-                French”.
-              </p>
-              <FormField id="refine" label="Requested changes">
+              <p>{content.refineDescription}</p>
+              <FormField id="refine" label={content.requestedChanges}>
                 <Textarea
                   id="refine"
                   required
@@ -204,11 +177,11 @@ export default function FormEditorTemplate(props) {
               <footer>
                 {!aiReady && (
                   <Button variant="secondary" onClick={() => setKeyDialog(true)}>
-                    Configure Gemini
+                    {content.configureGemini}
                   </Button>
                 )}
                 <Button type="submit" loading={loading} disabled={!aiReady || !refinePrompt.trim()}>
-                  Preview changes
+                  {content.previewChanges}
                 </Button>
               </footer>
             </form>

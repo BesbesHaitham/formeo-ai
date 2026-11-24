@@ -1,6 +1,6 @@
 /** Keep form accents separate from brand/focus colors, with readable white button text. */
-export function accentStyle(color) {
-  if (!/^#[a-f\d]{6}$/i.test(color)) return undefined;
+export function accentVariables(color) {
+  if (!/^#[a-f\d]{6}$/i.test(color)) return {};
 
   const channels = color.match(/[a-f\d]{2}/gi).map((hex) => {
     const value = parseInt(hex, 16) / 255;
@@ -32,7 +32,5 @@ export function accentStyle(color) {
   return {
     '--form-accent': color,
     '--form-button-bg': buttonColor,
-    '--form-button-hover': `color-mix(in srgb, ${buttonColor} 90%, #000)`,
-    '--on-form-button': '#fff',
   };
 }

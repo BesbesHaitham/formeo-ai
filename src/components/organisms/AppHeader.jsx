@@ -97,9 +97,7 @@ export default function AppHeader({
           </>
         )}
         {mode === 'generator' && (
-          <span style={{ color: 'var(--muted)', fontSize: 14 }}>
-            {content.step1Of2DescribeYourForm}
-          </span>
+          <span className={styles.generationStep}>{content.step1Of2DescribeYourForm}</span>
         )}
         {mode === 'editor' && (
           <>

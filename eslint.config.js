@@ -28,6 +28,27 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/components/{atoms,molecules,organisms,templates}/**/*.jsx', 'src/pages/**/*.jsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'JSXAttribute[name.name="style"]',
+          message: 'Keep presentation in CSS modules; use CSS custom properties for runtime data.',
+        },
+        {
+          selector: 'JSXText[value=/\\S/]',
+          message: 'Read UI text from the component content contract in src/content/uiContent.js.',
+        },
+        {
+          selector:
+            'JSXAttribute[name.name=/^(label|title|placeholder|message|aria-label)$/] > Literal[value=/\\S/]',
+          message: 'Read user-facing labels and messages from src/content/uiContent.js.',
+        },
+      ],
+    },
+  },
+  {
     files: ['*.config.js', 'scripts/**/*.js', 'server/**/*.js'],
     languageOptions: { globals: globals.node },
   },

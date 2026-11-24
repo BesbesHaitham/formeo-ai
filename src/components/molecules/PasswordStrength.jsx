@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import { useLayoutEffect, useRef } from 'react';
 import styles from './Molecules.module.css';
+import { useCssVariables } from '../../hooks/useCssVariables';
+import { setCssVariables } from '../../utils/cssVariables';
 
 export default function PasswordStrength({ checks, content, className, ...rest }) {
   const panel = useRef(null);
@@ -10,12 +12,15 @@ export default function PasswordStrength({ checks, content, className, ...rest }
 
     function position() {
       const { top, bottom } = anchor.getBoundingClientRect();
-      const gap = 8;
+      const gap =
+        parseFloat(getComputedStyle(element).getPropertyValue('--password-panel-gap')) || 0;
       const below = window.innerHeight - bottom - gap * 2;
       const above = top - gap * 2;
       const upwards = below < element.scrollHeight && above > below;
       element.dataset.placement = upwards ? 'top' : 'bottom';
-      element.style.maxHeight = `${Math.max(0, upwards ? above : below)}px`;
+      setCssVariables(element, {
+        '--password-available-height': `${Math.max(0, upwards ? above : below)}px`,
+      });
     }
 
     position();
@@ -30,6 +35,7 @@ export default function PasswordStrength({ checks, content, className, ...rest }
     };
   }, []);
   const score = checks.filter(({ met }) => met).length;
+  const strengthRef = useCssVariables({ '--strength-value': (score / checks.length) * 100 });
   const strength = score === checks.length ? 'strong' : score >= 3 ? 'fair' : 'weak';
 
   return (
@@ -37,6 +43,7 @@ export default function PasswordStrength({ checks, content, className, ...rest }
       <p>{content.title}</p>
       <div
         className={styles.strengthTrack}
+        ref={strengthRef}
         role="meter"
         aria-label={content.meterLabel}
         aria-valuemin={0}
@@ -45,7 +52,7 @@ export default function PasswordStrength({ checks, content, className, ...rest }
         aria-valuetext={content.levels[strength]}
         data-strength={strength}
       >
-        <span style={{ width: `${(score / checks.length) * 100}%` }} />
+        <span />
       </div>
       <strong aria-live="polite">{content.levels[strength]}</strong>
       <p>{content.requirementsTitle}</p>
@@ -56,7 +63,7 @@ export default function PasswordStrength({ checks, content, className, ...rest }
             className={classNames(met && styles.requirementMet)}
             aria-label={`${content.requirements[id]}: ${met ? content.met : content.unmet}`}
           >
-            <span aria-hidden="true">{met ? '✓' : '•'}</span>
+            <span aria-hidden="true">{met ? content.metSymbol : content.unmetSymbol}</span>
             {content.requirements[id]}
           </li>
         ))}

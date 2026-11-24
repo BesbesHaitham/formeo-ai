@@ -86,8 +86,10 @@
   position: relative;
 }
 .passwordStrength {
+  --password-panel-gap: var(--space-2);
+  max-height: var(--password-available-height, none);
   position: absolute;
-  top: calc(100% + var(--space-2));
+  top: calc(100% + var(--password-panel-gap));
   inset-inline: 0;
   z-index: 10;
   padding: var(--space-4);
@@ -101,7 +103,7 @@
 }
 .passwordStrength[data-placement='top'] {
   top: auto;
-  bottom: calc(100% + var(--space-2));
+  bottom: calc(100% + var(--password-panel-gap));
 }
 .strengthTrack {
   height: 5px;
@@ -111,6 +113,7 @@
   background: var(--border);
 }
 .strengthTrack > span {
+  width: calc(var(--strength-value, 0) * 1%);
   display: block;
   height: 100%;
   background: var(--danger);
@@ -221,6 +224,7 @@
   overflow: hidden;
 }
 .track span {
+  width: calc(var(--progress-value, 0) * 1%);
   display: block;
   height: 100%;
   background: var(--form-accent, var(--primary));

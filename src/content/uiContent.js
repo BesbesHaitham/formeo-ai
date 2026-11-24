@@ -3,6 +3,7 @@ import { passwordMinimum } from '../utils/password';
 /** Configurable UI copy and icon defaults. Each section accepts a content prop. */
 export const uiContent = {
   PasswordRecoveryForm: {
+    secondsUnit: 's',
     requestIcon: 'KeyRound',
     sentIcon: 'Mail',
     title: 'Forgot your password?',
@@ -35,6 +36,7 @@ export const uiContent = {
     exampleTitle: 'Student registration',
   },
   FieldControl: {
+    ratingTotal: (total) => ` / ${total}`,
     chooseOption: 'Choose an option',
     chooseFile: 'Click to choose a file',
     uploadIcon: 'Upload',
@@ -74,6 +76,8 @@ export const uiContent = {
     },
   },
   PasswordStrength: {
+    metSymbol: '✓',
+    unmetSymbol: '•',
     title: 'Choose a password',
     meterLabel: 'Password strength',
     requirementsTitle: 'Password requirements',
@@ -128,8 +132,14 @@ export const uiContent = {
       arrowright: 'ArrowRight',
       squarecheck: 'SquareCheck',
     },
+
+    countSeparator: ' / ',
+    separator: '·',
   },
   AnalyticsOverview: {
+    percent: (value) => `${value}%`,
+    duration: (seconds) => `${Math.floor(seconds / 60)}m ${seconds % 60}s`,
+    responseCount: (count) => `${count} responses`,
     emptyValue: '\u2014',
     metrics: [
       {
@@ -258,8 +268,11 @@ export const uiContent = {
       arrowleft: 'ArrowLeft',
       arrowright: 'ArrowRight',
     },
+
+    requiredMark: '*',
   },
   FormQuestionList: {
+    editQuestion: (label) => `Edit ${label}`,
     questionsLabel: 'questions',
     editSelected: 'Question settings',
     dragQuestion: 'Drag to reorder question',
@@ -285,6 +298,8 @@ export const uiContent = {
       plus: 'Plus',
       sparkles: 'Sparkles',
     },
+
+    requiredMark: '*',
   },
   FormsGrid: {
     actionsLabel: 'Actions for',
@@ -299,6 +314,8 @@ export const uiContent = {
     },
   },
   ResponsesTable: {
+    emptyValue: '—',
+    locale: 'en-US',
     recentResponses: 'Recent responses',
     showRecentResponses: 'Show recent responses',
     viewAllResponses: 'View all responses',
@@ -334,6 +351,8 @@ export const uiContent = {
     cancel: 'Cancel',
     deleteForm: 'Delete form',
     saveName: 'Save name',
+
+    openingQuote: '“',
   },
   KeyDialog: {
     title: 'Connect Gemini',
@@ -343,5 +362,97 @@ export const uiContent = {
     enterYourApiKey: 'Enter your API key',
     disconnect: 'Disconnect',
     useForThisSession: 'Use for this session',
+  },
+
+  TemplatesGalleryTemplate: {
+    eyebrow: 'Quick start',
+    title: 'Form templates',
+    description: 'Start with a proven layout, then make it your own.',
+    generateWithAi: 'Generate with AI',
+    searchPlaceholder: 'Search templates...',
+    empty: 'No templates match your search.',
+  },
+
+  ResponsesTemplate: {
+    published: 'Published',
+    draft: 'Draft',
+    exampleResponse: ' · Example response',
+    submittedResponse: ' · Submitted response',
+    title: 'Responses & insights',
+    description: 'Understand how people interact with your form.',
+    exportCsv: 'Export CSV',
+    chooseForm: 'Choose form responses',
+    dateRange: 'Date range',
+    lastWeek: 'Last 7 days',
+    lastMonth: 'Last 30 days',
+    responseDetails: 'Response details',
+  },
+
+  NotFoundTemplate: {
+    pageNotFound: 'Page not found',
+    message: 'This form could not be found',
+    description:
+      'This form may be unavailable or unpublished. Check the link, or return to your workspace.',
+    backToForms: '← Back to forms',
+  },
+
+  FormPreviewTemplate: {
+    poweredBy: 'Powered by',
+    brand: 'Formeo AI',
+  },
+
+  FormEditorTemplate: {
+    reviewTitle: 'Review AI changes',
+    refineTitle: 'Refine your form with AI',
+    requiredSuffix: ' · required',
+    optionSeparator: ' · ',
+    publishedTitle: 'Your form is published',
+    publishedDescription:
+      'Your form is ready to receive responses on this device. Open it here or copy the link for use in this browser.',
+    formLink: 'Form link',
+    copyLink: 'Copy link',
+    openForm: 'Open form',
+    reviewDescription:
+      'Review the proposed questions before applying. Your saved form remains unchanged until you apply.',
+    discard: 'Discard',
+    applyChanges: 'Apply changes',
+    refineDescription:
+      'Describe a change, such as “Make phone optional” or “Translate all questions into French”.',
+    requestedChanges: 'Requested changes',
+    configureGemini: 'Configure Gemini',
+    previewChanges: 'Preview changes',
+  },
+
+  DashboardTemplate: {
+    eyebrow: 'Your workspace',
+    title: 'My forms',
+    description: 'Everything you need to create, share and manage beautiful forms.',
+    formsTitle: 'All forms',
+    countStart: '(',
+    countEnd: ')',
+    recentDescription: 'Your recent work, ready to edit and share',
+    searchPlaceholder: 'Search forms',
+    statusLabel: 'Filter forms by status',
+    allStatuses: 'All statuses',
+    published: 'Published',
+    drafts: 'Drafts',
+    loading: 'Loading your workspace…',
+  },
+
+  FieldTypeItem: {
+    addSymbol: '+',
+  },
+
+  Spinner: {
+    loading: 'Loading',
+  },
+
+  ResponsesPage: {
+    empty: 'Create a form to start collecting responses',
+  },
+
+  PreviewPage: {
+    unavailable: 'This form is not available',
+    emptyForm: 'Add a question before previewing',
   },
 };

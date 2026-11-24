@@ -13,6 +13,7 @@ import Icon from '../atoms/Icon';
 import styles from './Templates.module.css';
 
 export default function ResponsesTemplate({
+  content = uiContent.ResponsesTemplate,
   form,
   forms,
   analytics,
@@ -54,28 +55,22 @@ export default function ResponsesTemplate({
         <main id="main-content" tabIndex={-1} className={classNames(styles.main, className)}>
           <div className={styles.titleRow}>
             <div>
-              <h1>Responses &amp; insights</h1>
-              <p className={styles.subtitle}>Understand how people interact with your form.</p>
+              <h1>{content.title}</h1>
+              <p className={styles.subtitle}>{content.description}</p>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-              }}
-            >
+            <div className={styles.responseActions}>
               <Badge variant={form.status === 'published' ? 'success' : 'neutral'}>
-                {form.status === 'published' ? 'Published' : 'Draft'}
+                {form.status === 'published' ? content.published : content.draft}
               </Badge>
               <Button variant="secondary" size="sm" onClick={exportCsv}>
                 <Icon name="Download" size={16} />
-                Export CSV
+                {content.exportCsv}
               </Button>
             </div>
           </div>
           <div className={styles.responseControls}>
             <Select
-              aria-label="Choose form responses"
+              aria-label={content.chooseForm}
               value={form.id}
               onChange={(e) => navigate(`/responses/${e.target.value}`)}
             >
@@ -86,12 +81,12 @@ export default function ResponsesTemplate({
               ))}
             </Select>
             <Select
-              aria-label="Date range"
+              aria-label={content.dateRange}
               value={days}
               onChange={(e) => setDays(Number(e.target.value))}
             >
-              <option value={7}>Last 7 days</option>
-              <option value={30}>Last 30 days</option>
+              <option value={7}>{content.lastWeek}</option>
+              <option value={30}>{content.lastMonth}</option>
             </Select>
           </div>
           <AnalyticsOverview
@@ -110,34 +105,20 @@ export default function ResponsesTemplate({
         </main>
       </div>
       {selected && (
-        <Modal title="Response details" onClose={() => setSelected(null)} content={uiContent.Modal}>
+        <Modal
+          title={content.responseDetails}
+          onClose={() => setSelected(null)}
+          content={uiContent.Modal}
+        >
           <p>
             {new Date(selected.submittedAt).toLocaleString()}
-            {selected.fixture ? ' · Example response' : ' · Submitted response'}
+            {selected.fixture ? content.exampleResponse : content.submittedResponse}
           </p>
           <dl>
             {details.map(({ id, label, value }) => (
-              <div
-                key={id}
-                style={{
-                  marginBottom: 18,
-                }}
-              >
-                <dt
-                  style={{
-                    fontWeight: 650,
-                  }}
-                >
-                  {label}
-                </dt>
-                <dd
-                  style={{
-                    margin: '4px 0',
-                    color: 'var(--muted)',
-                  }}
-                >
-                  {value}
-                </dd>
+              <div key={id} className={styles.responseDetail}>
+                <dt className={styles.responseLabel}>{label}</dt>
+                <dd className={styles.responseValue}>{value}</dd>
               </div>
             ))}
           </dl>

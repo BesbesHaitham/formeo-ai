@@ -52,7 +52,7 @@ export default function PasswordRecoveryForm({
           <div className={styles.recoveryResend}>
             <span>{content.noEmail}</span>
             <Button variant="link" onClick={submit} loading={loading} disabled={cooldown > 0}>
-              {cooldown ? `${content.resendIn} ${cooldown}s` : content.resend}
+              {cooldown ? `${content.resendIn} ${cooldown}${content.secondsUnit}` : content.resend}
             </Button>
           </div>
         </>

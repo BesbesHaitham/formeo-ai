@@ -85,15 +85,7 @@ export default function FieldSettingsPanel({
             </FormField>
           )}
           <details>
-            <summary
-              style={{
-                color: 'var(--muted)',
-                cursor: 'pointer',
-                marginBottom: 15,
-              }}
-            >
-              {content.advancedSettings}
-            </summary>
+            <summary className={styles.advancedSummary}>{content.advancedSettings}</summary>
             <div className={styles.settings}>
               <FormField id="field-type" label={content.fieldType}>
                 <Select

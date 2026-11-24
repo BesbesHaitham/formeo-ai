@@ -129,6 +129,8 @@
   height: calc(100dvh - var(--header-height));
 }
 .respondent {
+  --form-button-hover: color-mix(in srgb, var(--form-button-bg, var(--primary)) 90%, #000);
+  --on-form-button: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -495,4 +497,36 @@
   .authArt {
     min-height: 150px;
   }
+}
+
+.authPreviewLine {
+  width: 87%;
+}
+.refineError[role='alert'] {
+  color: var(--danger);
+}
+.proposalDetail {
+  display: block;
+  color: var(--muted);
+}
+.notFoundTitle {
+  margin-top: 45px;
+}
+.returnLink {
+  color: var(--primary);
+}
+.responseActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.responseDetail {
+  margin-bottom: 18px;
+}
+.responseLabel {
+  font-weight: 650;
+}
+.responseValue {
+  margin: 4px 0;
+  color: var(--muted);
 }

@@ -11,6 +11,7 @@ import Icon from '../atoms/Icon';
 import styles from './Templates.module.css';
 
 export default function TemplatesGalleryTemplate({
+  content = uiContent.TemplatesGalleryTemplate,
   templates,
   query,
   setQuery,
@@ -46,13 +47,13 @@ export default function TemplatesGalleryTemplate({
         <main id="main-content" tabIndex={-1} className={classNames(styles.main, className)}>
           <div className={styles.titleRow}>
             <div>
-              <p className={styles.eyebrow}>Quick start</p>
-              <h1>Form templates</h1>
-              <p className={styles.subtitle}>Start with a proven layout, then make it your own.</p>
+              <p className={styles.eyebrow}>{content.eyebrow}</p>
+              <h1>{content.title}</h1>
+              <p className={styles.subtitle}>{content.description}</p>
             </div>
             <Button size="lg" onClick={() => navigate('/generate')}>
               <Icon name="Sparkles" />
-              Generate with AI
+              {content.generateWithAi}
             </Button>
           </div>
           <div className={classNames(styles.toolbar, styles.galleryToolbar)}>
@@ -70,7 +71,7 @@ export default function TemplatesGalleryTemplate({
               ))}
             </div>
             <SearchField
-              placeholder="Search templates..."
+              placeholder={content.searchPlaceholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               content={uiContent.SearchField}
@@ -81,7 +82,7 @@ export default function TemplatesGalleryTemplate({
             onUse={create}
             content={uiContent.TemplateGallery}
           />
-          {!templates.length && <p className={styles.notice}>No templates match your search.</p>}
+          {!templates.length && <p className={styles.notice}>{content.empty}</p>}
         </main>
       </div>
     </>

@@ -53,7 +53,9 @@ export default function AIFormPrompt({
           <footer>
             <span>{content.promptHint}</span>
             <span>
-              {prompt.length} / {maxLength.toLocaleString()}
+              {prompt.length}
+              {content.countSeparator}
+              {maxLength.toLocaleString()}
             </span>
           </footer>
         </div>
@@ -98,7 +100,7 @@ export default function AIFormPrompt({
         <Button variant="link" size="sm" onClick={onConfigure}>
           {hasKey ? content.changeKey : content.configureKey}
         </Button>
-        <span>·</span>
+        <span>{content.separator}</span>
         <Button variant="link" size="sm" onClick={onDemo}>
           {content.templateLabel}
         </Button>

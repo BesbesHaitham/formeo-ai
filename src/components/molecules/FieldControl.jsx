@@ -78,7 +78,7 @@ export default function FieldControl({
         caption = options[activeIndex];
 
         if (options.every((option, index) => option === String(index + 1)))
-          caption += ` / ${options.length}`;
+          caption += content.ratingTotal(options.length);
       }
 
       control = (

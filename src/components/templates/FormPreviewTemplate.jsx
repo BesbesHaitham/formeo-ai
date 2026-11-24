@@ -1,13 +1,15 @@
 import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
-import { accentStyle } from '../../utils/colors';
+import { accentVariables } from '../../utils/colors';
 import AppHeader from '../organisms/AppHeader';
 import FormPreview from '../organisms/FormPreview';
 import FormProgress from '../molecules/FormProgress';
 import PhoneStatusBar from '../molecules/PhoneStatusBar';
 import styles from './Templates.module.css';
+import { useCssVariables } from '../../hooks/useCssVariables';
 
 export default function FormPreviewTemplate({
+  content = uiContent.FormPreviewTemplate,
   form,
   field,
   index,
@@ -28,6 +30,7 @@ export default function FormPreviewTemplate({
   className,
 }) {
   const mobile = preview && previewDevice === 'mobile';
+  const accentRef = useCssVariables(accentVariables(form.appearance?.color));
 
   return (
     <>
@@ -46,7 +49,7 @@ export default function FormPreviewTemplate({
         id="main-content"
         tabIndex={-1}
         className={classNames(styles.respondent, !preview && styles.publicRespondent, className)}
-        style={accentStyle(form.appearance?.color)}
+        ref={accentRef}
       >
         <div className={classNames(styles.previewViewport, mobile && styles.mobileDevice)}>
           {mobile && <PhoneStatusBar className={styles.phoneStatus} />}
@@ -76,7 +79,7 @@ export default function FormPreviewTemplate({
             />
             <div className={styles.respondentBottom}>
               <span>
-                Powered by <strong>Formeo AI</strong>
+                {content.poweredBy} <strong>{content.brand}</strong>
               </span>
             </div>
           </div>
