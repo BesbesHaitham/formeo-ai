@@ -1,6 +1,6 @@
+import EmptyFormsMessage from '../molecules/EmptyFormsMessage';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import MenuButton from '../molecules/MenuButton';
 import IconTile from '../molecules/IconTile';
 import Badge from '../molecules/Badge';
@@ -22,10 +22,8 @@ export default function FormsGrid({
   if (!forms.length)
     return (
       <div className={classNames(styles.empty, className)} {...rest}>
-        <Icon name={content.icons.filetext} size={36} />
-        <h2>{content.emptyTitle}</h2>
-        <p>{content.emptyDescription}</p>
-        <Button onClick={onCreate}>{content.createAForm}</Button>
+        <EmptyFormsMessage content={content} />
+        <ActionButton onClick={onCreate}>{content.createAForm}</ActionButton>
       </div>
     );
 

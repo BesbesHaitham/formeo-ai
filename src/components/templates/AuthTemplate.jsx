@@ -1,8 +1,6 @@
+import AuthAside from '../organisms/AuthAside';
 import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
-import Logo from '../molecules/Logo';
-import Badge from '../molecules/Badge';
-import IconTile from '../molecules/IconTile';
 import AuthenticationForm from '../organisms/AuthenticationForm';
 import PasswordRecoveryForm from '../organisms/PasswordRecoveryForm';
 import styles from './Templates.module.css';
@@ -16,28 +14,7 @@ export default function AuthTemplate({
 }) {
   return (
     <main id="main-content" tabIndex={-1} className={classNames(styles.auth, className)}>
-      <aside className={styles.authAside}>
-        <Logo content={uiContent.Logo} />
-        <div className={styles.authCopy}>
-          <Badge variant="purple" icon="Sparkles">
-            {content.badge}
-          </Badge>
-          <h2>{signingUp ? content.signupTitle : content.loginTitle}</h2>
-          <p>{content.description}</p>
-        </div>
-        <div className={styles.authArt} aria-hidden="true">
-          <div className={styles.artCard}>
-            <header>
-              <IconTile icon="FileText" />
-              <h3>{content.exampleTitle}</h3>
-            </header>
-            <i />
-            <i className={styles.authPreviewLine} />
-            <i />
-          </div>
-          <IconTile icon="Sparkles" className={styles.artSparkle} />
-        </div>
-      </aside>
+      <AuthAside content={content} signingUp={signingUp} />
       <section className={styles.authMain}>
         {recovery ? (
           <PasswordRecoveryForm {...recovery} content={uiContent.PasswordRecoveryForm} />

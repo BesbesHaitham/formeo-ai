@@ -49,6 +49,56 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/components/templates/**/*.jsx'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '(^|/)(atoms|molecules)/.*(?<!\\.css)$',
+              message: 'Templates assemble organisms and shared template layouts.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/components/organisms/**/*.jsx'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '(^|/)(atoms|organisms|templates)/.*(?<!\\.css)$|^\\./(?!.*\\.css$)',
+              message:
+                'Organisms compose molecules. Move smaller controls into src/components/molecules.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/components/molecules/**/*.jsx'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '(^|/)(molecules|organisms|templates)/.*(?<!\\.css)$|^\\./(?!.*\\.css$)',
+              message:
+                'Molecules compose atoms. Keep component imports inside src/components/atoms.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ['*.config.js', 'scripts/**/*.js', 'server/**/*.js'],
     languageOptions: { globals: globals.node },
   },

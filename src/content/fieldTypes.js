@@ -13,7 +13,7 @@ export const fieldTypes = [
   { type: 'file', label: 'File upload', icon: 'Upload' },
   { type: 'textarea', label: 'Long text', icon: 'Text', placeholder: 'Tell us more...' },
   { type: 'number', label: 'Number', icon: 'Hash' },
-  { type: 'tel', label: 'Phone', icon: 'Phone', placeholder: '+234...' },
+  { type: 'tel', label: 'Phone', icon: 'Phone', placeholder: '+216...' },
   { type: 'rating', label: 'Rating', icon: 'Star', options: ['1', '2', '3', '4', '5'] },
 ];
 

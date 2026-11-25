@@ -1,7 +1,6 @@
 import { uiContent } from '../../content/uiContent';
 import { useState } from 'react';
-import Button from '../atoms/Button';
-import Input from '../atoms/Input';
+import ActionButton from '../molecules/ActionButton';
 import FormField from '../molecules/FormField';
 import Modal from '../molecules/Modal';
 
@@ -35,23 +34,23 @@ export default function WorkspaceDialogs({
             {content.deleteSuffix}
           </p>
         ) : (
-          <FormField id="rename" label={content.formName}>
-            <Input
-              id="rename"
-              value={value}
-              required
-              autoFocus
-              onChange={(e) => setValue(e.target.value)}
-            />
-          </FormField>
+          <FormField
+            id="rename"
+            label={content.formName}
+            control="input"
+            value={value}
+            required
+            autoFocus
+            onChange={(e) => setValue(e.target.value)}
+          />
         )}
         <footer>
-          <Button variant="secondary" onClick={onClose}>
+          <ActionButton variant="secondary" onClick={onClose}>
             {content.cancel}
-          </Button>
-          <Button type="submit" variant={dialog.type === 'delete' ? 'danger' : 'primary'}>
+          </ActionButton>
+          <ActionButton type="submit" variant={dialog.type === 'delete' ? 'danger' : 'primary'}>
             {dialog.type === 'delete' ? content.deleteForm : content.saveName}
-          </Button>
+          </ActionButton>
         </footer>
       </form>
     </Modal>
@@ -78,20 +77,20 @@ export function KeyDialog({
           onClose();
         }}
       >
-        <FormField id="gemini-key" label={content.apiKeyLabel}>
-          <Input
-            id="gemini-key"
-            type="password"
-            autoComplete="off"
-            required
-            value={key}
-            onChange={(e) => setKey(e.target.value)}
-            placeholder={content.enterYourApiKey}
-          />
-        </FormField>
+        <FormField
+          id="gemini-key"
+          label={content.apiKeyLabel}
+          control="input"
+          type="password"
+          autoComplete="off"
+          required
+          value={key}
+          onChange={(e) => setKey(e.target.value)}
+          placeholder={content.enterYourApiKey}
+        />
         <footer>
           {hasKey && (
-            <Button
+            <ActionButton
               variant="secondary"
               onClick={() => {
                 onSave('');
@@ -99,9 +98,9 @@ export function KeyDialog({
               }}
             >
               {content.disconnect}
-            </Button>
+            </ActionButton>
           )}
-          <Button type="submit">{content.useForThisSession}</Button>
+          <ActionButton type="submit">{content.useForThisSession}</ActionButton>
         </footer>
       </form>
     </Modal>

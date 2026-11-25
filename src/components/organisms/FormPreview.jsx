@@ -1,8 +1,7 @@
 import { uiContent } from '../../content/uiContent';
 import { useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import IconTile from '../molecules/IconTile';
 import FieldControl from '../molecules/FieldControl';
 import { fieldTypes } from '../../content/fieldTypes';
@@ -35,7 +34,9 @@ export default function FormPreview({
       ref.current?.querySelector(
         'input:not([type="radio"]):not([type="checkbox"]),textarea,select',
       ) || ref.current?.querySelector('h1');
-    target?.focus({ preventScroll: true });
+    target?.focus({
+      preventScroll: true,
+    });
   }, [fieldId]);
 
   if (complete)
@@ -50,9 +51,9 @@ export default function FormPreview({
               ? content.unsavedDescription
               : content.submittedDescription}
         </p>
-        <Button className={styles.previewAction} onClick={onRestart}>
+        <ActionButton className={styles.previewAction} onClick={onRestart}>
           {content.startAgain}
-        </Button>
+        </ActionButton>
       </section>
     );
 
@@ -95,14 +96,25 @@ export default function FormPreview({
         </p>
       )}
       <div className={styles.previewFooter}>
-        <Button variant="secondary" size="lg" onClick={onBack} disabled={!canGoBack}>
-          <Icon name={content.icons.arrowleft} size={17} />
+        <ActionButton
+          variant="secondary"
+          size="lg"
+          onClick={onBack}
+          disabled={!canGoBack}
+          icon={content.icons.arrowleft}
+          iconSize={17}
+        >
           {content.back}
-        </Button>
-        <Button type="submit" size="lg" className={styles.previewAction}>
+        </ActionButton>
+        <ActionButton
+          type="submit"
+          size="lg"
+          className={styles.previewAction}
+          endIcon={isLast ? content.icons.checkcircle : content.icons.arrowright}
+          endIconSize={17}
+        >
           {isLast ? (preview ? content.finishPreview : content.submit) : content.continue}
-          <Icon name={isLast ? content.icons.checkcircle : content.icons.arrowright} size={17} />
-        </Button>
+        </ActionButton>
       </div>
     </form>
   );

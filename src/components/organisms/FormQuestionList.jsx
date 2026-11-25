@@ -1,3 +1,4 @@
+import ColorControl from '../molecules/ColorControl';
 import { formDefaults } from '../../config/appConfig';
 import { editorTabs, fieldActions } from '../../content/navigation';
 import { uiContent } from '../../content/uiContent';
@@ -5,10 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useListAnimation } from '../../hooks/useListAnimation';
 import { startEditorDrag, isEditorDrag, readEditorDrag } from '../../utils/editorDrag';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Input from '../atoms/Input';
-import Textarea from '../atoms/Textarea';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import IconTile from '../molecules/IconTile';
 import IconButton from '../molecules/IconButton';
 import FieldControl from '../molecules/FieldControl';
@@ -48,9 +46,10 @@ export default function FormQuestionList({
     return () => window.removeEventListener('dragend', clear);
   }, []);
   useEffect(() => {
-    canvas.current
-      ?.querySelector('[data-selected="true"]')
-      ?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    canvas.current?.querySelector('[data-selected="true"]')?.scrollIntoView({
+      block: 'nearest',
+      inline: 'nearest',
+    });
   }, [selectedId]);
 
   function dragOver(event) {
@@ -90,7 +89,10 @@ export default function FormQuestionList({
     <section
       ref={canvas}
       className={classNames(styles.panel, styles.canvas, className)}
-      {...(tab === 'questions' && { onDragOver: dragOver, onDrop: drop })}
+      {...(tab === 'questions' && {
+        onDragOver: dragOver,
+        onDrop: drop,
+      })}
       onDragLeave={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) setDropIndex(null);
       }}
@@ -98,7 +100,7 @@ export default function FormQuestionList({
     >
       <div className={styles.tabs}>
         {tabs.map(({ id, label }) => (
-          <Button
+          <ActionButton
             key={id}
             variant="ghost"
             className={classNames(styles.tabButton, tab === id && styles.selectedTab)}
@@ -106,7 +108,7 @@ export default function FormQuestionList({
             aria-pressed={tab === id}
           >
             {label}
-          </Button>
+          </ActionButton>
         ))}
         <small className={styles.questionCount} role="status">
           {form.fields.length} {content.questionsLabel}
@@ -124,7 +126,7 @@ export default function FormQuestionList({
           disabled={!canRedo}
           onClick={onRedo}
         />
-        <Button
+        <ActionButton
           variant="link"
           size="sm"
           className={styles.mobileSettings}
@@ -132,7 +134,7 @@ export default function FormQuestionList({
           disabled={!selectedId}
         >
           {content.editSelected}
-        </Button>
+        </ActionButton>
       </div>
       {tab === 'questions' && (
         <>
@@ -208,18 +210,25 @@ export default function FormQuestionList({
           >
             {!form.fields.length && <p>{content.emptyHint}</p>}
           </div>
-          <Button
+          <ActionButton
             variant="secondary"
             className={styles.addQuestion}
             onClick={() => onAdd('text', form.fields.length)}
+            icon={content.icons.plus}
+            iconSize={17}
           >
-            <Icon name={content.icons.plus} size={17} />
             {content.addQuestion}
-          </Button>
-          <Button variant="link" size="sm" className={styles.refineAction} onClick={onRefine}>
-            <Icon name={content.icons.sparkles} size={16} />
+          </ActionButton>
+          <ActionButton
+            variant="link"
+            size="sm"
+            className={styles.refineAction}
+            onClick={onRefine}
+            icon={content.icons.sparkles}
+            iconSize={16}
+          >
             {content.refineWithAi}
-          </Button>
+          </ActionButton>
         </>
       )}
       {tab === 'design' && (
@@ -227,19 +236,7 @@ export default function FormQuestionList({
           <h2>{content.makeItYours}</h2>
           <p>{content.designDescription}</p>
           <FormField id="accent" label={content.accentColor}>
-            <div className={styles.colorControl}>
-              <Input
-                id="accent"
-                type="color"
-                value={accent}
-                onChange={(e) =>
-                  onUpdate({
-                    appearance: { ...form.appearance, color: e.target.value },
-                  })
-                }
-              />
-              <output htmlFor="accent">{accent.toUpperCase()}</output>
-            </div>
+            <ColorControl accent={accent} form={form} onUpdate={onUpdate} />
           </FormField>
         </div>
       )}
@@ -257,17 +254,17 @@ export default function FormQuestionList({
               })
             }
           />
-          <FormField id="settings-description" label={content.description}>
-            <Textarea
-              id="settings-description"
-              value={form.description}
-              onChange={(e) =>
-                onUpdate({
-                  description: e.target.value,
-                })
-              }
-            />
-          </FormField>
+          <FormField
+            id="settings-description"
+            label={content.description}
+            control="textarea"
+            value={form.description}
+            onChange={(e) =>
+              onUpdate({
+                description: e.target.value,
+              })
+            }
+          />
         </div>
       )}
     </section>

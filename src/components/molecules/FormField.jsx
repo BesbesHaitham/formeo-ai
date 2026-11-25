@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import Label from '../atoms/Label';
 import Input from '../atoms/Input';
+import Textarea from '../atoms/Textarea';
+import Select from '../atoms/Select';
 import Text from '../atoms/Text';
 import styles from './Molecules.module.css';
 
@@ -11,9 +13,12 @@ export default function FormField({
   error,
   help,
   children,
+  control,
   className,
   ...rest
 }) {
+  const Control = { input: Input, textarea: Textarea, select: Select }[control];
+
   return (
     <div className={classNames(styles.field, className)}>
       {labelAction ? (
@@ -24,13 +29,19 @@ export default function FormField({
       ) : (
         <Label htmlFor={id}>{label}</Label>
       )}
-      {children || (
-        <Input
-          id={id}
-          aria-invalid={!!error}
-          aria-describedby={error ? `${id}-error` : help ? `${id}-help` : ''}
-          {...rest}
-        />
+      {Control ? (
+        <Control id={id} {...rest}>
+          {children}
+        </Control>
+      ) : (
+        children || (
+          <Input
+            id={id}
+            aria-invalid={!!error}
+            aria-describedby={error ? `${id}-error` : help ? `${id}-help` : ''}
+            {...rest}
+          />
+        )
       )}
       {help && (
         <Text id={`${id}-help`} variant="muted" size="small">

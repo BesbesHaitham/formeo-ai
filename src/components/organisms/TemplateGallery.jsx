@@ -1,7 +1,7 @@
+import TemplateThumbnail from '../molecules/TemplateThumbnail';
 import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import styles from './Organisms.module.css';
 
 export default function TemplateGallery({
@@ -15,23 +15,17 @@ export default function TemplateGallery({
     <div className={classNames(styles.grid, styles.templateGrid, className)} {...rest}>
       {templates.map((template) => (
         <article key={template.id} className={classNames(styles.card, styles.templateCard)}>
-          <div className={styles.thumbnail} aria-hidden="true">
-            <div className={styles.miniForm}>
-              <div>
-                <Icon name={template.icon} size={16} />
-                <i />
-              </div>
-              <i />
-              <i className={styles.thumbnailShortLine} />
-              <i />
-            </div>
-          </div>
+          <TemplateThumbnail template={template} />
           <h2>{template.title}</h2>
           <p>{template.description}</p>
-          <Button variant="link" onClick={() => onUse(template)}>
+          <ActionButton
+            variant="link"
+            onClick={() => onUse(template)}
+            endIcon={content.icons.arrowright}
+            endIconSize={16}
+          >
             {content.useTemplate}
-            <Icon name={content.icons.arrowright} size={16} />
-          </Button>
+          </ActionButton>
         </article>
       ))}
     </div>

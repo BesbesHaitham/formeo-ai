@@ -1,3 +1,6 @@
+import SaveStatus from '../molecules/SaveStatus';
+import EditorFormTitle from '../molecules/EditorFormTitle';
+import BackToFormsLink from '../molecules/BackToFormsLink';
 import { navigation } from '../../content/navigation';
 import { uiContent } from '../../content/uiContent';
 import { NavLink, Link } from 'react-router-dom';
@@ -6,8 +9,7 @@ import Logo from '../molecules/Logo';
 import Badge from '../molecules/Badge';
 import ThemeSwitch from '../molecules/ThemeSwitch';
 import PreviewDeviceSwitch from '../molecules/PreviewDeviceSwitch';
-import Button from '../atoms/Button';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import styles from './Organisms.module.css';
 
 export default function AppHeader({
@@ -61,19 +63,10 @@ export default function AppHeader({
           ))}
         </nav>
       )}
-      {mode === 'generator' && (
-        <Link to="/" className={styles.headerTitle}>
-          <Icon name={content.icons.arrowleft} />
-          {content.backToForms}
-        </Link>
-      )}
+      {mode === 'generator' && <BackToFormsLink content={content} />}
       {mode === 'editor' && (
         <div className={styles.headerTitle}>
-          <Link to="/" aria-label={content.backToForms} className={styles.editorBack}>
-            <Icon name={content.icons.arrowleft} />
-          </Link>
-          <Icon name={content.icons.filetext} />
-          <h1>{form?.title}</h1>
+          <EditorFormTitle content={content} form={form} />
           <Badge variant={form?.status === 'published' ? 'success' : 'neutral'}>
             {form?.status === 'published' ? content.published : content.draft}
           </Badge>
@@ -90,10 +83,14 @@ export default function AppHeader({
                 {content.loginLabel}
               </Link>
             )}
-            <Button onClick={onCreate} aria-label={content.createForm}>
-              <Icon name={content.icons.plus} size={18} />
+            <ActionButton
+              onClick={onCreate}
+              aria-label={content.createForm}
+              icon={content.icons.plus}
+              iconSize={18}
+            >
               <span className={styles.createLabel}>{content.createForm}</span>
-            </Button>
+            </ActionButton>
           </>
         )}
         {mode === 'generator' && (
@@ -101,29 +98,27 @@ export default function AppHeader({
         )}
         {mode === 'editor' && (
           <>
-            <span className={styles.saveStatus}>
-              <Icon name={saved ? content.icons.checkcircle : 'CircleAlert'} size={16} />
-              <span role="status">
-                {saved ? content.allChangesSaved : content.savingUnavailable}
-              </span>
-            </span>
-            <Button variant="secondary" onClick={onPreview}>
-              <Icon name={content.icons.eye} size={18} />
+            <SaveStatus content={content} saved={saved} />
+            <ActionButton
+              variant="secondary"
+              onClick={onPreview}
+              icon={content.icons.eye}
+              iconSize={18}
+            >
               {content.preview}
-            </Button>
-            <Button onClick={onPublish}>
-              <Icon name={content.icons.send} size={18} />
+            </ActionButton>
+            <ActionButton onClick={onPublish} icon={content.icons.send} iconSize={18}>
               {form?.status === 'published' ? content.published : content.publish}
-            </Button>
+            </ActionButton>
           </>
         )}
         {mode === 'preview' && (
           <>
             <Badge>{content.previewMode}</Badge>
 
-            <Button variant="secondary" onClick={onPreview}>
+            <ActionButton variant="secondary" onClick={onPreview}>
               {content.exitPreview}
-            </Button>
+            </ActionButton>
           </>
         )}
       </div>

@@ -1,7 +1,6 @@
 import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import Badge from '../molecules/Badge';
 import styles from './Organisms.module.css';
 
@@ -29,10 +28,14 @@ export default function ResponsesTable({
     <section className={classNames(styles.card, styles.tableCard, className)} {...rest}>
       <div className={styles.tableHeader}>
         <h2>{content.recentResponses}</h2>
-        <Button variant="link" onClick={onShowAll}>
+        <ActionButton
+          variant="link"
+          onClick={onShowAll}
+          endIcon={content.icons.arrowright}
+          endIconSize={16}
+        >
           {showAll ? content.showRecentResponses : content.viewAllResponses}
-          <Icon name={content.icons.arrowright} size={16} />
-        </Button>
+        </ActionButton>
       </div>
       <div className={styles.tableWrap}>
         <table className={styles.table}>

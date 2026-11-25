@@ -1,9 +1,8 @@
+import AuthConsent from '../molecules/AuthConsent';
 import { uiContent } from '../../content/uiContent';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Icon from '../atoms/Icon';
-import Checkbox from '../atoms/Checkbox';
+import ActionButton from '../molecules/ActionButton';
 import FormField from '../molecules/FormField';
 import PasswordField from '../molecules/PasswordField';
 import GoogleSignInButton from '../molecules/GoogleSignInButton';
@@ -77,9 +76,9 @@ export default function AuthenticationForm({
           label={content.password}
           labelAction={
             !signingUp && (
-              <Button variant="link" size="sm" onClick={onForgotPassword}>
+              <ActionButton variant="link" size="sm" onClick={onForgotPassword}>
                 {content.forgotPassword}
-              </Button>
+              </ActionButton>
             )
           }
         >
@@ -104,24 +103,22 @@ export default function AuthenticationForm({
         </FormField>
       </div>
       <div className={styles.authMeta}>
-        <label>
-          <Checkbox
-            required={signingUp}
-            checked={signingUp ? values.agree : values.remember}
-            onChange={(e) => change(signingUp ? 'agree' : 'remember', e.target.checked)}
-          />
-          {signingUp ? content.storageConsent : content.rememberMe}
-        </label>
+        <AuthConsent content={content} signingUp={signingUp} values={values} change={change} />
       </div>
       {error && (
         <p role="alert" className={styles.error}>
           {error}
         </p>
       )}
-      <Button type="submit" loading={loading} disabled={busy}>
+      <ActionButton
+        type="submit"
+        loading={loading}
+        disabled={busy}
+        endIcon={content.icons.arrowright}
+        endIconSize={17}
+      >
         {signingUp ? content.createAccount : content.logIn}
-        <Icon name={content.icons.arrowright} size={17} />
-      </Button>
+      </ActionButton>
       <small>
         {signingUp ? content.alreadyHaveAnAccount : content.newToFormeoAi}
         <Link to={signingUp ? content.login : content.signup} state={authState}>

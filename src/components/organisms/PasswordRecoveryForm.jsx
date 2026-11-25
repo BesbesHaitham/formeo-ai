@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import IconTile from '../molecules/IconTile';
 import FormField from '../molecules/FormField';
 import styles from './Organisms.module.css';
@@ -51,9 +50,9 @@ export default function PasswordRecoveryForm({
           <p className={styles.recoveryHint}>{mock ? content.mockHint : content.inboxHint}</p>
           <div className={styles.recoveryResend}>
             <span>{content.noEmail}</span>
-            <Button variant="link" onClick={submit} loading={loading} disabled={cooldown > 0}>
+            <ActionButton variant="link" onClick={submit} loading={loading} disabled={cooldown > 0}>
               {cooldown ? `${content.resendIn} ${cooldown}${content.secondsUnit}` : content.resend}
-            </Button>
+            </ActionButton>
           </div>
         </>
       ) : (
@@ -73,14 +72,13 @@ export default function PasswordRecoveryForm({
         </p>
       )}
       {sent ? (
-        <Button variant="secondary" onClick={back}>
-          <Icon name="ArrowLeft" size={17} />
+        <ActionButton variant="secondary" onClick={back} icon="ArrowLeft" iconSize={17}>
           {content.back}
-        </Button>
+        </ActionButton>
       ) : (
-        <Button className={styles.recoverySubmit} type="submit" loading={loading}>
+        <ActionButton className={styles.recoverySubmit} type="submit" loading={loading}>
           {content.submit}
-        </Button>
+        </ActionButton>
       )}
       {!sent && (
         <small>

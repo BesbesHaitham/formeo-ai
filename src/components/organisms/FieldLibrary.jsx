@@ -1,7 +1,7 @@
 import { uiContent } from '../../content/uiContent';
 import { useState } from 'react';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
+import ActionButton from '../molecules/ActionButton';
 import FieldTypeItem from '../molecules/FieldTypeItem';
 import { startEditorDrag } from '../../utils/editorDrag';
 import styles from './Organisms.module.css';
@@ -35,9 +35,9 @@ export default function FieldLibrary({
             onClick={() => onAdd(type.type)}
           />
         ))}
-        <Button variant="link" size="sm" onClick={() => setMore(!more)}>
+        <ActionButton variant="link" size="sm" onClick={() => setMore(!more)}>
           {more ? content.showLess : content.showMore}
-        </Button>
+        </ActionButton>
       </div>
     </aside>
   );

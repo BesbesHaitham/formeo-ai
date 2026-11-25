@@ -1,11 +1,7 @@
+import RequiredQuestionSetting from '../molecules/RequiredQuestionSetting';
 import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
 import FormField from '../molecules/FormField';
-import Input from '../atoms/Input';
-import Textarea from '../atoms/Textarea';
-import Switch from '../atoms/Switch';
-import Select from '../atoms/Select';
-import Divider from '../atoms/Divider';
 import { fieldTypes, choiceTypes } from '../../content/fieldTypes';
 import styles from './Organisms.module.css';
 
@@ -43,23 +39,7 @@ export default function FieldSettingsPanel({
               })
             }
           />
-          <Divider />
-          <div>
-            <div className={styles.toggleRow}>
-              <strong>{content.requiredQuestion}</strong>
-              <Switch
-                aria-label={content.requiredQuestion}
-                checked={field.required}
-                onChange={(e) =>
-                  onChange({
-                    required: e.target.checked,
-                  })
-                }
-              />
-            </div>
-            <small>{content.requiredHint}</small>
-          </div>
-          <Divider />
+          <RequiredQuestionSetting content={content} field={field} onChange={onChange} />
           <FormField
             id="help-text"
             label={content.helpTextOptional}
@@ -72,33 +52,33 @@ export default function FieldSettingsPanel({
             }
           />
           {choiceTypes.includes(field.type) && (
-            <FormField id="options" label={content.optionsLabel}>
-              <Textarea
-                id="options"
-                value={field.options.join('\n')}
-                onChange={(e) =>
-                  onChange({
-                    options: e.target.value.split('\n'),
-                  })
-                }
-              />
-            </FormField>
+            <FormField
+              id="options"
+              label={content.optionsLabel}
+              control="textarea"
+              value={field.options.join('\n')}
+              onChange={(e) =>
+                onChange({
+                  options: e.target.value.split('\n'),
+                })
+              }
+            />
           )}
           <details>
             <summary className={styles.advancedSummary}>{content.advancedSettings}</summary>
             <div className={styles.settings}>
-              <FormField id="field-type" label={content.fieldType}>
-                <Select
-                  id="field-type"
-                  value={field.type}
-                  onChange={(e) => onTypeChange(e.target.value)}
-                >
-                  {fieldTypes.map((f) => (
-                    <option key={f.type} value={f.type}>
-                      {f.label}
-                    </option>
-                  ))}
-                </Select>
+              <FormField
+                id="field-type"
+                label={content.fieldType}
+                control="select"
+                value={field.type}
+                onChange={(e) => onTypeChange(e.target.value)}
+              >
+                {fieldTypes.map((f) => (
+                  <option key={f.type} value={f.type}>
+                    {f.label}
+                  </option>
+                ))}
               </FormField>
               <FormField
                 id="section"
@@ -116,26 +96,29 @@ export default function FieldSettingsPanel({
                   ? ['minLength', 'maxLength']
                   : []
               ).map((key) => (
-                <FormField id={key} key={key} label={content.validationLabels[key]}>
-                  <Input
-                    id={key}
-                    type="number"
-                    {...(key.includes('Length') && { min: 0 })}
-                    value={field.validation?.[key] ?? ''}
-                    onChange={(e) => {
-                      const validation = {
-                        ...field.validation,
-                      };
+                <FormField
+                  id={key}
+                  key={key}
+                  label={content.validationLabels[key]}
+                  control="input"
+                  type="number"
+                  {...(key.includes('Length') && {
+                    min: 0,
+                  })}
+                  value={field.validation?.[key] ?? ''}
+                  onChange={(e) => {
+                    const validation = {
+                      ...field.validation,
+                    };
 
-                      if (e.target.value === '') delete validation[key];
-                      else validation[key] = Number(e.target.value);
+                    if (e.target.value === '') delete validation[key];
+                    else validation[key] = Number(e.target.value);
 
-                      onChange({
-                        validation,
-                      });
-                    }}
-                  />
-                </FormField>
+                    onChange({
+                      validation,
+                    });
+                  }}
+                />
               ))}
             </div>
           </details>

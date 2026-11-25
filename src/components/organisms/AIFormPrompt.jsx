@@ -1,9 +1,7 @@
+import PromptInput from '../molecules/PromptInput';
 import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
-import Button from '../atoms/Button';
-import Textarea from '../atoms/Textarea';
-import Label from '../atoms/Label';
-import Icon from '../atoms/Icon';
+import ActionButton from '../molecules/ActionButton';
 import Badge from '../molecules/Badge';
 import IconTile from '../molecules/IconTile';
 import styles from './Organisms.module.css';
@@ -35,42 +33,30 @@ export default function AIFormPrompt({
           onGenerate();
         }}
       >
-        <div className={styles.promptBox}>
-          <header>
-            <Label htmlFor="ai-prompt">{content.promptLabel}</Label>
+        <PromptInput
+          content={content}
+          prompt={prompt}
+          setPrompt={setPrompt}
+          maxLength={maxLength}
+          status={
             <Badge variant="purple" icon={content.icons.sparkles}>
               {mock ? content.mockReady : hasKey ? content.aiReady : content.exampleAvailable}
             </Badge>
-          </header>
-          <Textarea
-            id="ai-prompt"
-            maxLength={maxLength}
-            required
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder={content.placeholder}
-          />
-          <footer>
-            <span>{content.promptHint}</span>
-            <span>
-              {prompt.length}
-              {content.countSeparator}
-              {maxLength.toLocaleString()}
-            </span>
-          </footer>
-        </div>
+          }
+        />
         <div className={styles.suggestions}>
           <span>{content.tryAnExample}</span>
           {examples.map((example) => (
-            <Button
+            <ActionButton
               key={example.label}
               variant="secondary"
               size="sm"
               onClick={() => setPrompt(example.prompt)}
+              icon={example.icon}
+              iconSize={14}
             >
-              <Icon name={example.icon} size={14} />
               {example.label}
-            </Button>
+            </ActionButton>
           ))}
         </div>
         {error && (
@@ -78,12 +64,19 @@ export default function AIFormPrompt({
             {error}
           </p>
         )}
-        <Button type="submit" size="lg" loading={loading} disabled={!prompt.trim()}>
-          {' '}
-          <Icon name={content.icons.sparkles} size={18} />
+        <ActionButton
+          type="submit"
+          size="lg"
+          loading={loading}
+          disabled={!prompt.trim()}
+          icon={content.icons.sparkles}
+          iconSize={18}
+          endIcon={content.icons.arrowright}
+          endIconSize={18}
+          prefix=" "
+        >
           {loading ? content.creatingYourForm : content.generateMyForm}
-          <Icon name={content.icons.arrowright} size={18} />
-        </Button>
+        </ActionButton>
       </form>
       <div className={styles.understand}>
         <IconTile icon={content.icons.squarecheck} />
@@ -97,13 +90,13 @@ export default function AIFormPrompt({
         <span>
           {mock ? content.mockMessage : hasKey ? content.connectedMessage : content.connectionHint}
         </span>
-        <Button variant="link" size="sm" onClick={onConfigure}>
+        <ActionButton variant="link" size="sm" onClick={onConfigure}>
           {hasKey ? content.changeKey : content.configureKey}
-        </Button>
+        </ActionButton>
         <span>{content.separator}</span>
-        <Button variant="link" size="sm" onClick={onDemo}>
+        <ActionButton variant="link" size="sm" onClick={onDemo}>
           {content.templateLabel}
-        </Button>
+        </ActionButton>
       </div>
     </section>
   );

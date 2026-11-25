@@ -1,3 +1,5 @@
+import RefineFormDialog from '../organisms/RefineFormDialog';
+import PublishFormDialog from '../organisms/PublishFormDialog';
 import { uiContent } from '../../content/uiContent';
 import classNames from 'classnames';
 import AppHeader from '../organisms/AppHeader';
@@ -5,12 +7,6 @@ import FieldLibrary from '../organisms/FieldLibrary';
 import { fieldTypes } from '../../content/fieldTypes';
 import FieldSettingsPanel from '../organisms/FieldSettingsPanel';
 import FormQuestionList from '../organisms/FormQuestionList';
-import Modal from '../molecules/Modal';
-import FormField from '../molecules/FormField';
-import Badge from '../molecules/Badge';
-import Button from '../atoms/Button';
-import Textarea from '../atoms/Textarea';
-import Input from '../atoms/Input';
 import styles from './Templates.module.css';
 
 export default function FormEditorTemplate(props) {
@@ -102,91 +98,29 @@ export default function FormEditorTemplate(props) {
         />
       </main>
       {publishOpen && (
-        <Modal
-          title={content.publishedTitle}
-          onClose={() => setPublishOpen(false)}
-          content={uiContent.Modal}
-        >
-          <p>{content.publishedDescription}</p>
-          <Input aria-label={content.formLink} readOnly value={localUrl} />
-          <footer>
-            <Button variant="secondary" onClick={copyLink}>
-              {content.copyLink}
-            </Button>
-            <Button onClick={openForm}>{content.openForm}</Button>
-          </footer>
-        </Modal>
+        <PublishFormDialog
+          content={content}
+          setPublishOpen={setPublishOpen}
+          localUrl={localUrl}
+          copyLink={copyLink}
+          openForm={openForm}
+        />
       )}
       {refineOpen && (
-        <Modal
-          title={proposal ? content.reviewTitle : content.refineTitle}
-          onClose={() => setRefineOpen(false)}
-          content={uiContent.Modal}
-        >
-          {error && (
-            <p role="alert" className={styles.refineError}>
-              {error}
-            </p>
-          )}
-
-          {proposal ? (
-            <>
-              <p>{content.reviewDescription}</p>
-              <h3>{proposal.title}</h3>
-              <p>{proposal.description}</p>
-              <ol>
-                {proposal.fields.map((f) => (
-                  <li key={f.id}>
-                    {f.label}{' '}
-                    <Badge>
-                      {f.type}
-                      {f.required ? content.requiredSuffix : ''}
-                    </Badge>
-                    {f.options?.length > 0 && (
-                      <small className={styles.proposalDetail}>
-                        {f.options.join(content.optionSeparator)}
-                      </small>
-                    )}
-                    {f.helpText && <small className={styles.proposalDetail}>{f.helpText}</small>}
-                  </li>
-                ))}
-              </ol>
-              <footer>
-                <Button variant="secondary" onClick={discardProposal}>
-                  {content.discard}
-                </Button>
-                <Button onClick={applyProposal}>{content.applyChanges}</Button>
-              </footer>
-            </>
-          ) : (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                refine();
-              }}
-            >
-              <p>{content.refineDescription}</p>
-              <FormField id="refine" label={content.requestedChanges}>
-                <Textarea
-                  id="refine"
-                  required
-                  value={refinePrompt}
-                  onChange={(e) => setRefinePrompt(e.target.value)}
-                />
-              </FormField>
-              <footer>
-                {!aiReady && (
-                  <Button variant="secondary" onClick={() => setKeyDialog(true)}>
-                    {content.configureGemini}
-                  </Button>
-                )}
-                <Button type="submit" loading={loading} disabled={!aiReady || !refinePrompt.trim()}>
-                  {content.previewChanges}
-                </Button>
-              </footer>
-            </form>
-          )}
-        </Modal>
+        <RefineFormDialog
+          content={content}
+          proposal={proposal}
+          error={error}
+          setRefineOpen={setRefineOpen}
+          discardProposal={discardProposal}
+          applyProposal={applyProposal}
+          refine={refine}
+          refinePrompt={refinePrompt}
+          setRefinePrompt={setRefinePrompt}
+          aiReady={aiReady}
+          setKeyDialog={setKeyDialog}
+          loading={loading}
+        />
       )}
     </>
   );
